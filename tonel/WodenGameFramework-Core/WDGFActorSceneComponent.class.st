@@ -111,4 +111,8 @@ WDGFActorSceneComponent >> transform: aTransform [
 
 { #category : #notifications }
 WDGFActorSceneComponent >> transformChanged [
+	sceneNode ifNotNil: [
+		sceneNode transform: transform.
+		(ownerWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem) sceneChanged
+	]
 ]

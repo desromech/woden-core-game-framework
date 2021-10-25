@@ -9,7 +9,9 @@ Class {
 		'subscriptions',
 		'messageSubscriptions',
 		'components',
-		'rootSceneComponent'
+		'rootSceneComponent',
+		'wantsToTick',
+		'isRegisteredInWorld'
 	],
 	#classVars : [
 		'ZeroTransform'
@@ -56,6 +58,8 @@ WDGFActor >> handle [
 WDGFActor >> initialize [
 	super initialize.
 	handle := WDGFActorHandle for: self.
+	isRegisteredInWorld := false.
+	wantsToTick := false.
 ]
 
 { #category : #message }
@@ -76,6 +80,11 @@ WDGFActor >> onEndPlayDo: aBlock [
 { #category : #message }
 WDGFActor >> onMessage: selector do: aBlock [
 	^ self messageSubscriptions addFor: selector doing: aBlock
+]
+
+{ #category : #'game events' }
+WDGFActor >> onTickDo: aBlock [
+	^ self onMessage: #tick: do: aBlock
 ]
 
 { #category : #accessing }
@@ -121,8 +130,11 @@ WDGFActor >> processMessage: selector withArguments: arguments [
 
 ]
 
-{ #category : #'as yet unclassified' }
-WDGFActor >> registerComponentsInWorld: theWorld [
+{ #category : #'component registration' }
+WDGFActor >> registerWithSubsystemsInWorld: theWorld [
+	isRegisteredInWorld ifTrue: [ ^ self ].
+	isRegisteredInWorld := true.
+	wantsToTick ifTrue: [ self subscribeForTicking ].
 	rootSceneComponent ifNotNil: [ rootSceneComponent registerInWorld: theWorld ].
 	self components do: [ :each | each registerInWorld: theWorld ]
 ]
@@ -163,6 +175,16 @@ WDGFActor >> send: selector withArguments: arguments [
 		enqueue
 ]
 
+{ #category : #'system subscriptions' }
+WDGFActor >> subscribeForTicking [
+	(self world getOrCreateSubsystemWithClass: WDGFActorTickSubsystem) subscribe: self
+]
+
+{ #category : #'game events' }
+WDGFActor >> tick: deltaSeconds [
+	"This message is sent when the actor wants to receive a tick."
+]
+
 { #category : #accessing }
 WDGFActor >> transform [
 	^ rootSceneComponent ifNil: [ ZeroTransform ] ifNotNil: [ rootSceneComponent transform ]
@@ -171,6 +193,30 @@ WDGFActor >> transform [
 { #category : #accessing }
 WDGFActor >> transform: newTransform [
 	rootSceneComponent ifNotNil: [ rootSceneComponent transform: newTransform ]
+]
+
+{ #category : #'system subscriptions' }
+WDGFActor >> unsubscribeForTicking [
+	(self world getOrCreateSubsystemWithClass: WDGFActorTickSubsystem) unsubscribe: self
+]
+
+{ #category : #accessing }
+WDGFActor >> wantsToTick [
+
+	^ wantsToTick
+]
+
+{ #category : #accessing }
+WDGFActor >> wantsToTick: aBoolean [
+	wantsToTick := aBoolean.
+	isRegisteredInWorld ifTrue: [ 
+		wantsToTick ifTrue: [
+			self subscribeForTicking
+		] ifFalse: [ 
+			self unsubscribeForTicking
+		].
+	].
+
 ]
 
 { #category : #accessing }

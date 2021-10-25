@@ -5,7 +5,8 @@ Class {
 	#name : #WDGFSpWorldPresenter,
 	#superclass : #SpAbstractWidgetPresenter,
 	#instVars : [
-		'#world => ObservableSlot'
+		'#world => ObservableSlot',
+		'#playing => ObservableSlot'
 	],
 	#category : #'WodenGameFramework-Spec'
 }
@@ -13,6 +14,24 @@ Class {
 { #category : #specs }
 WDGFSpWorldPresenter class >> adapterName [
 	^ #WodenGameFrameworkWorldAdapter
+]
+
+{ #category : #initialization }
+WDGFSpWorldPresenter >> initialize [
+	super initialize.
+	playing := false.
+]
+
+{ #category : #accessing }
+WDGFSpWorldPresenter >> playing [
+
+	^ playing
+]
+
+{ #category : #accessing }
+WDGFSpWorldPresenter >> playing: anObject [
+
+	playing := anObject
 ]
 
 { #category : #enumerating }

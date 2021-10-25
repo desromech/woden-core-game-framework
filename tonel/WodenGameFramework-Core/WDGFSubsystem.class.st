@@ -11,6 +11,10 @@ Class {
 }
 
 { #category : #notifying }
+WDGFSubsystem >> beginPlay [
+]
+
+{ #category : #notifying }
 WDGFSubsystem >> createdInWorld: newOwnerWorld [
 	self assert: ownerWorld isNil.
 	ownerWorld := newOwnerWorld
@@ -19,6 +23,10 @@ WDGFSubsystem >> createdInWorld: newOwnerWorld [
 { #category : #accessing }
 WDGFSubsystem >> ownerWorld [
 	^ ownerWorld
+]
+
+{ #category : #update }
+WDGFSubsystem >> postActorMessagesUpdateSingleTimeStep: delta [
 ]
 
 { #category : #accessing }

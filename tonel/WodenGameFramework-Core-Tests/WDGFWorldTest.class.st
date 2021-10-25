@@ -68,3 +68,28 @@ WDGFWorldTest >> testSpawnActorAfterBeginPlay [
 	world updateSingleTimeStep: 0.125.
 	self assert: gotBeginPlay
 ]
+
+{ #category : #tests }
+WDGFWorldTest >> testSpawnTickingActor [
+	| world actor expectedTick receivedTickDelta |
+	world := WDGFWorld new.
+	self assert: world actors isEmpty.
+	
+	actor := WDGFActor new.
+	actor wantsToTick: true.
+	expectedTick := 0.125.
+	receivedTickDelta := nil.
+	actor onTickDo: [:delta | receivedTickDelta := delta].
+
+	self assert: actor world isNil.
+	world spawnActor: actor.
+	self assert: actor world equals: world.
+	self assert: receivedTickDelta equals: nil.
+	
+	world updateSingleTimeStep: expectedTick.
+	self assert: receivedTickDelta equals: nil.
+	
+	world beginPlay.
+	world updateSingleTimeStep: expectedTick.
+	self assert: receivedTickDelta equals: expectedTick.
+]

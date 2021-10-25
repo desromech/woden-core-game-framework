@@ -10,7 +10,9 @@ Class {
 		'lastPendingMessage',
 		'subsystems',
 		'subsystemDirectionary',
-		'isPlaying'
+		'isPlaying',
+		'accumulatedDeltaTime',
+		'updateTimeStep'
 	],
 	#category : #'WodenGameFramework-Core'
 }
@@ -61,7 +63,9 @@ WDGFWorld >> initialize [
 	actors := OrderedCollection new.
 	subsystems := OrderedCollection new.
 	subsystemDirectionary := Dictionary new.
-	isPlaying := false
+	isPlaying := false.
+	accumulatedDeltaTime := 0.0.
+	updateTimeStep := 1.0/60.0.
 ]
 
 { #category : #accessing }
@@ -76,7 +80,7 @@ WDGFWorld >> nextPendingMessage [
 	result ifNil: [ ^ nil ].
 	
 	firstPendingMessage := firstPendingMessage nextMessage.
-	firstPendingMessage ifNotNil: [
+	firstPendingMessage ifNil: [
 		lastPendingMessage := nil
 	].
 
@@ -98,7 +102,7 @@ WDGFWorld >> spawnActor: anActor [
 	anActor handle world: self.
 	actors add: anActor.
 	
-	anActor registerComponentsInWorld: self.
+	anActor registerWithSubsystemsInWorld: self.
 	isPlaying ifTrue: [ 
 		anActor send: #beginPlay.
 	].
@@ -113,5 +117,27 @@ WDGFWorld >> subsystems [
 { #category : #update }
 WDGFWorld >> updateSingleTimeStep: delta [
 	subsystems do: [ :each | each updateSingleTimeStep: delta ].
-	self processAllPendingMessages
+	self processAllPendingMessages.
+	subsystems do: [ :each | each postActorMessagesUpdateSingleTimeStep: delta ].
+]
+
+{ #category : #accessing }
+WDGFWorld >> updateTimeStep [
+
+	^ updateTimeStep
+]
+
+{ #category : #accessing }
+WDGFWorld >> updateTimeStep: anObject [
+
+	updateTimeStep := anObject
+]
+
+{ #category : #update }
+WDGFWorld >> updateWithDeltaTime: deltaTime [
+	accumulatedDeltaTime := accumulatedDeltaTime + deltaTime.
+	[accumulatedDeltaTime >= updateTimeStep] whileTrue: [
+		self updateSingleTimeStep: updateTimeStep.
+		accumulatedDeltaTime := accumulatedDeltaTime - updateTimeStep
+	].
 ]
