@@ -23,3 +23,9 @@ WDGFActorStaticMeshSceneComponent >> mesh: anObject [
 
 	mesh := anObject
 ]
+
+{ #category : #hooks }
+WDGFActorStaticMeshSceneComponent >> privateRegisterInWorld [
+	super privateRegisterInWorld.
+	sceneNode renderables: { mesh }
+]

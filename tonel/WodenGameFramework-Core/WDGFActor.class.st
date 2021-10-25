@@ -121,6 +121,12 @@ WDGFActor >> processMessage: selector withArguments: arguments [
 
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFActor >> registerComponentsInWorld: theWorld [
+	rootSceneComponent ifNotNil: [ rootSceneComponent registerInWorld: theWorld ].
+	self components do: [ :each | each registerInWorld: theWorld ]
+]
+
 { #category : #accessing }
 WDGFActor >> rootSceneComponent [
 

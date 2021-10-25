@@ -20,7 +20,7 @@ WDGFExamples class >> exampleCubeActor [
 	world := WDGFWorld new.
 	world spawnActor: cubeActor.
 
-	world
+	world openInMorphic
 ]
 
 { #category : #'see class side' }

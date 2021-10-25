@@ -7,7 +7,10 @@ Class {
 	#instVars : [
 		'actors',
 		'firstPendingMessage',
-		'lastPendingMessage'
+		'lastPendingMessage',
+		'subsystems',
+		'subsystemDirectionary',
+		'isPlaying'
 	],
 	#category : #'WodenGameFramework-Core'
 }
@@ -15,6 +18,16 @@ Class {
 { #category : #accessing }
 WDGFWorld >> actors [
 	^ actors
+]
+
+{ #category : #'actor lifecycle' }
+WDGFWorld >> beginPlay [
+	isPlaying ifTrue: [ ^ self ].
+
+	isPlaying := true.
+	subsystems do: [:each | each beginPlay].
+	actors do: [ :each | each send: #beginPlay ].
+
 ]
 
 { #category : #messages }
@@ -29,10 +42,31 @@ WDGFWorld >> enqueueMessage: aMessage [
 	]
 ]
 
+{ #category : #accessing }
+WDGFWorld >> getOrCreateSubsystemWithClass: aSubsystemClass [
+	^ subsystemDirectionary at: aSubsystemClass ifAbsentPut: [ 
+		| instance |
+		instance := aSubsystemClass new
+			createdInWorld: self;
+			yourself.
+		isPlaying ifTrue: [ instance beginPlay ].
+		subsystems add: instance.
+		instance
+	]
+]
+
 { #category : #initialization }
 WDGFWorld >> initialize [
 	super initialize.
 	actors := OrderedCollection new.
+	subsystems := OrderedCollection new.
+	subsystemDirectionary := Dictionary new.
+	isPlaying := false
+]
+
+{ #category : #accessing }
+WDGFWorld >> isPlaying [
+	^ isPlaying
 ]
 
 { #category : #messages }
@@ -64,10 +98,20 @@ WDGFWorld >> spawnActor: anActor [
 	anActor handle world: self.
 	actors add: anActor.
 	
-	anActor send: #beginPlay.
+	anActor registerComponentsInWorld: self.
+	isPlaying ifTrue: [ 
+		anActor send: #beginPlay.
+	].
+
+]
+
+{ #category : #accessing }
+WDGFWorld >> subsystems [
+	^ subsystems
 ]
 
 { #category : #update }
 WDGFWorld >> updateSingleTimeStep: delta [
+	subsystems do: [ :each | each updateSingleTimeStep: delta ].
 	self processAllPendingMessages
 ]

@@ -5,7 +5,8 @@ Class {
 	#name : #WDGFActorComponent,
 	#superclass : #Object,
 	#instVars : [
-		'owner'
+		'owner',
+		'ownerWorld'
 	],
 	#category : #'WodenGameFramework-Core'
 }
@@ -14,6 +15,11 @@ Class {
 WDGFActorComponent >> addedToActor: anActor [
 	self assert: owner isNil.
 	owner := anActor.
+]
+
+{ #category : #accessing }
+WDGFActorComponent >> children [
+	^ #()
 ]
 
 { #category : #accessing }
@@ -26,6 +32,26 @@ WDGFActorComponent >> owner [
 WDGFActorComponent >> owner: anObject [
 
 	owner := anObject
+]
+
+{ #category : #hooks }
+WDGFActorComponent >> privateRegisterChildrenInWorld [
+	self children do: [ :each | each registerInWorld: ownerWorld ]
+]
+
+{ #category : #hooks }
+WDGFActorComponent >> privateRegisterInWorld [
+	"Hook for component registration with a subsystem in the world."
+]
+
+{ #category : #'component registration' }
+WDGFActorComponent >> registerInWorld: aWorld [
+	ownerWorld == aWorld ifTrue: [ ^ self ].
+	ownerWorld := aWorld.
+	self
+		privateRegisterInWorld;
+		privateRegisterChildrenInWorld.
+	
 ]
 
 { #category : #notifications }

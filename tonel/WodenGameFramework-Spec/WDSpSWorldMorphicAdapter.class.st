@@ -7,6 +7,11 @@ Class {
 	#category : #'WodenGameFramework-Spec'
 }
 
+{ #category : #accessing }
+WDSpSWorldMorphicAdapter class >> adaptingName [
+	^ #WodenGameFrameworkWorldAdapter
+]
+
 { #category : #factory }
 WDSpSWorldMorphicAdapter >> buildWidget [
 	| newWidget |
@@ -14,8 +19,7 @@ WDSpSWorldMorphicAdapter >> buildWidget [
 	newWidget := self worldMorphClass new
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
-		wodenWorld: self presenter wodenWorld;
-		camera: self presenter camera;
+		wodenWorld: self presenter world;
 		yourself.
 
 	self presenter whenWorldChangedDo: [ :newWodenWorld | newWidget wodenWorld: newWodenWorld ].

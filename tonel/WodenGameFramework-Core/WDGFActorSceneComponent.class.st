@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'transform',
 		'children',
-		'parent'
+		'parent',
+		'sceneNode'
 	],
 	#category : #'WodenGameFramework-Core'
 }
@@ -69,6 +70,20 @@ WDGFActorSceneComponent >> position [
 WDGFActorSceneComponent >> position: newPosition [
 	transform translation: newPosition.
 	self transformChanged.
+]
+
+{ #category : #copying }
+WDGFActorSceneComponent >> postCopy [
+	super postCopy.
+	sceneNode := nil.
+]
+
+{ #category : #hooks }
+WDGFActorSceneComponent >> privateRegisterInWorld [
+	| sceneSubsystem |
+	sceneSubsystem := ownerWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem.
+	sceneNode := WDSceneNode new.
+	sceneSubsystem scene add: sceneNode.
 ]
 
 { #category : #accessing }
