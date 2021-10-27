@@ -25,7 +25,7 @@ WDGFActorMessage >> arguments: anObject [
 	arguments := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'message queue' }
 WDGFActorMessage >> enqueue [
 	target world ifNotNil: [ :world | world enqueueMessage: self ]
 ]

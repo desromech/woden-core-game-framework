@@ -70,6 +70,27 @@ WDGFWorldTest >> testSpawnActorAfterBeginPlay [
 ]
 
 { #category : #tests }
+WDGFWorldTest >> testSpawnActorWithComponent [
+	| world  componentActorHandle component |
+	world := WDGFWorld new.
+	self assert: world actors isEmpty.
+	
+	component := WDGFActorComponent new.
+	componentActorHandle := world spawnActor: component.
+	self assert: componentActorHandle actor components first equals: component
+]
+
+{ #category : #tests }
+WDGFWorldTest >> testSpawnActorWithComponentClass [
+	| world  componentActorHandle |
+	world := WDGFWorld new.
+	self assert: world actors isEmpty.
+	
+	componentActorHandle := world spawnActor: WDGFActorComponent.
+	self assert: componentActorHandle actor components first class equals: WDGFActorComponent
+]
+
+{ #category : #tests }
 WDGFWorldTest >> testSpawnTickingActor [
 	| world actor expectedTick receivedTickDelta |
 	world := WDGFWorld new.

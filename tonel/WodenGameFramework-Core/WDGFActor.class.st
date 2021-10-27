@@ -19,19 +19,31 @@ Class {
 	#category : #'WodenGameFramework-Core'
 }
 
+{ #category : #converting }
+WDGFActor class >> asGameFrameworkActor [
+	^ self new
+]
+
 { #category : #initialization }
 WDGFActor class >> initialize [
 	ZeroTransform := TRSTransform3D identity.
 ]
 
 { #category : #adding }
-WDGFActor >> addComponent: aComponent [
+WDGFActor >> addComponent: anObjectConvertibleToComponent [
+	| aComponent |
+	aComponent := anObjectConvertibleToComponent asGameFrameworkComponent.
 	self assert: (self components includes: aComponent) not.
 	components ifNil: [ components := OrderedCollection new ].
 	components add: aComponent.
 	
 	aComponent addedToActor: self.
 	^ aComponent
+]
+
+{ #category : #converting }
+WDGFActor >> asGameFrameworkActor [
+	^ self
 ]
 
 { #category : #'game events' }

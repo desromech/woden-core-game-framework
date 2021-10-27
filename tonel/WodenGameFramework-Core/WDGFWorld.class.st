@@ -97,7 +97,9 @@ WDGFWorld >> processAllPendingMessages [
 ]
 
 { #category : #'actor lifecycle' }
-WDGFWorld >> spawnActor: anActor [
+WDGFWorld >> spawnActor: anObjectConvertibleToActor [
+	| anActor |
+	anActor := anObjectConvertibleToActor asGameFrameworkActor.
 	self assert: anActor world isNil.
 	anActor handle world: self.
 	actors add: anActor.
@@ -106,7 +108,7 @@ WDGFWorld >> spawnActor: anActor [
 	isPlaying ifTrue: [ 
 		anActor send: #beginPlay.
 	].
-
+	^ anActor handle
 ]
 
 { #category : #accessing }

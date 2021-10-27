@@ -11,10 +11,32 @@ Class {
 	#category : #'WodenGameFramework-Core'
 }
 
+{ #category : #converting }
+WDGFActorComponent class >> asGameFrameworkActor [
+	^ self asGameFrameworkComponent asGameFrameworkActor
+]
+
+{ #category : #converting }
+WDGFActorComponent class >> asGameFrameworkComponent [
+	^ self new
+]
+
 { #category : #notifications }
 WDGFActorComponent >> addedToActor: anActor [
 	self assert: owner isNil.
 	owner := anActor.
+]
+
+{ #category : #converting }
+WDGFActorComponent >> asGameFrameworkActor [
+	^ WDGFActor new
+		addComponent: self;
+		yourself
+]
+
+{ #category : #converting }
+WDGFActorComponent >> asGameFrameworkComponent [
+	^ self
 ]
 
 { #category : #accessing }
