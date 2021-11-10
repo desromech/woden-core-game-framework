@@ -23,7 +23,7 @@ BaselineOfWodenGameFramework >> baseline: spec [
 				spec requires: #( #'WodenGameFramework-Spec').
 			];
 			package: #'WodenGameFramework-Examples' with: [
-				spec requires: #( #'WodenSceneGraph-Spec').
+				spec requires: #( #'WodenGameFramework-Spec').
 			]
 
 	].
