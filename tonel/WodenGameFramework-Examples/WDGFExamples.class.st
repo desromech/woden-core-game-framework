@@ -4,7 +4,7 @@ I hold different examples that use the Woden Game Framework.
 Class {
 	#name : #WDGFExamples,
 	#superclass : #Object,
-	#category : #'WodenGameFramework-Example'
+	#category : #'WodenGameFramework-Examples'
 }
 
 { #category : #examples }
