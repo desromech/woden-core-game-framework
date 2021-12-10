@@ -42,6 +42,12 @@ WDGFWorldMorph >> step [
 	deltaTime := (currentStepTime - lastStepTime) * 1e-6 min: 0.125.
 	wodenWorld ifNotNil: [
 		wodenWorld updateWithDeltaTime: deltaTime.
+		self camera ifNotNil: [ :validCamera |
+			validCamera cameras first currentTime: wodenWorld currentTime.
+		].
+		wodenWorld isPlaying ifTrue: [ 
+			self changed.
+		].
 	].
 	
 	lastStepTime := currentStepTime

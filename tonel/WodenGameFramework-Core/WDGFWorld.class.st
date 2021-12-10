@@ -12,7 +12,8 @@ Class {
 		'subsystemDirectionary',
 		'isPlaying',
 		'accumulatedDeltaTime',
-		'updateTimeStep'
+		'updateTimeStep',
+		'currentTime'
 	],
 	#category : #'WodenGameFramework-Core'
 }
@@ -30,6 +31,11 @@ WDGFWorld >> beginPlay [
 	subsystems do: [:each | each beginPlay].
 	actors do: [ :each | each send: #beginPlay ].
 
+]
+
+{ #category : #accessing }
+WDGFWorld >> currentTime [
+	^ currentTime
 ]
 
 { #category : #messages }
@@ -66,6 +72,7 @@ WDGFWorld >> initialize [
 	isPlaying := false.
 	accumulatedDeltaTime := 0.0.
 	updateTimeStep := 1.0/60.0.
+	currentTime := 0.0.
 ]
 
 { #category : #accessing }
@@ -118,6 +125,7 @@ WDGFWorld >> subsystems [
 
 { #category : #update }
 WDGFWorld >> updateSingleTimeStep: delta [
+	currentTime := currentTime + delta.
 	subsystems do: [ :each | each updateSingleTimeStep: delta ].
 	self processAllPendingMessages.
 	subsystems do: [ :each | each postActorMessagesUpdateSingleTimeStep: delta ].

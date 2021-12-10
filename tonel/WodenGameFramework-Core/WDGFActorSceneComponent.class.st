@@ -50,6 +50,11 @@ WDGFActorSceneComponent >> initialize [
 	transform := TRSTransform3D identity.
 ]
 
+{ #category : #testing }
+WDGFActorSceneComponent >> isBackgroundSceneComponent [
+	^ false
+]
+
 { #category : #accessing }
 WDGFActorSceneComponent >> orientation [
 	^ transform orientation
@@ -59,6 +64,11 @@ WDGFActorSceneComponent >> orientation [
 WDGFActorSceneComponent >> orientation: newOrientation [
 	transform orientation: newOrientation.
 	self transformChanged.
+]
+
+{ #category : #accessing }
+WDGFActorSceneComponent >> parent [
+	^ parent
 ]
 
 { #category : #accessing }
@@ -83,7 +93,18 @@ WDGFActorSceneComponent >> privateRegisterInWorld [
 	| sceneSubsystem |
 	sceneSubsystem := ownerWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem.
 	sceneNode := WDSceneNode new.
-	sceneSubsystem scene add: sceneNode.
+	sceneNode transform: transform.
+	
+	parent ifNil: [
+		self isBackgroundSceneComponent ifTrue: [ 
+			sceneSubsystem scene addBackground: sceneNode.
+		] ifFalse: [ 
+			sceneSubsystem scene add: sceneNode.		
+		].
+	] ifNotNil: [
+		parent sceneNode add: sceneNode
+	].
+
 ]
 
 { #category : #accessing }
@@ -95,6 +116,11 @@ WDGFActorSceneComponent >> scale [
 WDGFActorSceneComponent >> scale: newScale [
 	transform scale: newScale.
 	self transformChanged.
+]
+
+{ #category : #accessing }
+WDGFActorSceneComponent >> sceneNode [
+	^ sceneNode
 ]
 
 { #category : #accessing }
