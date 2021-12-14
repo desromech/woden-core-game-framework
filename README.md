@@ -7,6 +7,7 @@ The minimalistic Woden Core Game Framework built on top of the different Woden c
 Metacello new
    baseline: 'WodenGameFramework';
    repository: 'github://ronsaldo/woden-core-game-framework';
+   onConflictUseIncoming;
    load
 ```
 
