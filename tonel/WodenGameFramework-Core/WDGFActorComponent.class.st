@@ -3,7 +3,7 @@ I am a component in an actor.
 "
 Class {
 	#name : #WDGFActorComponent,
-	#superclass : #Object,
+	#superclass : #WDGFWorldElement,
 	#instVars : [
 		'owner',
 		'ownerWorld'

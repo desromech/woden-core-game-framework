@@ -3,7 +3,7 @@ I am a world in the game framework. I typically contain a list of actors and dif
 "
 Class {
 	#name : #WDGFWorld,
-	#superclass : #Object,
+	#superclass : #WDGFWorldElement,
 	#instVars : [
 		'actors',
 		'firstPendingMessage',
@@ -36,6 +36,11 @@ WDGFWorld >> beginPlay [
 { #category : #accessing }
 WDGFWorld >> currentTime [
 	^ currentTime
+]
+
+{ #category : #'as yet unclassified' }
+WDGFWorld >> editorTreeChildren [
+	^ actors
 ]
 
 { #category : #messages }

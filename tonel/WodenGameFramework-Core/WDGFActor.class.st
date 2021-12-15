@@ -3,7 +3,7 @@ I am an actor in the Woden Game Framework. I am a concurrent entity in a world t
 "
 Class {
 	#name : #WDGFActor,
-	#superclass : #Object,
+	#superclass : #WDGFWorldElement,
 	#instVars : [
 		'handle',
 		'subscriptions',
