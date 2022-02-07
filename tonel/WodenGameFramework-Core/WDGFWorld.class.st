@@ -38,11 +38,6 @@ WDGFWorld >> currentTime [
 	^ currentTime
 ]
 
-{ #category : #'as yet unclassified' }
-WDGFWorld >> editorTreeChildren [
-	^ actors
-]
-
 { #category : #messages }
 WDGFWorld >> enqueueMessage: aMessage [
 	self assert: aMessage nextMessage isNil.
