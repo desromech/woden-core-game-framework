@@ -53,11 +53,6 @@ WDGFWorldMorph >> step [
 	lastStepTime := currentStepTime
 ]
 
-{ #category : #stepping }
-WDGFWorldMorph >> stepTime [
-	^ 16
-]
-
 { #category : #accessing }
 WDGFWorldMorph >> wodenWorld [
 
