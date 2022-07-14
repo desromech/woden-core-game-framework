@@ -98,7 +98,7 @@ WDGFWorld >> nextPendingMessage [
 { #category : #messages }
 WDGFWorld >> processAllPendingMessages [
 	| message |
-	[ (message := self nextPendingMessage) isNotNil ] whileTrue: [ 
+	[ (message := self nextPendingMessage) notNil ] whileTrue: [ 
 		message process
 	]
 ]

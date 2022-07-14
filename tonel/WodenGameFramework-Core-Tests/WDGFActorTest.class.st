@@ -105,7 +105,7 @@ WDGFActorTest >> testDummyTransform [
 WDGFActorTest >> testNew [
 	| actor |
 	actor := WDGFActor new.
-	self assert: actor handle isNotNil.
+	self assert: actor handle notNil.
 	self assert: actor handle actor equals: actor.
 	self assert: actor world isNil.
 ]
