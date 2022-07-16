@@ -16,16 +16,14 @@ BaselineOfWodenGameFramework >> baseline: spec [
 			package: #'WodenGameFramework-Core-Tests' with: [
 				spec requires: #( #'WodenGameFramework-Core' ).
 			];
-			package: #'WodenGameFramework-Morphic' with: [
-				spec requires: #( #'WodenGameFramework-Spec').
-			];
+			package: #'WodenGameFramework-Morphic' with: [];
 			package: #'WodenGameFramework-Examples' with: []
 	].
 
 	spec for: #pharo do: [
 		spec
 			package: #'WodenGameFramework-Spec' with: [
-				spec requires: #( #'WodenGameFramework-Core').
+				spec requires: #( #'WodenGameFramework-Core' #'WodenGameFramework-Morphic').
 			]
 	].
 
