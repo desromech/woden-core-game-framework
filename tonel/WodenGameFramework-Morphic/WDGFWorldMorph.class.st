@@ -37,8 +37,8 @@ WDGFWorldMorph >> playing: aBoolean [
 { #category : #stepping }
 WDGFWorldMorph >> step [
 	| currentStepTime deltaTime |
-	lastStepTime ifNil: [ lastStepTime := Time microsecondClockValue ].
-	currentStepTime := Time microsecondClockValue.
+	lastStepTime ifNil: [ lastStepTime := Time monotonicMicrosecondClockValue ].
+	currentStepTime := Time monotonicMicrosecondClockValue.
 	deltaTime := (currentStepTime - lastStepTime) * 1e-6 min: 0.125.
 	wodenWorld ifNotNil: [
 		wodenWorld updateWithDeltaTime: deltaTime.
