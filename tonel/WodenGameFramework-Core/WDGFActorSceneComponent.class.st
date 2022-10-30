@@ -62,7 +62,7 @@ WDGFActorSceneComponent >> orientation [
 
 { #category : #accessing }
 WDGFActorSceneComponent >> orientation: newOrientation [
-	transform orientation: newOrientation.
+	transform rotation: newOrientation.
 	self transformChanged.
 ]
 
