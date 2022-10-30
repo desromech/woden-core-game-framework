@@ -106,7 +106,7 @@ WDGFActor >> orientation [
 
 { #category : #accessing }
 WDGFActor >> orientation: newOrientation [
-	rootSceneComponent ifNotNil: [ rootSceneComponent position: newOrientation ]
+	rootSceneComponent ifNotNil: [ rootSceneComponent orientation: newOrientation ]
 ]
 
 { #category : #accessing }

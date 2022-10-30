@@ -4,7 +4,7 @@ Extension { #name : #WDGFWorld }
 WDGFWorld >> openInSpec [
 	^ WDGFSpWorldPresenter new
 		world: self;
-		openWithSpec
+		open
 ]
 
 { #category : #'*WodenGameFramework-Spec' }
@@ -13,5 +13,5 @@ WDGFWorld >> playInSpec [
 	^ WDGFSpWorldPresenter new
 		world: self;
 		playing: true;
-		openWithSpec
+		open
 ]
