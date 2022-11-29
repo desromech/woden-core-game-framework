@@ -17,7 +17,7 @@ WDGFExamples class >> exampleCubeAndLightActor [
 		mesh.
 
 	cubeActor := WDGFActor new.
-	cubeActor addComponent: (WDGFActorStaticMeshSceneComponent with: cubeMesh).
+	cubeActor addComponent: (WDGFActorMeshSceneComponent with: cubeMesh).
 	world spawnActor: cubeActor.
 	
 	currentTime := 0.

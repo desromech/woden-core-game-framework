@@ -7,5 +7,5 @@ WDStaticMeshRenderable >> asGameFrameworkActor [
 
 { #category : #'*WodenGameFramework-Core' }
 WDStaticMeshRenderable >> asGameFrameworkComponent [
-	^ WDGFActorStaticMeshSceneComponent with: self
+	^ WDGFActorMeshSceneComponent with: self
 ]

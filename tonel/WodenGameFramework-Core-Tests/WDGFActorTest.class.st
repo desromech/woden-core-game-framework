@@ -15,7 +15,7 @@ WDGFActorTest >> testAddMeshComponent [
 		mesh.
 
 	cubeActor := WDGFActor new.
-	cubeActor addComponent: (WDGFActorStaticMeshSceneComponent with: cubeMesh).
+	cubeActor addComponent: (WDGFActorMeshSceneComponent with: cubeMesh).
 ]
 
 { #category : #tests }

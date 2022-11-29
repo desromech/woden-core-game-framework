@@ -1,5 +1,5 @@
 Class {
-	#name : #WDGFActorStaticMeshSceneComponent,
+	#name : #WDGFActorMeshSceneComponent,
 	#superclass : #WDGFActorSceneComponent,
 	#instVars : [
 		'mesh'
@@ -8,24 +8,24 @@ Class {
 }
 
 { #category : #'instance creation' }
-WDGFActorStaticMeshSceneComponent class >> with: aMesh [
+WDGFActorMeshSceneComponent class >> with: aMesh [
 	^ self new mesh: aMesh; yourself
 ]
 
 { #category : #accessing }
-WDGFActorStaticMeshSceneComponent >> mesh [
+WDGFActorMeshSceneComponent >> mesh [
 
 	^ mesh
 ]
 
 { #category : #accessing }
-WDGFActorStaticMeshSceneComponent >> mesh: anObject [
+WDGFActorMeshSceneComponent >> mesh: anObject [
 
 	mesh := anObject
 ]
 
 { #category : #hooks }
-WDGFActorStaticMeshSceneComponent >> privateRegisterInWorld [
+WDGFActorMeshSceneComponent >> privateRegisterInWorld [
 	super privateRegisterInWorld.
 	mesh ifNotNil: [ 
 		sceneNode renderables: { mesh }
