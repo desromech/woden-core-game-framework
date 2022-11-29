@@ -30,7 +30,8 @@ WDGFExamples class >> exampleCubeAndLightActor [
 
 	lightSourceActor := WDGFActor new.
 	lightSourceActor addComponent: (WDGFActorLightSourceSceneComponent with: (WDPointLightSource new
-			intensity: (Vector3 x: 0.8 y: 0.8 z: 0.2) * 5.0;
+			color: (Vector3 x: 0.8 y: 0.8 z: 0.2);
+			intensity: 5.0;
 			influenceRadius: 4.0;
 			yourself)).
 	lightSourceActor position: (Vector3 x: 0 y: 1.5 z: 2).
@@ -60,7 +61,8 @@ WDGFExamples class >> exampleCubeAndLightActor2 [
 
 	lightSourceActor := WDGFActor new.
 	lightSourceActor addComponent: (WDPointLightSource new
-			intensity: (Vector3 x: 0.8 y: 0.8 z: 0.2) * 5.0;
+			color: (Vector3 x: 0.8 y: 0.8 z: 0.2);
+			intensity: 5.0;
 			influenceRadius: 4.0;
 			yourself).
 	lightSourceActor position: (Vector3 x: 0 y: 1.5 z: 2).
@@ -89,7 +91,8 @@ WDGFExamples class >> exampleCubeAndLightActor3 [
 		].
 
 	world spawnActor: ((WDPointLightSource new
-			intensity: (Vector3 x: 0.8 y: 0.8 z: 0.2) * 5.0;
+			color: (Vector3 x: 0.8 y: 0.8 z: 0.2);
+			intensity: 5.0;
 			influenceRadius: 4.0;
 			asGameFrameworkActor)
 				position: (Vector3 x: 0 y: 1.5 z: 2);
