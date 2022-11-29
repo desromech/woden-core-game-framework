@@ -23,6 +23,9 @@ BaselineOfWodenGameFramework >> baseline: spec [
 
 	spec for: #pharo do: [
 		spec
+			package: #'WodenGameFramework-OSWindow' with: [
+				spec requires: #( #'WodenGameFramework-Core')
+			];
 			package: #'WodenGameFramework-Spec' with: [
 				spec requires: #( #'WodenGameFramework-Core' #'WodenGameFramework-Morphic').
 			]
