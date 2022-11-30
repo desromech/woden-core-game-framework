@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'dictionary'
 	],
-	#category : #'WodenGameFramework-Core'
+	#category : #'WodenGameFramework-Core-Messages'
 }
 
 { #category : #adding }

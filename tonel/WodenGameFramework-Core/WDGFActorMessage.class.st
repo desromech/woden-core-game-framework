@@ -10,7 +10,7 @@ Class {
 		'selector',
 		'arguments'
 	],
-	#category : #'WodenGameFramework-Core'
+	#category : #'WodenGameFramework-Core-Messages'
 }
 
 { #category : #accessing }

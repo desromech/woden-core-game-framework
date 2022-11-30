@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'tickingActors'
 	],
-	#category : #'WodenGameFramework-Core'
+	#category : #'WodenGameFramework-Core-Subsystem'
 }
 
 { #category : #initialization }

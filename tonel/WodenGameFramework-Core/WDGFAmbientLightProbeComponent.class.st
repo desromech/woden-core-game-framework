@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'lightProbe'
 	],
-	#category : #'WodenGameFramework-Core'
+	#category : #'WodenGameFramework-Core-Actor'
 }
 
 { #category : #'instance creation' }

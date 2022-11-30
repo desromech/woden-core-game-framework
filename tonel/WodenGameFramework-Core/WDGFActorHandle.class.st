@@ -5,7 +5,7 @@ Class {
 	#name : #WDGFActorHandle,
 	#superclass : #WeakArray,
 	#type : #weak,
-	#category : #'WodenGameFramework-Core'
+	#category : #'WodenGameFramework-Core-Messages'
 }
 
 { #category : #'instance creation' }

@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'ownerWorld'
 	],
-	#category : #'WodenGameFramework-Core'
+	#category : #'WodenGameFramework-Core-Subsystem'
 }
 
 { #category : #notifying }

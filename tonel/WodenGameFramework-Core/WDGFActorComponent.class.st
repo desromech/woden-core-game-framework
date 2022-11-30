@@ -8,7 +8,7 @@ Class {
 		'owner',
 		'ownerWorld'
 	],
-	#category : #'WodenGameFramework-Core'
+	#category : #'WodenGameFramework-Core-Actor'
 }
 
 { #category : #converting }

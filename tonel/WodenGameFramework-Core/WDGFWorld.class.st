@@ -15,7 +15,7 @@ Class {
 		'updateTimeStep',
 		'currentTime'
 	],
-	#category : #'WodenGameFramework-Core'
+	#category : #'WodenGameFramework-Core-Actor'
 }
 
 { #category : #accessing }

@@ -16,7 +16,7 @@ Class {
 	#classVars : [
 		'ZeroTransform'
 	],
-	#category : #'WodenGameFramework-Core'
+	#category : #'WodenGameFramework-Core-Actor'
 }
 
 { #category : #converting }
@@ -61,6 +61,18 @@ WDGFActor >> endPlay [
 	"This message is sent at the end of a level"
 ]
 
+{ #category : #'input events' }
+WDGFActor >> gamepadAxisEvent: anEvent [
+]
+
+{ #category : #'input events' }
+WDGFActor >> gamepadButtonPressEvent: anEvent [
+]
+
+{ #category : #'input events' }
+WDGFActor >> gamepadButtonReleaseEvent: anEvent [
+]
+
 { #category : #accessing }
 WDGFActor >> handle [
 	^ handle
@@ -74,9 +86,33 @@ WDGFActor >> initialize [
 	wantsToTick := false.
 ]
 
+{ #category : #'input events' }
+WDGFActor >> keyDownEvent: anEvent [
+]
+
+{ #category : #'input events' }
+WDGFActor >> keyUpEvent: anEvent [
+]
+
 { #category : #message }
 WDGFActor >> messageSubscriptions [
 	^ messageSubscriptions ifNil: [ messageSubscriptions := WDGFActorMessageSubscriptions new ]
+]
+
+{ #category : #'input events' }
+WDGFActor >> mouseButtonPressEvent: anEvent [
+]
+
+{ #category : #'input events' }
+WDGFActor >> mouseButtonReleaseEvent: anEvent [
+]
+
+{ #category : #'input events' }
+WDGFActor >> mouseMoveEvent: anEvent [
+]
+
+{ #category : #'input events' }
+WDGFActor >> mouseWheelEvent: anEvent [
 ]
 
 { #category : #'game events' }
@@ -179,6 +215,26 @@ WDGFActor >> send: selector [
 ]
 
 { #category : #message }
+WDGFActor >> send: selector with: arg1 [ 
+	^ self send: selector withArguments: { arg1 }
+]
+
+{ #category : #message }
+WDGFActor >> send: selector with: arg1 with: arg2 [
+	^ self send: selector withArguments: { arg1 . arg2 }
+]
+
+{ #category : #message }
+WDGFActor >> send: selector with: arg1 with: arg2 with: arg3 [
+	^ self send: selector withArguments: { arg1 . arg2 . arg3 }
+]
+
+{ #category : #message }
+WDGFActor >> send: selector with: arg1 with: arg2 with: arg3 with: arg4 [
+	^ self send: selector withArguments: { arg1 . arg2 . arg3 . arg4 }
+]
+
+{ #category : #message }
 WDGFActor >> send: selector withArguments: arguments [
 	^ WDGFActorMessage new
 		target: handle;
@@ -190,6 +246,10 @@ WDGFActor >> send: selector withArguments: arguments [
 { #category : #'system subscriptions' }
 WDGFActor >> subscribeForTicking [
 	(self world getOrCreateSubsystemWithClass: WDGFActorTickSubsystem) subscribe: self
+]
+
+{ #category : #'input events' }
+WDGFActor >> textInputEvent: anEvent [
 ]
 
 { #category : #'game events' }

@@ -10,7 +10,7 @@ Class {
 		'parent',
 		'sceneNode'
 	],
-	#category : #'WodenGameFramework-Core'
+	#category : #'WodenGameFramework-Core-Actor'
 }
 
 { #category : #adding }

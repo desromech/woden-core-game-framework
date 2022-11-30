@@ -8,7 +8,7 @@ Class {
 		'scene',
 		'sceneChangedSubscriptions'
 	],
-	#category : #'WodenGameFramework-Core'
+	#category : #'WodenGameFramework-Core-Subsystem'
 }
 
 { #category : #initialization }
