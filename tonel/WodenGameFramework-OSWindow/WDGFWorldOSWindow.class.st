@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'playing',
 		'wodenWorld',
-		'convertedEventQueue'
+		'convertedEventQueue',
+		'defaultCamera'
 	],
 	#category : #'WodenGameFramework-OSWindow'
 }
@@ -62,6 +63,7 @@ WDGFWorldOSWindow >> doUpdate [
 	self dispatchQueuedEvents.
 	wodenWorld ifNotNil: [
 		wodenWorld updateWithDeltaTime: deltaTime.
+		self camera: self selectCurrentCamera.
 		self camera ifNotNil: [ :validCamera |
 			validCamera cameras first currentTime: wodenWorld currentTime.
 		].
@@ -75,6 +77,14 @@ WDGFWorldOSWindow >> doUpdate [
 WDGFWorldOSWindow >> enqueueConvertedEvent: aConvertedEvent [
 	convertedEventQueue nextPut: aConvertedEvent.
 	self changed.
+]
+
+{ #category : #accessing }
+WDGFWorldOSWindow >> getOrCreateDefaultCamera [
+	^ defaultCamera ifNil: [defaultCamera := WDCamera new asSceneNode
+			position: (Vector3 x: 0 y: 0 z: 0);
+			yourself
+		]
 ]
 
 { #category : #initialization }
@@ -177,6 +187,17 @@ WDGFWorldOSWindow >> playing: anObject [
 ]
 
 { #category : #accessing }
+WDGFWorldOSWindow >> selectCurrentCamera [
+	wodenWorld ifNotNil: [ 
+		(wodenWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem) findActiveCameraComponent ifNotNil: [ :cameraComponent |
+				^ cameraComponent sceneNode
+		]
+	].
+
+	^ self getOrCreateDefaultCamera
+]
+
+{ #category : #accessing }
 WDGFWorldOSWindow >> wodenWorld [
 
 	^ wodenWorld
@@ -188,7 +209,7 @@ WDGFWorldOSWindow >> wodenWorld: anObject [
 	wodenWorld := anObject.
 	sceneSubsystem := wodenWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem.
 	self scene: sceneSubsystem scene.
-	self camera: (WDCamera new asSceneNode position: (Vector3 x: 0 y: 0 z: 3)).
+	self camera: self selectCurrentCamera.
 	sceneSubsystem whenSceneChangedDo: [ self changed ].
 	self changed.
 ]

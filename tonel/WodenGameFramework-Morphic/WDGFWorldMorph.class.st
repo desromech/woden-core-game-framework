@@ -7,10 +7,19 @@ Class {
 	#instVars : [
 		'wodenWorld',
 		'playing',
-		'lastStepTime'
+		'lastStepTime',
+		'defaultCamera'
 	],
 	#category : #'WodenGameFramework-Morphic'
 }
+
+{ #category : #accessing }
+WDGFWorldMorph >> getOrCreateDefaultCamera [
+	^ defaultCamera ifNil: [defaultCamera := WDCamera new asSceneNode
+			position: (Vector3 x: 0 y: 0 z: 0);
+			yourself
+		]
+]
 
 { #category : #initialization }
 WDGFWorldMorph >> initialize [
@@ -34,6 +43,17 @@ WDGFWorldMorph >> playing: aBoolean [
 	].
 ]
 
+{ #category : #accessing }
+WDGFWorldMorph >> selectCurrentCamera [
+	wodenWorld ifNotNil: [ 
+		(wodenWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem) findActiveCameraComponent ifNotNil: [ :cameraComponent |
+				^ cameraComponent sceneNode
+		]
+	].
+
+	^ self getOrCreateDefaultCamera
+]
+
 { #category : #stepping }
 WDGFWorldMorph >> step [
 	| currentStepTime deltaTime |
@@ -42,6 +62,7 @@ WDGFWorldMorph >> step [
 	deltaTime := (currentStepTime - lastStepTime) * 1e-6 min: 0.125.
 	wodenWorld ifNotNil: [
 		wodenWorld updateWithDeltaTime: deltaTime.
+		self camera: self selectCurrentCamera.
 		self camera ifNotNil: [ :validCamera |
 			validCamera cameras first currentTime: wodenWorld currentTime.
 		].
@@ -65,7 +86,7 @@ WDGFWorldMorph >> wodenWorld: anObject [
 	wodenWorld := anObject.
 	sceneSubsystem := wodenWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem.
 	self scene: sceneSubsystem scene.
-	self camera: (WDCamera new asSceneNode position: (Vector3 x: 0 y: 0 z: 3)).
+	self camera: self selectCurrentCamera.
 	sceneSubsystem whenSceneChangedDo: [ self changed ].
 	self changed.
 ]

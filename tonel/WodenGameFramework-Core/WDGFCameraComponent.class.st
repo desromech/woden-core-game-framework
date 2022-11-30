@@ -5,7 +5,8 @@ Class {
 	#name : #WDGFCameraComponent,
 	#superclass : #WDGFActorSceneComponent,
 	#instVars : [
-		'camera'
+		'camera',
+		'isActive'
 	],
 	#category : #'WodenGameFramework-Core-Actor'
 }
@@ -25,4 +26,35 @@ WDGFCameraComponent >> camera [
 WDGFCameraComponent >> camera: anObject [
 
 	camera := anObject
+]
+
+{ #category : #initialization }
+WDGFCameraComponent >> initialize [
+	super initialize.
+	camera := WDCamera new.
+	isActive := false.
+]
+
+{ #category : #accessing }
+WDGFCameraComponent >> isActive [
+
+	^ isActive
+]
+
+{ #category : #accessing }
+WDGFCameraComponent >> isActive: anObject [
+
+	isActive := anObject
+]
+
+{ #category : #hooks }
+WDGFCameraComponent >> privateRegisterInWorld [
+	| sceneSubsystem |
+	super privateRegisterInWorld.
+	camera ifNotNil: [ 
+		sceneNode cameras: { camera }
+	].
+
+	sceneSubsystem := ownerWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem.
+	sceneSubsystem addCameraComponent: self
 ]
