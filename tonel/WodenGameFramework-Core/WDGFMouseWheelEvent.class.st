@@ -16,6 +16,14 @@ WDGFMouseWheelEvent class >> inputEventMessageName [
 	^ #mouseWheelEvent:
 ]
 
+{ #category : #initialization }
+WDGFMouseWheelEvent >> initialize [
+	super initialize.
+	scrollHorizontal := 0.
+	scrollVertical := 0.
+	
+]
+
 { #category : #accessing }
 WDGFMouseWheelEvent >> scrollHorizontal [
 

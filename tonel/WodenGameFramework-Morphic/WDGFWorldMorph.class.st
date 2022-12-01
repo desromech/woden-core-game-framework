@@ -8,10 +8,58 @@ Class {
 		'wodenWorld',
 		'playing',
 		'lastStepTime',
-		'defaultCamera'
+		'defaultCamera',
+		'convertedEventQueue'
 	],
 	#category : #'WodenGameFramework-Morphic'
 }
+
+{ #category : #'event handling' }
+WDGFWorldMorph >> convertEventButton: event [
+	event redButtonChanged ifTrue: [ ^ 0 ].
+	event blueButtonChanged ifTrue: [ ^ 1 ].
+	event yellowButtonChanged ifTrue: [ ^ 2 ].
+	^ 0
+]
+
+{ #category : #'event handling' }
+WDGFWorldMorph >> convertEventButtonState: event [
+	^ WDGFInputMouseButtonState new
+		leftButton: event redButtonPressed;
+		middleButton: event blueButtonPressed;
+		rightButton: event yellowButtonPressed;
+		yourself
+]
+
+{ #category : #'event handling' }
+WDGFWorldMorph >> convertEventModifiers: event [
+	^ WDGFInputStateModifiers new
+		leftShift: event shiftPressed;
+		leftAlt: event altKeyPressed;
+		rightCtrl: event controlKeyPressed;
+		leftCmd: event commandKeyPressed;
+		yourself
+]
+
+{ #category : #'event handling' }
+WDGFWorldMorph >> dispatchQueuedEvents [
+	| inputSubsystem |
+	inputSubsystem := wodenWorld ifNotNil: [ :world | world getOrCreateSubsystemWithClass: WDGFInputSubsystem ].
+
+	[convertedEventQueue isEmpty ] whileFalse: [ 
+		| convertedEvent |
+		convertedEvent := convertedEventQueue next.
+		inputSubsystem ifNotNil: [
+			inputSubsystem dispatchEvent: convertedEvent
+		]
+	]
+]
+
+{ #category : #'event handling' }
+WDGFWorldMorph >> enqueueConvertedEvent: aConvertedEvent [
+	convertedEventQueue nextPut: aConvertedEvent.
+	self changed.
+]
 
 { #category : #accessing }
 WDGFWorldMorph >> getOrCreateDefaultCamera [
@@ -21,10 +69,75 @@ WDGFWorldMorph >> getOrCreateDefaultCamera [
 		]
 ]
 
+{ #category : #'event handling' }
+WDGFWorldMorph >> handlesMouseDown: anEvent [
+	^ anEvent wasHandled not
+]
+
+{ #category : #'event handling' }
+WDGFWorldMorph >> handlesMouseMove: anEvent [
+	^ anEvent wasHandled not 
+]
+
+{ #category : #'event handling' }
+WDGFWorldMorph >> handlesMouseWheel: anEvent [
+	^ anEvent wasHandled not 
+]
+
 { #category : #initialization }
 WDGFWorldMorph >> initialize [
 	super initialize.
 	playing := false.
+	convertedEventQueue := AtomicSharedQueue new.
+]
+
+{ #category : #'event handling' }
+WDGFWorldMorph >> mouseDown: evt [
+	self enqueueConvertedEvent: (WDGFMouseButtonPressEvent new
+		modifiers: (self convertEventModifiers: evt);
+		buttons: (self convertEventButtonState: evt);
+		position: evt position asVector2;
+		button: (self convertEventButton: evt);
+		yourself).
+	evt hand newKeyboardFocus: self.
+	
+]
+
+{ #category : #'event handling' }
+WDGFWorldMorph >> mouseMove: evt [
+	self enqueueConvertedEvent: (WDGFMouseMoveEvent new
+		modifiers: (self convertEventModifiers: evt);
+		buttons: (self convertEventButtonState: evt);
+		position: evt position asVector2;
+		delta: (evt endPoint - evt startPoint) asVector2;
+		yourself).
+	evt hand newKeyboardFocus: self.
+]
+
+{ #category : #'event handling' }
+WDGFWorldMorph >> mouseUp: evt [
+	self enqueueConvertedEvent: (WDGFMouseButtonReleaseEvent new
+		modifiers: (self convertEventModifiers: evt);
+		buttons: (self convertEventButtonState: evt);
+		position: evt position asVector2;
+		button: (self convertEventButton: evt);
+		yourself).
+	evt hand newKeyboardFocus: self.
+	
+]
+
+{ #category : #'event handling' }
+WDGFWorldMorph >> mouseWheel: evt [
+	| convertedEvent |
+	convertedEvent := WDGFMouseWheelEvent new.
+	
+	evt isUp ifTrue: [ convertedEvent scrollVertical: 1 ].
+	evt isDown ifTrue: [ convertedEvent scrollVertical: -1 ].
+	evt isLeft ifTrue: [ convertedEvent scrollHorizontal: -1 ].
+	evt isRight ifTrue: [ convertedEvent scrollHorizontal: 1 ].
+	
+	self enqueueConvertedEvent: convertedEvent.
+	evt wasHandled: true
 ]
 
 { #category : #accessing }
@@ -60,6 +173,8 @@ WDGFWorldMorph >> step [
 	lastStepTime ifNil: [ lastStepTime := Time monotonicMicrosecondClockValue ].
 	currentStepTime := Time monotonicMicrosecondClockValue.
 	deltaTime := (currentStepTime - lastStepTime) * 1e-6 min: 0.125.
+	
+	self dispatchQueuedEvents.
 	wodenWorld ifNotNil: [
 		wodenWorld updateWithDeltaTime: deltaTime.
 		self camera: self selectCurrentCamera.
