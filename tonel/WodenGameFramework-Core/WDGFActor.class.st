@@ -125,9 +125,59 @@ WDGFActor >> onEndPlayDo: aBlock [
 	^ self onMessage: #endPlay do: aBlock
 ]
 
+{ #category : #'input events' }
+WDGFActor >> onGamepadAxisEventDo: aBlock [
+	^ self onMessage: #gamepadAxisEvent: do: aBlock
+]
+
+{ #category : #'input events' }
+WDGFActor >> onGamepadButtonPressEventDo: aBlock [
+	^ self onMessage: #gamepadButtonPressEvent: do: aBlock
+]
+
+{ #category : #'input events' }
+WDGFActor >> onGamepadButtonReleaseEventDo: aBlock [
+	^ self onMessage: #gamepadButtonReleaseEvent: do: aBlock
+]
+
+{ #category : #'input events' }
+WDGFActor >> onKeyDownEventDo: aBlock [
+	^ self onMessage: #keyDownEvent: do: aBlock
+]
+
+{ #category : #'input events' }
+WDGFActor >> onKeyUpEventDo: aBlock [
+	^ self onMessage: #keyUpEvent: do: aBlock
+]
+
 { #category : #message }
 WDGFActor >> onMessage: selector do: aBlock [
 	^ self messageSubscriptions addFor: selector doing: aBlock
+]
+
+{ #category : #'input events' }
+WDGFActor >> onMouseButtonPressEventDo: aBlock [
+	^ self onMessage: #mouseButtonPressEvent: do: aBlock
+]
+
+{ #category : #'input events' }
+WDGFActor >> onMouseButtonReleaseEventDo: aBlock [
+	^ self onMessage: #mouseButtonReleaseEvent: do: aBlock
+]
+
+{ #category : #'input events' }
+WDGFActor >> onMouseMoveEventDo: aBlock [
+	^ self onMessage: #mouseMoveEvent: do: aBlock
+]
+
+{ #category : #'input events' }
+WDGFActor >> onMouseWheelEventDo: aBlock [
+	^ self onMessage: #mouseWheelEvent: do: aBlock
+]
+
+{ #category : #'input events' }
+WDGFActor >> onTextInputEventDo: aBlock [
+	^ self onMessage: #textInputEvent: do: aBlock
 ]
 
 { #category : #'game events' }

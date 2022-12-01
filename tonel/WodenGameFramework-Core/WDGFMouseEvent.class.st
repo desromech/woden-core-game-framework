@@ -28,7 +28,7 @@ WDGFMouseEvent >> buttons: anObject [
 WDGFMouseEvent >> initialize [
 	super initialize.
 	modifiers := WDGFInputStateModifiers new.
-	buttons := 0.
+	buttons := WDGFInputMouseButtonState new.
 ]
 
 { #category : #accessing }

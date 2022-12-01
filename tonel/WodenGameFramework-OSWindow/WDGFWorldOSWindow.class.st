@@ -40,6 +40,17 @@ WDGFWorldOSWindow >> convertModifiers: osWindowModifiers [
 ]
 
 { #category : #events }
+WDGFWorldOSWindow >> convertMouseButtonState: osWindowButtonState [
+	^ WDGFInputMouseButtonState new
+		leftButton: osWindowButtonState button1;
+		middleButton: osWindowButtonState button2;
+		rightButton: osWindowButtonState button3;
+		extraButton: osWindowButtonState button4;
+		extraButton2: osWindowButtonState button5;
+		yourself
+]
+
+{ #category : #events }
 WDGFWorldOSWindow >> dispatchQueuedEvents [
 	| inputSubsystem |
 	inputSubsystem := wodenWorld ifNotNil: [ :world | world getOrCreateSubsystemWithClass: WDGFInputSubsystem ].
@@ -139,6 +150,7 @@ WDGFWorldOSWindow >> onKeyUp: anEvent [
 WDGFWorldOSWindow >> onMouseButtonPress: anEvent [
 	self enqueueConvertedEvent: (WDGFMouseButtonPressEvent new
 		modifiers: (self convertModifiers: anEvent modifiers);
+		buttons: (self convertMouseButtonState: anEvent buttons);
 		position: (Vector2 x: anEvent position x y: anEvent position y);
 		button: anEvent button;
 		yourself)
@@ -148,6 +160,7 @@ WDGFWorldOSWindow >> onMouseButtonPress: anEvent [
 WDGFWorldOSWindow >> onMouseButtonRelease: anEvent [
 	self enqueueConvertedEvent: (WDGFMouseButtonReleaseEvent new
 		modifiers: (self convertModifiers: anEvent modifiers);
+		buttons: (self convertMouseButtonState: anEvent buttons);
 		position: (Vector2 x: anEvent position x y: anEvent position y);
 		button: anEvent button;
 		yourself)
@@ -157,6 +170,7 @@ WDGFWorldOSWindow >> onMouseButtonRelease: anEvent [
 WDGFWorldOSWindow >> onMouseMove: anEvent [
 	self enqueueConvertedEvent: (WDGFMouseMoveEvent new
 		modifiers: (self convertModifiers: anEvent modifiers);
+		buttons: (self convertMouseButtonState: anEvent buttons);
 		position: (Vector2 x: anEvent position x y: anEvent position y);
 		delta: (Vector2 x: anEvent delta x y: anEvent delta y);
 		yourself)
@@ -164,6 +178,13 @@ WDGFWorldOSWindow >> onMouseMove: anEvent [
 
 { #category : #events }
 WDGFWorldOSWindow >> onMouseWheel: anEvent [
+	self enqueueConvertedEvent: (WDGFMouseWheelEvent new
+		modifiers: (self convertModifiers: anEvent modifiers);
+		buttons: (self convertMouseButtonState: anEvent buttons);
+		position: (Vector2 x: anEvent position x y: anEvent position y);
+		scrollHorizontal: anEvent scrollHorizontal;
+		scrollVertical: anEvent scrollVertical;
+		yourself)
 ]
 
 { #category : #events }

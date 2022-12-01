@@ -5,8 +5,8 @@ Class {
 	#name : #WDGFMouseWheelEvent,
 	#superclass : #WDGFMouseEvent,
 	#instVars : [
-		'verticalScroll',
-		'horizontalScroll'
+		'scrollHorizontal',
+		'scrollVertical'
 	],
 	#category : #'WodenGameFramework-Core-Events'
 }
@@ -17,25 +17,25 @@ WDGFMouseWheelEvent class >> inputEventMessageName [
 ]
 
 { #category : #accessing }
-WDGFMouseWheelEvent >> horizontalScroll [
+WDGFMouseWheelEvent >> scrollHorizontal [
 
-	^ horizontalScroll
+	^ scrollHorizontal
 ]
 
 { #category : #accessing }
-WDGFMouseWheelEvent >> horizontalScroll: anObject [
+WDGFMouseWheelEvent >> scrollHorizontal: anObject [
 
-	horizontalScroll := anObject
+	scrollHorizontal := anObject
 ]
 
 { #category : #accessing }
-WDGFMouseWheelEvent >> verticalScroll [
+WDGFMouseWheelEvent >> scrollVertical [
 
-	^ verticalScroll
+	^ scrollVertical
 ]
 
 { #category : #accessing }
-WDGFMouseWheelEvent >> verticalScroll: anObject [
+WDGFMouseWheelEvent >> scrollVertical: anObject [
 
-	verticalScroll := anObject
+	scrollVertical := anObject
 ]
