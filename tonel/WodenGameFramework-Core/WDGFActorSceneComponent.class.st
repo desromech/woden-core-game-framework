@@ -8,7 +8,8 @@ Class {
 		'transform',
 		'children',
 		'parent',
-		'sceneNode'
+		'sceneNode',
+		'sceneBackground'
 	],
 	#category : #'WodenGameFramework-Core-Actor'
 }
@@ -40,6 +41,11 @@ WDGFActorSceneComponent >> addedToParent: aParent [
 ]
 
 { #category : #accessing }
+WDGFActorSceneComponent >> beSceneBackground [
+	self sceneBackground: true
+]
+
+{ #category : #accessing }
 WDGFActorSceneComponent >> children [
 	^ children ifNil: [ #() ]
 ]
@@ -48,11 +54,7 @@ WDGFActorSceneComponent >> children [
 WDGFActorSceneComponent >> initialize [
 	super initialize.
 	transform := TRSTransform3D identity.
-]
-
-{ #category : #testing }
-WDGFActorSceneComponent >> isBackgroundSceneComponent [
-	^ false
+	sceneBackground := false.
 ]
 
 { #category : #accessing }
@@ -96,7 +98,7 @@ WDGFActorSceneComponent >> privateRegisterInWorld [
 	sceneNode transform: transform.
 	
 	parent ifNil: [
-		self isBackgroundSceneComponent ifTrue: [ 
+		sceneBackground ifTrue: [ 
 			sceneSubsystem scene addBackground: sceneNode.
 		] ifFalse: [ 
 			sceneSubsystem scene add: sceneNode.		
@@ -116,6 +118,18 @@ WDGFActorSceneComponent >> scale [
 WDGFActorSceneComponent >> scale: newScale [
 	transform scale: newScale.
 	self transformChanged.
+]
+
+{ #category : #accessing }
+WDGFActorSceneComponent >> sceneBackground [
+
+	^ sceneBackground
+]
+
+{ #category : #accessing }
+WDGFActorSceneComponent >> sceneBackground: anObject [
+
+	sceneBackground := anObject
 ]
 
 { #category : #accessing }

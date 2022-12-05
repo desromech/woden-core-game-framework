@@ -70,6 +70,11 @@ WDGFWorldMorph >> getOrCreateDefaultCamera [
 ]
 
 { #category : #'event handling' }
+WDGFWorldMorph >> handlesKeyboard: evt [
+	^true
+]
+
+{ #category : #'event handling' }
 WDGFWorldMorph >> handlesMouseDown: anEvent [
 	^ anEvent wasHandled not
 ]
@@ -89,6 +94,15 @@ WDGFWorldMorph >> initialize [
 	super initialize.
 	playing := false.
 	convertedEventQueue := AtomicSharedQueue new.
+]
+
+{ #category : #'event handling' }
+WDGFWorldMorph >> keyDown: event [
+]
+
+{ #category : #'event handling' }
+WDGFWorldMorph >> keyUp: event [
+	
 ]
 
 { #category : #'event handling' }

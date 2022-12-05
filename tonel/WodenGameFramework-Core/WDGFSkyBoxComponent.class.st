@@ -28,11 +28,6 @@ WDGFSkyBoxComponent >> environmentMap: anObject [
 	]
 ]
 
-{ #category : #testing }
-WDGFSkyBoxComponent >> isBackgroundSceneComponent [
-	^ true
-]
-
 { #category : #hooks }
 WDGFSkyBoxComponent >> privateRegisterInWorld [
 	super privateRegisterInWorld.
