@@ -91,10 +91,15 @@ WDGFActorSceneComponent >> postCopy [
 ]
 
 { #category : #hooks }
+WDGFActorSceneComponent >> privateConstructSceneNode [
+	^ WDSceneNode new
+]
+
+{ #category : #hooks }
 WDGFActorSceneComponent >> privateRegisterInWorld [
 	| sceneSubsystem |
 	sceneSubsystem := ownerWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem.
-	sceneNode := WDSceneNode new.
+	sceneNode := self privateConstructSceneNode.
 	sceneNode transform: transform.
 	
 	parent ifNil: [
