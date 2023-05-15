@@ -14,3 +14,12 @@ WDGFWorld >> playInOSWindow [
 		wodenWorld: self;
 		open
 ]
+
+{ #category : #'*WodenGameFramework-OSWindow' }
+WDGFWorld >> playInVR [
+	self beginPlay.
+	^ WDGFWorldOSWindow new
+		vrEnabled: true;
+		wodenWorld: self;
+		open
+]
