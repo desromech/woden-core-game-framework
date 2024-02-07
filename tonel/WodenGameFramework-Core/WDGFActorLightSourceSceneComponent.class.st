@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'light'
 	],
-	#category : #'WodenGameFramework-Core-Actor'
+	#category : #'WodenGameFramework-Core-Components-Scene'
 }
 
 { #category : #'instance creation' }

@@ -8,7 +8,7 @@ Class {
 		'camera',
 		'isActive'
 	],
-	#category : #'WodenGameFramework-Core-Actor'
+	#category : #'WodenGameFramework-Core-Components-Scene'
 }
 
 { #category : #'instance creation' }

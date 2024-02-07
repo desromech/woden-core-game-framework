@@ -11,7 +11,7 @@ Class {
 		'sceneNode',
 		'sceneBackground'
 	],
-	#category : #'WodenGameFramework-Core-Actor'
+	#category : #'WodenGameFramework-Core-Components-Scene'
 }
 
 { #category : #adding }

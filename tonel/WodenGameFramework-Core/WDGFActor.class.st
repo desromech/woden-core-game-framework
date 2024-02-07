@@ -10,6 +10,8 @@ Class {
 		'messageSubscriptions',
 		'components',
 		'rootSceneComponent',
+		'collisionShapeComponent',
+		'collisionObjectComponent',
 		'wantsToTick',
 		'isRegisteredInWorld'
 	],
@@ -49,6 +51,30 @@ WDGFActor >> asGameFrameworkActor [
 { #category : #'game events' }
 WDGFActor >> beginPlay [
 	"This message is sent at the beginning of a level"
+]
+
+{ #category : #accessing }
+WDGFActor >> collisionObjectComponent [
+
+	^ collisionObjectComponent
+]
+
+{ #category : #accessing }
+WDGFActor >> collisionObjectComponent: anObject [
+
+	collisionObjectComponent := anObject
+]
+
+{ #category : #accessing }
+WDGFActor >> collisionShapeComponent [
+
+	^ collisionShapeComponent
+]
+
+{ #category : #accessing }
+WDGFActor >> collisionShapeComponent: anObject [
+
+	collisionShapeComponent := anObject
 ]
 
 { #category : #accessing }

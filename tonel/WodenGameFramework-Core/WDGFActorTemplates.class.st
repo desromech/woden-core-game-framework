@@ -43,6 +43,16 @@ WDGFActorTemplates class >> noclipCameraActor [
 	
 ]
 
+{ #category : #templates }
+WDGFActorTemplates class >> staticCameraWithPosition: position [
+	^ WDGFActor new
+		addComponent: (WDGFCameraComponent new
+			position: position;
+			isActive: true;
+			yourself);
+		yourself
+]
+
 { #category : #'see class side' }
 WDGFActorTemplates >> seeClassSide [
 ]

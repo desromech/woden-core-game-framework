@@ -1,3 +1,6 @@
+"
+I am a component that can be used for providing a sky box.
+"
 Class {
 	#name : #WDGFSkyBoxComponent,
 	#superclass : #WDGFActorSceneComponent,
@@ -6,7 +9,7 @@ Class {
 		'material',
 		'mesh'
 	],
-	#category : #'WodenGameFramework-Core-Actor'
+	#category : #'WodenGameFramework-Core-Components-Scene'
 }
 
 { #category : #'instance creation' }

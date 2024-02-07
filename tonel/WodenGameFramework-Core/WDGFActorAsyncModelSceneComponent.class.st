@@ -9,7 +9,7 @@ Class {
 		'elementSelector',
 		'asyncContext'
 	],
-	#category : #'WodenGameFramework-Core-Actor'
+	#category : #'WodenGameFramework-Core-Components-Scene'
 }
 
 { #category : #accessing }
