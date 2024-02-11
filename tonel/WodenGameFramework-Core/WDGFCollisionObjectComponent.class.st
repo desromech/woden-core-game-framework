@@ -8,7 +8,9 @@ Class {
 		'restitutionCoefficient',
 		'dynamicFrictionCoefficient',
 		'staticFrictionCoefficient',
-		'collisionObject'
+		'collisionObject',
+		'collisionGroup',
+		'collisionResponseGroupMask'
 	],
 	#category : #'WodenGameFramework-Core-Components-Physics'
 }
@@ -37,6 +39,8 @@ WDGFCollisionObjectComponent >> initialize [
 	restitutionCoefficient := 0.5.
 	dynamicFrictionCoefficient := 0.5.
 	staticFrictionCoefficient := 0.625.
+	collisionGroup := WDPCollisionMasks defaultCollisionGroup.
+	collisionResponseGroupMask := WDPCollisionMasks defaultCollisionResponseGroup.
 	
 ]
 
@@ -97,7 +101,9 @@ WDGFCollisionObjectComponent >> setupCollisionObject [
 		shape: shape;
 		restitutionCoefficient: restitutionCoefficient;
 		staticFrictionCoefficient: staticFrictionCoefficient;
-		dynamicFrictionCoefficient: dynamicFrictionCoefficient
+		dynamicFrictionCoefficient: dynamicFrictionCoefficient;
+		collisionGroup: collisionGroup;
+		collisionResponseGroupMask: collisionResponseGroupMask
 ]
 
 { #category : #accessing }
