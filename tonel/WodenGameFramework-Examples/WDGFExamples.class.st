@@ -135,14 +135,15 @@ WDGFExamples class >> exampleFallingBox [
 
 { #category : #examples }
 WDGFExamples class >> exampleFallingBoxAndFloor [
-	| fallingBoxActor floorActor lightSourceActor world |
+	| fallingBoxActor floorActor lightSourceActor world collisionMargin |
 	world := WDGFWorld new.
 
+	collisionMargin := 0.01.
 	fallingBoxActor := WDGFActor new
 		addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
 			addCubeWithWidth: 1.0 height: 1.0 depth: 1.0;
 			mesh));
-		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: 0.5);
+		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: 0.5 - collisionMargin);
 		addComponent: (WDGFRigidBodyObjectComponent mass: 1.0);
 		position: (Vector3 y: 1.0);
 		yourself.
@@ -152,7 +153,7 @@ WDGFExamples class >> exampleFallingBoxAndFloor [
 		addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
 			addCubeWithHalfExtent: (Vector3 x: 5 y: 0.1 z: 20);
 			mesh));
-		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: (Vector3 x: 5 y: 0.1 z: 20));
+		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: (Vector3 x: 5 y: 0.1 z: 20) - collisionMargin);
 		addComponent: (WDGFCollisionObjectComponent new);
 		position: (Vector3 y: -0.8);
 		yourself.
@@ -160,6 +161,7 @@ WDGFExamples class >> exampleFallingBoxAndFloor [
 	
 	lightSourceActor := WDGFActor new
 		addComponent: (WDGFActorLightSourceSceneComponent with: (WDPointLightSource new
+			castShadows: true;
 			color: (Vector3 x: 0.8 y: 0.8 z: 0.2);
 			intensity: 5.0;
 			influenceRadius: 4.0;
@@ -168,7 +170,7 @@ WDGFExamples class >> exampleFallingBoxAndFloor [
 		yourself.
 	world spawnActor: lightSourceActor.
 
-	world spawnActor: (WDGFActorTemplates staticCameraWithPosition: (Vector3 z: 3.0)).
+	world spawnActor: (WDGFActorTemplates staticCameraWithPosition: (Vector3 x: 0.0 y: 1.0 z: 5.0)).
 
 	world playInMorphic
 ]
