@@ -42,5 +42,5 @@ WDGFRigidBodyObjectComponent >> privateMakeCollisionObjectInstance [
 { #category : #'physics setup' }
 WDGFRigidBodyObjectComponent >> setupCollisionObject [
 	super setupCollisionObject.
-	collisionObject mass: mass
+	collisionObject mass: mass; computeMassDistribution
 ]
