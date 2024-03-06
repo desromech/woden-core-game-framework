@@ -45,10 +45,6 @@ WDGFCharacterBodyObjectComponent >> loadCollisionStateInto: aCollisionObject del
 	currentWalkingVelocity := aCollisionObject linearVelocity  * gravityMask.
 	walkingVelocityDelta := targetVelocity - currentWalkingVelocity.
 	walkingAcceleration := walkingVelocityDelta / walkAccelerationTime.
-	Transcript show: '----------------------------------'; cr.
-	Transcript show: 'tar '; show: targetVelocity; cr.
-	Transcript show: 'cur '; show: currentWalkingVelocity; cr.
-	Transcript show: 'acc '; show: walkingAcceleration; cr.
 
 	aCollisionObject internalAcceleration: walkingAcceleration.
 ]

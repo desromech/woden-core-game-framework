@@ -230,7 +230,7 @@ WDGFExamples class >> exampleFpsCharacterActor [
 		addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
 			addCubeWithHalfExtent: (Vector3 x: 20 y: 0.3 z: 20);
 			mesh));
-		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: (Vector3 x: 5 y: 0.1 z: 20));
+		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: (Vector3 x: 20 y: 0.3 z: 20));
 		addComponent: (WDGFCollisionObjectComponent new);
 		position: (Vector3 y: -0.8);
 		yourself.

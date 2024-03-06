@@ -25,8 +25,7 @@ WDGFActorTemplates class >> fpsCharacterActor [
 		addComponent: (WDGFActorSceneComponent new
 			addChildSceneComponent: cameraComponent;
 			yourself);
-		"addComponent: (WDGFCapsuleYCollisionShapeComponent height: 1.6 - 0.5 radius: 0.25);"
-		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: (Vector3 x: 0.25 y: 0.8 z: 0.25));
+		addComponent: (WDGFCapsuleYCollisionShapeComponent height: 1.6 - 0.6 radius: 0.3);
 		addComponent: bodyComponent;
 		addComponent: WDGFInputListenerComponent new;
 		yourself.
