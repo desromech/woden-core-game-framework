@@ -1,3 +1,6 @@
+"
+I am a game framework gamepad button press event.
+"
 Class {
 	#name : #WDGFGamepadButtonPressEvent,
 	#superclass : #WDGFGamepadButtonEvent,

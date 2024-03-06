@@ -1,3 +1,6 @@
+"
+I am a game framework gamepad button event.
+"
 Class {
 	#name : #WDGFGamepadButtonEvent,
 	#superclass : #WDGFInputEvent,
@@ -7,6 +10,11 @@ Class {
 	],
 	#category : #'WodenGameFramework-Core-Events'
 }
+
+{ #category : #testing }
+WDGFGamepadButtonEvent class >> isAbstract [
+	^ self == WDGFGamepadButtonEvent
+]
 
 { #category : #accessing }
 WDGFGamepadButtonEvent >> button [

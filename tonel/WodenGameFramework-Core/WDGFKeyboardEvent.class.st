@@ -11,6 +11,11 @@ Class {
 	#category : #'WodenGameFramework-Core-Events'
 }
 
+{ #category : #testing }
+WDGFKeyboardEvent class >> isAbstract [
+	^ self == WDGFKeyboardEvent
+]
+
 { #category : #initialization }
 WDGFKeyboardEvent >> initialize [
 	super initialize.

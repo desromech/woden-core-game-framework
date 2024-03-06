@@ -98,10 +98,18 @@ WDGFWorldMorph >> initialize [
 
 { #category : #'event handling' }
 WDGFWorldMorph >> keyDown: event [
+	self enqueueConvertedEvent: (WDGFKeyDownEvent new
+		modifiers: (self convertEventModifiers: event);
+		symbol: event key;
+		yourself)
 ]
 
 { #category : #'event handling' }
 WDGFWorldMorph >> keyUp: event [
+	self enqueueConvertedEvent: (WDGFKeyUpEvent new
+		modifiers: (self convertEventModifiers: event);
+		symbol: event key;
+		yourself)
 	
 ]
 

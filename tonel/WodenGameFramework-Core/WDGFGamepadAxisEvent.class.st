@@ -1,3 +1,6 @@
+"
+I am a game framework gamepad axis event.
+"
 Class {
 	#name : #WDGFGamepadAxisEvent,
 	#superclass : #WDGFInputEvent,

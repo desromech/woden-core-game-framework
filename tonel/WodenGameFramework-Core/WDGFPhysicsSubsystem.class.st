@@ -33,7 +33,7 @@ WDGFPhysicsSubsystem >> updateSingleTimeStep: delta [
 	ownerWorld isPlaying ifFalse: [ ^ self ].
 	
 	physicsWorld
-		loadCollisionStateFromModels;
+		loadCollisionStateFromModelsWithDeltaTime: delta;
 		updateWithDeltaTime: delta;
 		saveCollisionStateIntoModels
 ]

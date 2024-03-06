@@ -45,7 +45,7 @@ WDGFCollisionObjectComponent >> initialize [
 ]
 
 { #category : #'model updates' }
-WDGFCollisionObjectComponent >> loadCollisionStateInto: aCollisionObject [
+WDGFCollisionObjectComponent >> loadCollisionStateInto: aCollisionObject deltaTime: deltaTime [
 	owner ifNil: [ ^ self ].
 
 	aCollisionObject transform: owner transform

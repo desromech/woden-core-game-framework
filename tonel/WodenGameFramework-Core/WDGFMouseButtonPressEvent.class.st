@@ -1,3 +1,6 @@
+"
+I am a game framework mouse button press event.
+"
 Class {
 	#name : #WDGFMouseButtonPressEvent,
 	#superclass : #WDGFMouseButtonEvent,

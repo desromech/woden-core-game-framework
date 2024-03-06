@@ -221,6 +221,39 @@ WDGFExamples class >> exampleFallingBoxStack [
 	world playInMorphic
 ]
 
+{ #category : #examples }
+WDGFExamples class >> exampleFpsCharacterActor [
+	| floorActor lightSourceActor world |
+	world := WDGFWorld new.
+
+	floorActor := WDGFActor new
+		addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
+			addCubeWithHalfExtent: (Vector3 x: 20 y: 0.3 z: 20);
+			mesh));
+		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: (Vector3 x: 5 y: 0.1 z: 20));
+		addComponent: (WDGFCollisionObjectComponent new);
+		position: (Vector3 y: -0.8);
+		yourself.
+	world spawnActor: floorActor.
+	
+	lightSourceActor := WDGFActor new
+		addComponent: (WDGFActorLightSourceSceneComponent with: (WDPointLightSource new
+			castShadows: true;
+			color: (Vector3 x: 0.8 y: 0.8 z: 0.2);
+			intensity: 5.0;
+			influenceRadius: 20.0;
+			yourself));
+		position: (Vector3 x: 0 y: 1.5 z: 0);
+		yourself.
+	world spawnActor: lightSourceActor.
+
+	world spawnActor: (WDGFActorTemplates fpsCharacterActor
+		position: (Vector3 y: 2.0);
+		yourself).
+
+	world playInMorphic
+]
+
 { #category : #'see class side' }
 WDGFExamples >> seeClassSide [
 ]

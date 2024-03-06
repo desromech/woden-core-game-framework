@@ -1,3 +1,6 @@
+"
+I hold the states for the different mouse buttons.
+"
 Class {
 	#name : #WDGFInputMouseButtonState,
 	#superclass : #Object,

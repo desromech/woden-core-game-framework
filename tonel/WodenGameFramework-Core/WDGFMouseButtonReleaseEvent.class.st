@@ -1,3 +1,6 @@
+"
+I am a game framework mouse button release event.
+"
 Class {
 	#name : #WDGFMouseButtonReleaseEvent,
 	#superclass : #WDGFMouseButtonEvent,

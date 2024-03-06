@@ -7,6 +7,11 @@ Class {
 	#category : #'WodenGameFramework-Core-Components-Physics'
 }
 
+{ #category : #accessing }
+WDGFSphereCollisionShapeComponent class >> radius: radius [
+	^ self new radius: radius; yourself
+]
+
 { #category : #converting }
 WDGFSphereCollisionShapeComponent >> asValidCollisionShape [
 	^ WDPSphereCollisionShape radius: radius

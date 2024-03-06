@@ -8,6 +8,11 @@ Class {
 	#category : #'WodenGameFramework-Core-Components-Physics'
 }
 
+{ #category : #construction }
+WDGFAbstractCapsuleCollisionShapeComponent class >> height: height radius: radius [
+	^ self new height: height; radius: radius; yourself
+]
+
 { #category : #testing }
 WDGFAbstractCapsuleCollisionShapeComponent class >> isAbstract [
 	^ self == WDGFAbstractCapsuleCollisionShapeComponent

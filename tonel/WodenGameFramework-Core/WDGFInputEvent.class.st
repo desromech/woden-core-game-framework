@@ -12,6 +12,11 @@ WDGFInputEvent class >> inputEventMessageName [
 	^ self subclassResponsibility
 ]
 
+{ #category : #testing }
+WDGFInputEvent class >> isAbstract [
+	^ self == WDGFInputEvent
+]
+
 { #category : #'message name' }
 WDGFInputEvent >> inputEventMessageName [
 	^ self class inputEventMessageName

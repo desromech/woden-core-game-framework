@@ -10,6 +10,11 @@ Class {
 	#category : #'WodenGameFramework-Core-Events'
 }
 
+{ #category : #testing }
+WDGFMouseButtonEvent class >> isAbstract [
+	^ self == WDGFMouseButtonEvent
+]
+
 { #category : #accessing }
 WDGFMouseButtonEvent >> button [
 
