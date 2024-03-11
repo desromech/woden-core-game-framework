@@ -223,18 +223,39 @@ WDGFExamples class >> exampleFallingBoxStack [
 
 { #category : #examples }
 WDGFExamples class >> exampleFpsCharacterActor [
-	| floorActor lightSourceActor world |
+	| lightSourceActor world |
 	world := WDGFWorld new.
+	
+	{
+		AABox min: (Vector3 x: -10 y: -0.5 z: -10) max: (Vector3 x: 10 y: 0.0 z: 10).
+		AABox min: (Vector3 x: -10 y: 5.0 z: -10) max: (Vector3 x: 10 y: 5.0 z: 10).
 
-	floorActor := WDGFActor new
+		AABox min: (Vector3 x: -10 y: 0 z: 10) max: (Vector3 x: 10 y: 5.0 z: 10).
+		AABox min: (Vector3 x: -10 y: 0 z: -10) max: (Vector3 x: 10 y: 5.0 z: -10).
+
+		AABox min: (Vector3 x: -10 y: 0 z: -10) max: (Vector3 x: -10 y: 5.0 z: 10).
+		AABox min: (Vector3 x: 10 y: 0 z: -10) max: (Vector3 x: 10 y: 5.0 z: 10).
+
+		AABox min: (Vector3 x: -1 y: 0 z: -6) max: (Vector3 x: 1 y: 1.0 z: -5).
+	} do: [ :eachBox |
+		world spawnActor: (WDGFActor new
+			addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
+				addCubeWithHalfExtent: eachBox halfExtent;
+				mesh));
+			addComponent: (WDGFBoxCollisionShapeComponent halfExtent: eachBox halfExtent);
+			addComponent: (WDGFCollisionObjectComponent new);
+			position: eachBox center;
+			yourself)
+	].
+	
+	world spawnActor: (WDGFActor new
 		addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
-			addCubeWithHalfExtent: (Vector3 x: 20 y: 0.3 z: 20);
+			addCubeWithWidth: 0.25 height: 0.25 depth: 0.25;
 			mesh));
-		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: (Vector3 x: 20 y: 0.3 z: 20));
-		addComponent: (WDGFCollisionObjectComponent new);
-		position: (Vector3 y: -0.8);
-		yourself.
-	world spawnActor: floorActor.
+		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: 0.125);
+		addComponent: (WDGFRigidBodyObjectComponent mass: 1.0);
+		position: (Vector3 x: 0 y: 1.5 z: -3);
+		yourself).
 	
 	lightSourceActor := WDGFActor new
 		addComponent: (WDGFActorLightSourceSceneComponent with: (WDPointLightSource new
