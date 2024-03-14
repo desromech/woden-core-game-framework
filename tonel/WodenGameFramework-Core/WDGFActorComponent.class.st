@@ -71,6 +71,16 @@ WDGFActorComponent >> privateRegisterInWorld [
 	"Hook for component registration with a subsystem in the world."
 ]
 
+{ #category : #hooks }
+WDGFActorComponent >> privateUnregisterChildrenFromWorld [
+	self children do: [ :each | each unregisterFromWorld: ownerWorld ]
+]
+
+{ #category : #hooks }
+WDGFActorComponent >> privateUnregisterFromWorld [
+	"Hook for component registration with a subsystem in the world."
+]
+
 { #category : #'component registration' }
 WDGFActorComponent >> registerInWorld: aWorld [
 	ownerWorld == aWorld ifTrue: [ ^ self ].
@@ -85,4 +95,14 @@ WDGFActorComponent >> registerInWorld: aWorld [
 WDGFActorComponent >> removedFromActor: anActor [
 	self assert: owner == anActor.
 	owner := nil.
+]
+
+{ #category : #'component registration' }
+WDGFActorComponent >> unregisterFromWorld: aWorld [
+	ownerWorld == aWorld ifFalse: [ ^ self ].
+	self
+		privateUnregisterChildrenFromWorld;
+		privateUnregisterFromWorld.
+	ownerWorld := nil.
+	
 ]

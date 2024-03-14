@@ -27,7 +27,7 @@ WDGFAmbientLightProbeComponent >> lightProbe: anObject [
 { #category : #hooks }
 WDGFAmbientLightProbeComponent >> privateRegisterInWorld [
 	super privateRegisterInWorld.
-	(ownerWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem) scene
+	ownerWorld sceneSubsystem
 		ambientLighting: 0.0;
 		ambientLightProbe: lightProbe
 ]

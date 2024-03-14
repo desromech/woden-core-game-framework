@@ -82,6 +82,11 @@ WDGFActor >> components [
 	^ components ifNil: [ #() ]
 ]
 
+{ #category : #deleting }
+WDGFActor >> destroy [
+	self world ifNotNil: [ :world | world destroyActor: self ]
+]
+
 { #category : #'game events' }
 WDGFActor >> endPlay [
 	"This message is sent at the end of a level"
@@ -107,6 +112,11 @@ WDGFActor >> handle [
 { #category : #testing }
 WDGFActor >> hasRigidBody [
 	^ collisionObjectComponent isNotNil and: [ collisionObjectComponent isRigidBodyComponent ]
+]
+
+{ #category : #testing }
+WDGFActor >> hasSolidCollision [
+	^ collisionObjectComponent isNotNil and: [ collisionObjectComponent isSolidCollision ]
 ]
 
 { #category : #initialization }
@@ -362,6 +372,15 @@ WDGFActor >> transform [
 { #category : #accessing }
 WDGFActor >> transform: newTransform [
 	rootSceneComponent ifNotNil: [ rootSceneComponent transform: newTransform ]
+]
+
+{ #category : #'component registration' }
+WDGFActor >> unregisterFromSubsystemsInWorld: theWorld [
+	isRegisteredInWorld ifFalse: [ ^ self ].
+	wantsToTick ifTrue: [ self unsubscribeForTicking ].
+	rootSceneComponent ifNotNil: [ rootSceneComponent unregisterFromWorld: theWorld ].
+	self components do: [ :each | each unregisterFromWorld: theWorld ].
+	isRegisteredInWorld := false.
 ]
 
 { #category : #'system subscriptions' }

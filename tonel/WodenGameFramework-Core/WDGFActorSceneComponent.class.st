@@ -98,7 +98,7 @@ WDGFActorSceneComponent >> privateConstructSceneNode [
 { #category : #hooks }
 WDGFActorSceneComponent >> privateRegisterInWorld [
 	| sceneSubsystem |
-	sceneSubsystem := ownerWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem.
+	sceneSubsystem := ownerWorld sceneSubsystem.
 	sceneNode := self privateConstructSceneNode.
 	sceneNode transform: transform.
 	
@@ -112,6 +112,12 @@ WDGFActorSceneComponent >> privateRegisterInWorld [
 		parent sceneNode add: sceneNode
 	].
 
+]
+
+{ #category : #hooks }
+WDGFActorSceneComponent >> privateUnregisterFromWorld [
+	sceneNode removeFromScene.
+	sceneNode := nil.
 ]
 
 { #category : #accessing }
@@ -158,7 +164,7 @@ WDGFActorSceneComponent >> transform: aTransform [
 WDGFActorSceneComponent >> transformChanged [
 	sceneNode ifNotNil: [
 		sceneNode transform: transform.
-		(ownerWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem) sceneChanged
+		ownerWorld sceneSubsystem sceneChanged
 	]
 ]
 

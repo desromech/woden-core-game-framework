@@ -33,6 +33,11 @@ WDGFSceneSubsystem >> initialize [
 	cameraComponents := OrderedCollection new.
 ]
 
+{ #category : #adding }
+WDGFSceneSubsystem >> removeCameraComponent: aCameraComponent [
+	cameraComponents remove: aCameraComponent
+]
+
 { #category : #accessing }
 WDGFSceneSubsystem >> scene [
 

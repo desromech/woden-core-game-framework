@@ -38,6 +38,15 @@ WDGFWorld >> currentTime [
 	^ currentTime
 ]
 
+{ #category : #'actor lifecycle' }
+WDGFWorld >> destroyActor: anActor [
+	anActor handle world == self ifFalse: [ ^ self ].
+	
+	anActor unregisterFromSubsystemsInWorld: self.
+	anActor handle world: nil.
+	actors remove: anActor.
+]
+
 { #category : #messages }
 WDGFWorld >> enqueueMessage: aMessage [
 	self assert: aMessage nextMessage isNil.
@@ -111,6 +120,11 @@ WDGFWorld >> processAllPendingMessages [
 { #category : #queries }
 WDGFWorld >> rayCast: ray excludingActors: exclusionSet forFirstActorSuchThat: aPredicate [
 	^ self physicsSubsystem rayCast: ray excludingActors: exclusionSet forFirstActorSuchThat: aPredicate
+]
+
+{ #category : #accessing }
+WDGFWorld >> sceneSubsystem [
+	^ self getOrCreateSubsystemWithClass: WDGFSceneSubsystem
 ]
 
 { #category : #'actor lifecycle' }

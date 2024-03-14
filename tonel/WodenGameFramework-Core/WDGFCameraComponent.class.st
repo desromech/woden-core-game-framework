@@ -49,12 +49,16 @@ WDGFCameraComponent >> isActive: anObject [
 
 { #category : #hooks }
 WDGFCameraComponent >> privateRegisterInWorld [
-	| sceneSubsystem |
 	super privateRegisterInWorld.
 	camera ifNotNil: [ 
 		sceneNode cameras: { camera }
 	].
 
-	sceneSubsystem := ownerWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem.
-	sceneSubsystem addCameraComponent: self
+	ownerWorld sceneSubsystem addCameraComponent: self
+]
+
+{ #category : #hooks }
+WDGFCameraComponent >> privateUnregisterFromWorld [
+	super privateRegisterInWorld.
+	ownerWorld sceneSubsystem removeCameraComponent: self
 ]

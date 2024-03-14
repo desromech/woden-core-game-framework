@@ -248,14 +248,20 @@ WDGFExamples class >> exampleRoom [
 			yourself)
 	].
 	
-	world spawnActor: (WDGFActor new
-		addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
-			addCubeWithWidth: 0.25 height: 0.25 depth: 0.25;
-			mesh));
-		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: 0.125);
-		addComponent: (WDGFRigidBodyObjectComponent mass: 1.0);
-		position: (Vector3 x: 0 y: 1.5 z: -3);
-		yourself).
+	{
+		(Vector3 x: -1 y: 0.5 z: -3).
+		(Vector3 x: 0 y: 0.5 z: -3).
+		(Vector3 x: 1 y: 0.5 z: -3).
+	} do: [ :eachPosition |
+		world spawnActor: (WDGFActor new
+			addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
+				addCubeWithHalfExtent: (Vector3 withAll: 0.150);
+				mesh));
+			addComponent: (WDGFBoxCollisionShapeComponent halfExtent: (Vector3 withAll: 0.150));
+			addComponent: (WDGFRigidBodyObjectComponent mass: 1.0);
+			position: eachPosition;
+			yourself).
+	].
 	
 	lightSourceActor := WDGFActor new
 		addComponent: (WDGFActorLightSourceSceneComponent with: (WDPointLightSource new

@@ -7,7 +7,11 @@ Class {
 	#instVars : [
 		'cameraComponent',
 		'cameraAngles',
-		'pickedObject'
+		'pickedObject',
+		'isPreparingTeleport',
+		'lastValidTeleportDestination',
+		'lastValidTeleportDestinationNormal',
+		'teleportDestinationIndicator'
 	],
 	#category : #'WodenGameFramework-Core-Actor-Character'
 }
@@ -17,10 +21,82 @@ WDGFPlayerActor class >> defaultMaxPickableWeight [
 	^ 20
 ]
 
+{ #category : #defaults }
+WDGFPlayerActor class >> defaultMaxPickingDistance [
+	^ 2
+]
+
+{ #category : #defaults }
+WDGFPlayerActor class >> defaultMaxTeleportDistance [
+	^ 10
+]
+
+{ #category : #defaults }
+WDGFPlayerActor class >> defaultMaxTeleportSlopeCosine [
+	^ 60 degreeCos
+]
+
+{ #category : #'as yet unclassified' }
+WDGFPlayerActor class >> defaultTeleportIndicatorRadius [
+	^ 0.30
+]
+
+{ #category : #defaults }
+WDGFPlayerActor class >> defaultTeleportUpVector [
+	^ Vector3 y: 1
+]
+
+{ #category : #teleport }
+WDGFPlayerActor >> attemptToUpdateTeleportDestination [
+	| ray rayCastQueryResult teleportDestination teleportNormal slopeCosine |
+	ray := cameraComponent worldRayFrom: Vector3 zeros to: (Vector3 z: -1) * self class defaultMaxTeleportDistance.
+	rayCastQueryResult := self rayCast: ray forFirstActorSuchThat: [ :actor |
+		actor hasSolidCollision
+	].
+	rayCastQueryResult ifNil: [ ^ false ].
+
+	teleportNormal := rayCastQueryResult normal.
+	teleportDestination := ray pointAtDistance: rayCastQueryResult distance.
+	slopeCosine := teleportNormal dot: self class defaultTeleportUpVector.
+	slopeCosine < self class defaultMaxTeleportSlopeCosine ifTrue: [ ^ false ].
+
+	lastValidTeleportDestination := teleportDestination.
+	lastValidTeleportDestinationNormal := teleportNormal.
+	self updateTeleportDestinationIndicator.
+	^ true
+]
+
+{ #category : #teleport }
+WDGFPlayerActor >> beginTeleport [
+	isPreparingTeleport := true.
+	lastValidTeleportDestination := nil.
+	lastValidTeleportDestinationNormal := nil.
+	self attemptToUpdateTeleportDestination
+]
+
+{ #category : #teleport }
+WDGFPlayerActor >> endTeleport [
+	isPreparingTeleport ifFalse: [ self ].
+	self attemptToUpdateTeleportDestination ifTrue: [ 
+		self performTeleport
+	].
+
+	teleportDestinationIndicator destroy.
+	teleportDestinationIndicator := nil.
+
+	isPreparingTeleport := false.
+	lastValidTeleportDestination := nil.
+	lastValidTeleportDestinationNormal := nil.
+	
+]
+
 { #category : #initialization }
 WDGFPlayerActor >> initialize [
 	super initialize.
 	cameraAngles := Vector3 zeros.
+	isPreparingTeleport := false.
+	lastValidTeleportDestination := nil.
+	lastValidTeleportDestinationNormal := nil.
 
 ]
 
@@ -40,6 +116,9 @@ WDGFPlayerActor >> keyDownEvent: event [
 	].
 	event symbol = KeyboardKey E ifTrue: [
 		self pickOrThrowObjectInFront
+	].
+	event symbol = KeyboardKey T ifTrue: [
+		self beginTeleport
 	].
 	event symbol = KeyboardKey space ifTrue: [
 		self jump
@@ -73,6 +152,9 @@ WDGFPlayerActor >> keyUpEvent: event [
 		].
 	].
 
+	event symbol = KeyboardKey T ifTrue: [
+		self endTeleport
+	].
 ]
 
 { #category : #'input events' }
@@ -86,10 +168,15 @@ WDGFPlayerActor >> mouseMoveEvent: event [
 
 ]
 
+{ #category : #teleport }
+WDGFPlayerActor >> performTeleport [
+	Transcript show: 'TODO: teleport to '; show: lastValidTeleportDestination; cr.
+]
+
 { #category : #'picking - throwing' }
 WDGFPlayerActor >> pickObjectInFront [
 	| ray rayCastQueryResult |
-	ray := cameraComponent worldRayFrom: Vector3 zeros to: (Vector3 z: -2.0).
+	ray := cameraComponent worldRayFrom: Vector3 zeros to: (Vector3 z: -1) * self class defaultMaxPickingDistance.
 	rayCastQueryResult := self rayCast: ray forFirstActorSuchThat: [ :actor |
 		actor hasRigidBody and: [ actor mass <= self class defaultMaxPickableWeight ]
 	].
@@ -132,5 +219,26 @@ WDGFPlayerActor >> tick: deltaSeconds [
 	super tick: deltaSeconds.
 	cameraAngles x: (cameraAngles x clampBetween: Float halfPi negated and: Float halfPi).
 	cameraComponent orientation: (Quaternion xRotation: cameraAngles x).
-	self orientation: (Quaternion yRotation: cameraAngles y)
+	self orientation: (Quaternion yRotation: cameraAngles y).
+	isPreparingTeleport ifTrue: [ self attemptToUpdateTeleportDestination ].
+]
+
+{ #category : #teleport }
+WDGFPlayerActor >> updateTeleportDestinationIndicator [
+	lastValidTeleportDestination ifNil: [ ^ self ].
+
+	teleportDestinationIndicator ifNil: [
+		teleportDestinationIndicator := WDGFActor new
+			addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
+				currentMaterial: (WDUnlitMaterial new
+					alphaMode: #BLEND;
+					colorFactor: ((Color fromHexString: '#D4821F') alpha: 0.3);
+					yourself);
+				addUVSphereWithRadius: self class defaultTeleportIndicatorRadius segments: 16 slices: 16;
+				mesh));
+			yourself.
+		self world spawnActor: teleportDestinationIndicator
+	].
+
+	teleportDestinationIndicator position: lastValidTeleportDestination
 ]

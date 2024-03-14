@@ -44,6 +44,11 @@ WDGFCollisionObjectComponent >> initialize [
 	
 ]
 
+{ #category : #testing }
+WDGFCollisionObjectComponent >> isSolidCollision [
+	^ true
+]
+
 { #category : #'model updates' }
 WDGFCollisionObjectComponent >> loadCollisionStateInto: aCollisionObject deltaTime: deltaTime [
 	owner ifNil: [ ^ self ].
