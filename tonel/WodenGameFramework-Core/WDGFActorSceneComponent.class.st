@@ -195,7 +195,7 @@ WDGFActorSceneComponent >> transformPositionToWorld: position [
 { #category : #transforms }
 WDGFActorSceneComponent >> transformVectorToWorld: vector [
 	| parentVector |
-	parentVector := transform transformPosition: vector.
+	parentVector := transform transformVector3: vector.
 	^ parent
 		ifNil: [parentVector]
 		ifNotNil: [parent transformVectorToWorld: parentVector]

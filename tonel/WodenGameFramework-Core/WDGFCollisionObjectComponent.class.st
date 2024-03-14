@@ -21,6 +21,16 @@ WDGFCollisionObjectComponent >> addedToActor: anActor [
 	anActor collisionObjectComponent: self
 ]
 
+{ #category : #accessing }
+WDGFCollisionObjectComponent >> angularVelocity [
+	^ collisionObject angularVelocity
+]
+
+{ #category : #accessing }
+WDGFCollisionObjectComponent >> angularVelocity: aVector3 [
+	collisionObject angularVelocity: aVector3
+]
+
 { #category : #update }
 WDGFCollisionObjectComponent >> applyForce: force [
 	collisionObject ifNotNil: [ collisionObject applyForce: force ]
@@ -80,6 +90,16 @@ WDGFCollisionObjectComponent >> initialize [
 { #category : #testing }
 WDGFCollisionObjectComponent >> isSolidCollision [
 	^ true
+]
+
+{ #category : #accessing }
+WDGFCollisionObjectComponent >> linearVelocity [
+	^ collisionObject linearVelocity
+]
+
+{ #category : #accessing }
+WDGFCollisionObjectComponent >> linearVelocity: aVector3 [
+	collisionObject linearVelocity: aVector3
 ]
 
 { #category : #'model updates' }

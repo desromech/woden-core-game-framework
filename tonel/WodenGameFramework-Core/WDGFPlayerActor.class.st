@@ -47,6 +47,11 @@ WDGFPlayerActor class >> defaultTeleportUpVector [
 	^ Vector3 y: 1
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFPlayerActor class >> defaultThrowSpeed [
+	^ 10.0
+]
+
 { #category : #teleport }
 WDGFPlayerActor >> attemptToUpdateTeleportDestination [
 	| ray rayCastQueryResult teleportDestination teleportNormal slopeCosine |
@@ -188,7 +193,7 @@ WDGFPlayerActor >> pickObjectInFront [
 		addComponent: (WDGFPhysicsHoldObjectConstraintComponent new
 			firstObject: cameraComponent;
 			secondObject: pickedObject;
-			targetRelativePosition: (Vector3 z: 1.0);
+			targetRelativePosition: (Vector3 z: -1.0);
 			yourself);
 		yourself.
 	pickedObject collisionActorExclusionSet: { self }.
@@ -219,9 +224,12 @@ WDGFPlayerActor >> setupComponents [
 
 { #category : #'picking - throwing' }
 WDGFPlayerActor >> throwPickedObject [
-	Transcript show: 'TODO: Throw picked object'; cr.
 	pickedObjectConstraintActor destroy.
-	pickedObject collisionActorExclusionSet: #().
+	pickedObject
+		collisionActorExclusionSet: #();
+		position: (cameraComponent transformPositionToWorld: (Vector3 z: -1.0));
+		linearVelocity: self linearVelocity + ((cameraComponent transformVectorToWorld: (Vector3 z: -1.0)) * self class defaultThrowSpeed);
+		angularVelocity: self angularVelocity.
 
 	pickedObject := nil.
 	pickedObjectConstraintActor := nil.

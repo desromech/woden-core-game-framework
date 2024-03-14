@@ -43,6 +43,18 @@ WDGFActor >> addComponent: anObjectConvertibleToComponent [
 	^ aComponent
 ]
 
+{ #category : #accessing }
+WDGFActor >> angularVelocity [
+	^ collisionObjectComponent
+		ifNil: [ Vector3 zeros ]
+		ifNotNil: [ collisionObjectComponent angularVelocity ]
+]
+
+{ #category : #accessing }
+WDGFActor >> angularVelocity: aVector3 [
+	collisionObjectComponent ifNotNil: [ collisionObjectComponent angularVelocity: aVector3 ]
+]
+
 { #category : #utility }
 WDGFActor >> applyForce: force [
 	collisionObjectComponent ifNotNil: [ collisionObjectComponent applyForce: force ]
@@ -159,6 +171,18 @@ WDGFActor >> keyDownEvent: anEvent [
 
 { #category : #'input events' }
 WDGFActor >> keyUpEvent: anEvent [
+]
+
+{ #category : #accessing }
+WDGFActor >> linearVelocity [
+	^ collisionObjectComponent
+		ifNil: [ Vector3 zeros ]
+		ifNotNil: [ collisionObjectComponent linearVelocity ]
+]
+
+{ #category : #accessing }
+WDGFActor >> linearVelocity: aVector3 [
+	collisionObjectComponent ifNotNil: [ collisionObjectComponent linearVelocity: aVector3 ]
 ]
 
 { #category : #accessing }
