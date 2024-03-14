@@ -36,6 +36,24 @@ WDGFCollisionObjectComponent >> applyTorque: torque [
 	collisionObject ifNotNil: [ collisionObject applyTorque: torque ]
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFCollisionObjectComponent >> collisionActorExclusionSet: actorSet [
+	| newExclusionSet |
+	collisionObject ifNil: [ ^ self ].
+
+	newExclusionSet := actorSet collect: [ :eachActor |
+		eachActor collisionObjectComponent ifNotNil: [ :comp | comp collisionObject ]
+	] thenSelect: [ :each | each isNotNil ].
+
+	collisionObject collisionObjectExclusionSet: newExclusionSet.
+	
+]
+
+{ #category : #accessing }
+WDGFCollisionObjectComponent >> collisionObject [
+	^ collisionObject
+]
+
 { #category : #accessing }
 WDGFCollisionObjectComponent >> dynamicFrictionCoefficient [
 

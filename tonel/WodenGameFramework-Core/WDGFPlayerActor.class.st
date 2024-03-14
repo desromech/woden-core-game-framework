@@ -191,7 +191,7 @@ WDGFPlayerActor >> pickObjectInFront [
 			targetRelativePosition: (Vector3 z: 1.0);
 			yourself);
 		yourself.
-	Transcript show: pickedObject; cr.
+	pickedObject collisionActorExclusionSet: { self }.
 	self world spawnActor: pickedObjectConstraintActor
 	
 
@@ -221,6 +221,8 @@ WDGFPlayerActor >> setupComponents [
 WDGFPlayerActor >> throwPickedObject [
 	Transcript show: 'TODO: Throw picked object'; cr.
 	pickedObjectConstraintActor destroy.
+	pickedObject collisionActorExclusionSet: #().
+
 	pickedObject := nil.
 	pickedObjectConstraintActor := nil.
 	

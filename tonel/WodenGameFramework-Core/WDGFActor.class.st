@@ -73,6 +73,11 @@ WDGFActor >> boundingBox [
 	^ self localBoundingBox transformedWith: self transform
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFActor >> collisionActorExclusionSet: aSetOfActors [
+	collisionObjectComponent ifNotNil: [ collisionObjectComponent collisionActorExclusionSet: aSetOfActors ]
+]
+
 { #category : #accessing }
 WDGFActor >> collisionObjectComponent [
 
