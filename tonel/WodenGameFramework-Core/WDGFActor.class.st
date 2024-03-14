@@ -43,6 +43,21 @@ WDGFActor >> addComponent: anObjectConvertibleToComponent [
 	^ aComponent
 ]
 
+{ #category : #utility }
+WDGFActor >> applyForce: force [
+	collisionObjectComponent ifNotNil: [ collisionObjectComponent applyForce: force ]
+]
+
+{ #category : #utility }
+WDGFActor >> applyForce: force inPosition: position [
+	collisionObjectComponent ifNotNil: [ collisionObjectComponent applyForce: force inPosition: position ]
+]
+
+{ #category : #utility }
+WDGFActor >> applyTorque: torque [
+	collisionObjectComponent ifNotNil: [ collisionObjectComponent applyTorque: torque ]
+]
+
 { #category : #converting }
 WDGFActor >> asGameFrameworkActor [
 	^ self
@@ -390,6 +405,12 @@ WDGFActor >> transform [
 { #category : #accessing }
 WDGFActor >> transform: newTransform [
 	rootSceneComponent ifNotNil: [ rootSceneComponent transform: newTransform ]
+]
+
+{ #category : #utility }
+WDGFActor >> transformLocalPosition: localPosition [
+	^ self transform transformPosition: localPosition 
+	
 ]
 
 { #category : #'component registration' }

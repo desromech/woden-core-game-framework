@@ -21,6 +21,21 @@ WDGFCollisionObjectComponent >> addedToActor: anActor [
 	anActor collisionObjectComponent: self
 ]
 
+{ #category : #update }
+WDGFCollisionObjectComponent >> applyForce: force [
+	collisionObject ifNotNil: [ collisionObject applyForce: force ]
+]
+
+{ #category : #update }
+WDGFCollisionObjectComponent >> applyForce: force inPosition: position [
+	collisionObject ifNotNil: [ collisionObject applyForce: force inPosition: position ]
+]
+
+{ #category : #update }
+WDGFCollisionObjectComponent >> applyTorque: torque [
+	collisionObject ifNotNil: [ collisionObject applyTorque: torque ]
+]
+
 { #category : #accessing }
 WDGFCollisionObjectComponent >> dynamicFrictionCoefficient [
 
@@ -75,10 +90,14 @@ WDGFCollisionObjectComponent >> privateMakeCollisionObjectInstance [
 
 { #category : #hooks }
 WDGFCollisionObjectComponent >> privateRegisterInWorld [
-	| physicsSubsystem |
-	physicsSubsystem := ownerWorld physicsSubsystem.
 	self privateConstructCollisionObject.
-	physicsSubsystem physicsWorld addCollisionObject: collisionObject
+	ownerWorld physicsSubsystem physicsWorld add: collisionObject
+]
+
+{ #category : #hooks }
+WDGFCollisionObjectComponent >> privateUnregisterFromWorld [
+	ownerWorld physicsSubsystem physicsWorld remove: collisionObject.
+	collisionObject := nil
 ]
 
 { #category : #accessing }

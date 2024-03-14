@@ -275,9 +275,9 @@ WDGFExamples class >> exampleRoom [
 	} do: [ :eachPosition |
 		world spawnActor: (WDGFActor new
 			addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
-				addCubeWithHalfExtent: (Vector3 withAll: 0.150);
+				addCubeWithHalfExtent: 0.150;
 				mesh));
-			addComponent: (WDGFBoxCollisionShapeComponent halfExtent: (Vector3 withAll: 0.150));
+			addComponent: (WDGFBoxCollisionShapeComponent halfExtent: 0.150);
 			addComponent: (WDGFRigidBodyObjectComponent mass: 1.0);
 			position: eachPosition;
 			yourself).
@@ -297,6 +297,106 @@ WDGFExamples class >> exampleRoom [
 	world spawnActor: (WDGFPlayerActor new
 		position: (Vector3 y: 2.0);
 		yourself).
+
+	world playInMorphic
+]
+
+{ #category : #examples }
+WDGFExamples class >> exampleSuspendedBoxWithRod [
+	| suspendedBox anchorBox lightSourceActor world constraintActor |
+	world := WDGFWorld new.
+
+	suspendedBox := WDGFActor new
+		addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
+			addCubeWithHalfExtent: 0.5;
+			mesh));
+		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: 0.5);
+		addComponent: (WDGFRigidBodyObjectComponent mass: 1.0);
+		position: (Vector3 x: 1.0 y: 1.0);
+		yourself.
+	world spawnActor: suspendedBox.
+
+	anchorBox := WDGFActor new
+		addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
+			addCubeWithHalfExtent: 0.1;
+			mesh));
+		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: 0.5);
+		addComponent: (WDGFCollisionObjectComponent new);
+		position: (Vector3 y: 1.0);
+		yourself.
+	world spawnActor: anchorBox.
+
+	constraintActor := WDGFActor new
+		addComponent: (WDGFPhysicsRodConstraintComponent new
+			firstObject: anchorBox;
+			secondObject: suspendedBox;
+			secondObjectLocalAnchorPoint: (Vector3 x: -0.5);
+			yourself);
+		yourself.
+	world spawnActor: constraintActor.
+
+	lightSourceActor := WDGFActor new
+		addComponent: (WDGFActorLightSourceSceneComponent with: (WDPointLightSource new
+			castShadows: true;
+			color: (Vector3 x: 0.8 y: 0.8 z: 0.2);
+			intensity: 5.0;
+			influenceRadius: 4.0;
+			yourself));
+		position: (Vector3 x: 0 y: 1.5 z: 2);
+		yourself.
+	world spawnActor: lightSourceActor.
+
+	world spawnActor: (WDGFActorTemplates staticCameraWithPosition: (Vector3 x: 0.0 y: 1.0 z: 5.0)).
+
+	world playInMorphic
+]
+
+{ #category : #examples }
+WDGFExamples class >> exampleSuspendedBoxWithRope [
+	| suspendedBox anchorBox lightSourceActor world constraintActor |
+	world := WDGFWorld new.
+
+	suspendedBox := WDGFActor new
+		addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
+			addCubeWithHalfExtent: 0.5;
+			mesh));
+		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: 0.5);
+		addComponent: (WDGFRigidBodyObjectComponent mass: 1.0);
+		position: (Vector3 x: 1.0 y: 1.0);
+		yourself.
+	world spawnActor: suspendedBox.
+
+	anchorBox := WDGFActor new
+		addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
+			addCubeWithHalfExtent: 0.1;
+			mesh));
+		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: 0.5);
+		addComponent: (WDGFCollisionObjectComponent new);
+		position: (Vector3 y: 1.0);
+		yourself.
+	world spawnActor: anchorBox.
+
+	constraintActor := WDGFActor new
+		addComponent: (WDGFPhysicsRopeConstraintComponent new
+			firstObject: anchorBox;
+			secondObject: suspendedBox;
+			secondObjectLocalAnchorPoint: (Vector3 x: -0.5);
+			yourself);
+		yourself.
+	world spawnActor: constraintActor.
+
+	lightSourceActor := WDGFActor new
+		addComponent: (WDGFActorLightSourceSceneComponent with: (WDPointLightSource new
+			castShadows: true;
+			color: (Vector3 x: 0.8 y: 0.8 z: 0.2);
+			intensity: 5.0;
+			influenceRadius: 4.0;
+			yourself));
+		position: (Vector3 x: 0 y: 1.5 z: 2);
+		yourself.
+	world spawnActor: lightSourceActor.
+
+	world spawnActor: (WDGFActorTemplates staticCameraWithPosition: (Vector3 x: 0.0 y: 1.0 z: 5.0)).
 
 	world playInMorphic
 ]
