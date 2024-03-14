@@ -178,6 +178,12 @@ WDGFActorSceneComponent >> transformNormalVectorToWorld: normalVector [
 ]
 
 { #category : #transforms }
+WDGFActorSceneComponent >> transformPositionToActorLocal: position [
+	parent ifNil: [ ^ position ].
+	^ parent transformPositionToActorLocal: (transform transformPosition: position)
+]
+
+{ #category : #transforms }
 WDGFActorSceneComponent >> transformPositionToWorld: position [
 	| parentPosition |
 	parentPosition := transform transformPosition: position.

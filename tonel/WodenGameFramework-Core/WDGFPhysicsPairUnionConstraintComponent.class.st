@@ -9,6 +9,11 @@ Class {
 	#category : #'WodenGameFramework-Core-Components-Physics'
 }
 
+{ #category : #testing }
+WDGFPhysicsPairUnionConstraintComponent class >> isAbstract [
+	^ self == WDGFPhysicsPairUnionConstraintComponent
+]
+
 { #category : #accessing }
 WDGFPhysicsPairUnionConstraintComponent >> firstObject [
 

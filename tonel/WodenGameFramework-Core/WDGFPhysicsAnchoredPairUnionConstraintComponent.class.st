@@ -8,6 +8,11 @@ Class {
 	#category : #'WodenGameFramework-Core-Components-Physics'
 }
 
+{ #category : #testing }
+WDGFPhysicsAnchoredPairUnionConstraintComponent class >> isAbstract [
+	^ self == WDGFPhysicsAnchoredPairUnionConstraintComponent
+]
+
 { #category : #accessing }
 WDGFPhysicsAnchoredPairUnionConstraintComponent >> firstObjectLocalAnchorPoint [
 

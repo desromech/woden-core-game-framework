@@ -11,7 +11,8 @@ Class {
 		'isPreparingTeleport',
 		'lastValidTeleportDestination',
 		'lastValidTeleportDestinationNormal',
-		'teleportDestinationIndicator'
+		'teleportDestinationIndicator',
+		'pickedObjectConstraintActor'
 	],
 	#category : #'WodenGameFramework-Core-Actor-Character'
 }
@@ -183,7 +184,15 @@ WDGFPlayerActor >> pickObjectInFront [
 	rayCastQueryResult ifNil: [ ^ self ].
 	
 	pickedObject := rayCastQueryResult actor.
+	pickedObjectConstraintActor := WDGFActor new
+		addComponent: (WDGFPhysicsHoldObjectConstraintComponent new
+			firstObject: cameraComponent;
+			secondObject: pickedObject;
+			targetRelativePosition: (Vector3 z: 1.0);
+			yourself);
+		yourself.
 	Transcript show: pickedObject; cr.
+	self world spawnActor: pickedObjectConstraintActor
 	
 
 ]
@@ -211,7 +220,10 @@ WDGFPlayerActor >> setupComponents [
 { #category : #'picking - throwing' }
 WDGFPlayerActor >> throwPickedObject [
 	Transcript show: 'TODO: Throw picked object'; cr.
+	pickedObjectConstraintActor destroy.
 	pickedObject := nil.
+	pickedObjectConstraintActor := nil.
+	
 ]
 
 { #category : #'game events' }

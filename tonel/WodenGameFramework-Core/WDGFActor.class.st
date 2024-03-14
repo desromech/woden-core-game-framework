@@ -413,6 +413,12 @@ WDGFActor >> transformLocalPosition: localPosition [
 	
 ]
 
+{ #category : #utility }
+WDGFActor >> transformPositionToWorld: localPosition [
+	^ self transform transformPosition: localPosition 
+	
+]
+
 { #category : #'component registration' }
 WDGFActor >> unregisterFromSubsystemsInWorld: theWorld [
 	isRegisteredInWorld ifFalse: [ ^ self ].

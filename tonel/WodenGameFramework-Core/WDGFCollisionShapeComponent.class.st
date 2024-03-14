@@ -7,6 +7,11 @@ Class {
 	#category : #'WodenGameFramework-Core-Components-Physics'
 }
 
+{ #category : #testing }
+WDGFCollisionShapeComponent class >> isAbstract [
+	^ self == WDGFCollisionShapeComponent
+]
+
 { #category : #notifications }
 WDGFCollisionShapeComponent >> addedToActor: anActor [
 	super addedToActor: anActor.

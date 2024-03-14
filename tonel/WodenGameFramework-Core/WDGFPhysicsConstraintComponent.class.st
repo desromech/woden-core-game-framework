@@ -10,6 +10,11 @@ Class {
 	#category : #'WodenGameFramework-Core-Components-Physics'
 }
 
+{ #category : #testing }
+WDGFPhysicsConstraintComponent class >> isAbstract [
+	^ self == WDGFPhysicsConstraintComponent
+]
+
 { #category : #hooks }
 WDGFPhysicsConstraintComponent >> privateConstructPhysicsConstraint [
 	self subclassResponsibility
