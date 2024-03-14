@@ -135,25 +135,25 @@ WDGFPlayerActor >> keyDownEvent: event [
 { #category : #'input events' }
 WDGFPlayerActor >> keyUpEvent: event [
 	event symbol = KeyboardKey W ifTrue: [
-		walkingDirection < 0 ifTrue: [
+		walkingDirection z < 0 ifTrue: [
 			walkingDirection z: 0.
 		].
 	].
 
 	event symbol = KeyboardKey A ifTrue: [
-		walkingDirection < 0 ifTrue: [
+		walkingDirection x < 0 ifTrue: [
 			walkingDirection x: 0.
 		].
 	].
 
 	event symbol = KeyboardKey S ifTrue: [
-		walkingDirection > 0 ifTrue: [
+		walkingDirection z > 0 ifTrue: [
 			walkingDirection z: 0.
 		].
 	].
 	
 	event symbol = KeyboardKey D ifTrue: [
-		walkingDirection > 0 ifTrue: [
+		walkingDirection x > 0 ifTrue: [
 			walkingDirection x: 0.
 		].
 	].
