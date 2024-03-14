@@ -28,3 +28,8 @@ WDGFInputSubsystem >> initialize [
 WDGFInputSubsystem >> registerInputListener: anInputListener [
 	inputListeners add: anInputListener
 ]
+
+{ #category : #accessing }
+WDGFInputSubsystem >> updatePriority [
+	^ InputUpdatePriority
+]

@@ -110,6 +110,7 @@ WDGFActor >> initialize [
 	handle := WDGFActorHandle for: self.
 	isRegisteredInWorld := false.
 	wantsToTick := false.
+	self setupComponents
 ]
 
 { #category : #'input events' }
@@ -317,6 +318,11 @@ WDGFActor >> send: selector withArguments: arguments [
 		selector: selector;
 		arguments: arguments;
 		enqueue
+]
+
+{ #category : #initialization }
+WDGFActor >> setupComponents [
+	"This is a place for setting up different actor components."
 ]
 
 { #category : #'system subscriptions' }

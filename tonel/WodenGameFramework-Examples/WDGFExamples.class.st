@@ -222,7 +222,7 @@ WDGFExamples class >> exampleFallingBoxStack [
 ]
 
 { #category : #examples }
-WDGFExamples class >> exampleFpsCharacterActor [
+WDGFExamples class >> exampleRoom [
 	| lightSourceActor world |
 	world := WDGFWorld new.
 	
@@ -268,7 +268,7 @@ WDGFExamples class >> exampleFpsCharacterActor [
 		yourself.
 	world spawnActor: lightSourceActor.
 
-	world spawnActor: (WDGFActorTemplates fpsCharacterActor
+	world spawnActor: (WDGFPlayerActor new
 		position: (Vector3 y: 2.0);
 		yourself).
 

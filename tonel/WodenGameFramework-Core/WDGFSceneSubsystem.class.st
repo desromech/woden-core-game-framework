@@ -44,6 +44,11 @@ WDGFSceneSubsystem >> sceneChanged [
 	sceneChangedSubscriptions do: [ :each | each value ]
 ]
 
+{ #category : #accessing }
+WDGFSceneSubsystem >> updatePriority [
+	^ SceneUpdatePriority
+]
+
 { #category : #'as yet unclassified' }
 WDGFSceneSubsystem >> whenSceneChangedDo: aBlock [
 	sceneChangedSubscriptions add: aBlock

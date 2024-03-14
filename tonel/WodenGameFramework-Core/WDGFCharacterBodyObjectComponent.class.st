@@ -19,6 +19,7 @@ WDGFCharacterBodyObjectComponent >> initialize [
 
 { #category : #controlling }
 WDGFCharacterBodyObjectComponent >> jump [
+	Transcript show: 'TODO: jump'; cr.
 ]
 
 { #category : #accessing }

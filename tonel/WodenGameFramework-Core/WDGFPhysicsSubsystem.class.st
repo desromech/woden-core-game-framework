@@ -28,6 +28,11 @@ WDGFPhysicsSubsystem >> physicsWorld [
 	^ physicsWorld
 ]
 
+{ #category : #accessing }
+WDGFPhysicsSubsystem >> updatePriority [
+	^ PhysicsUpdatePriority
+]
+
 { #category : #initialization }
 WDGFPhysicsSubsystem >> updateSingleTimeStep: delta [
 	ownerWorld isPlaying ifFalse: [ ^ self ].

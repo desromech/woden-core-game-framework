@@ -7,8 +7,26 @@ Class {
 	#instVars : [
 		'ownerWorld'
 	],
+	#classVars : [
+		'DefaultUpdatePriority',
+		'InputUpdatePriority',
+		'PhysicsUpdatePriority',
+		'SceneUpdatePriority',
+		'TickUpdatePriority'
+	],
 	#category : #'WodenGameFramework-Core-Subsystem'
 }
+
+{ #category : #'class initialization' }
+WDGFSubsystem class >> initialize [
+	InputUpdatePriority := 1.
+	TickUpdatePriority := 2.
+	PhysicsUpdatePriority := 3.
+	
+	DefaultUpdatePriority := 10.
+	SceneUpdatePriority := 100.
+
+]
 
 { #category : #notifying }
 WDGFSubsystem >> beginPlay [
@@ -29,9 +47,13 @@ WDGFSubsystem >> ownerWorld [
 WDGFSubsystem >> postActorMessagesUpdateSingleTimeStep: delta [
 ]
 
+{ #category : #update }
+WDGFSubsystem >> prePhysicsUpdateSingleTimeStep: delta [
+]
+
 { #category : #accessing }
 WDGFSubsystem >> updatePriority [
-	^ 0
+	^ DefaultUpdatePriority
 ]
 
 { #category : #update }

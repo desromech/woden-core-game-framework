@@ -126,8 +126,12 @@ WDGFWorld >> subsystems [
 { #category : #update }
 WDGFWorld >> updateSingleTimeStep: delta [
 	currentTime := currentTime + delta.
+	subsystems do: [ :each | each prePhysicsUpdateSingleTimeStep: delta ].
+	self processAllPendingMessages.
+
 	subsystems do: [ :each | each updateSingleTimeStep: delta ].
 	self processAllPendingMessages.
+
 	subsystems do: [ :each | each postActorMessagesUpdateSingleTimeStep: delta ].
 ]
 

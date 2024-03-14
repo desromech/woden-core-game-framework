@@ -16,6 +16,14 @@ WDGFActorTickSubsystem >> initialize [
 	tickingActors := OrderedCollection new.
 ]
 
+{ #category : #update }
+WDGFActorTickSubsystem >> prePhysicsUpdateSingleTimeStep: delta [
+	| arguments |
+	ownerWorld isPlaying ifFalse: [ ^ self ].
+	arguments := { delta }.
+	tickingActors do: [ :each | each send: #tick: withArguments: arguments ].
+]
+
 { #category : #'system changes' }
 WDGFActorTickSubsystem >> subscribe: actor [
 	tickingActors add: actor
@@ -26,10 +34,7 @@ WDGFActorTickSubsystem >> unsubscribe: actor [
 	tickingActors remove: actor
 ]
 
-{ #category : #update }
-WDGFActorTickSubsystem >> updateSingleTimeStep: delta [
-	| arguments |
-	ownerWorld isPlaying ifFalse: [ ^ self ].
-	arguments := { delta }.
-	tickingActors do: [ :each | each send: #tick: withArguments: arguments ].
+{ #category : #accessing }
+WDGFActorTickSubsystem >> updatePriority [
+	^ TickUpdatePriority
 ]
