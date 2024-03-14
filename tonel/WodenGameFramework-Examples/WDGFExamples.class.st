@@ -223,24 +223,44 @@ WDGFExamples class >> exampleFallingBoxStack [
 
 { #category : #examples }
 WDGFExamples class >> exampleRoom [
-	| lightSourceActor world |
+	| floorMaterial ceilingMaterial wallMaterial lightSourceActor world |
 	world := WDGFWorld new.
 	
+	floorMaterial := WDMetallicRoughnessMaterial new
+		baseColorTexture: WDSceneExamples checkboardTexture;
+		normalTexture: WDSceneExamples checkboardNormalTexture;
+		roughnessFactor: 0.4;
+		metallicFactor: 0.0;
+		yourself.
+
+	ceilingMaterial := WDMetallicRoughnessMaterial new
+		baseColorFactor: Color veryDarkGray;
+		roughnessFactor: 0.8;
+		yourself.
+		
+	wallMaterial := WDMetallicRoughnessMaterial new
+		baseColorFactor: 0.8;
+		roughnessFactor: 0.8;
+		yourself.
+
 	{
-		AABox min: (Vector3 x: -10 y: -0.5 z: -10) max: (Vector3 x: 10 y: 0.0 z: 10).
-		AABox min: (Vector3 x: -10 y: 5.0 z: -10) max: (Vector3 x: 10 y: 5.0 z: 10).
+		AABox min: (Vector3 x: -10 y: -0.5 z: -10) max: (Vector3 x: 10 y: 0.0 z: 10) . floorMaterial.
+		AABox min: (Vector3 x: -10 y: 5.0 z: -10) max: (Vector3 x: 10 y: 5.0 z: 10) . ceilingMaterial.
 
-		AABox min: (Vector3 x: -10 y: 0 z: 10) max: (Vector3 x: 10 y: 5.0 z: 10).
-		AABox min: (Vector3 x: -10 y: 0 z: -10) max: (Vector3 x: 10 y: 5.0 z: -10).
+		AABox min: (Vector3 x: -10 y: 0 z: 10) max: (Vector3 x: 10 y: 5.0 z: 10). wallMaterial.
+		AABox min: (Vector3 x: -10 y: 0 z: -10) max: (Vector3 x: 10 y: 5.0 z: -10). wallMaterial.
 
-		AABox min: (Vector3 x: -10 y: 0 z: -10) max: (Vector3 x: -10 y: 5.0 z: 10).
-		AABox min: (Vector3 x: 10 y: 0 z: -10) max: (Vector3 x: 10 y: 5.0 z: 10).
+		AABox min: (Vector3 x: -10 y: 0 z: -10) max: (Vector3 x: -10 y: 5.0 z: 10). wallMaterial.
+		AABox min: (Vector3 x: 10 y: 0 z: -10) max: (Vector3 x: 10 y: 5.0 z: 10). wallMaterial.
 
-		AABox min: (Vector3 x: -1 y: 0 z: -6) max: (Vector3 x: 1 y: 1.0 z: -5).
-	} do: [ :eachBox |
+		AABox min: (Vector3 x: -1 y: 0 z: -6) max: (Vector3 x: 1 y: 1.0 z: -5). wallMaterial.
+	} pairsDo: [ :eachBox :eachMaterial |
 		world spawnActor: (WDGFActor new
 			addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
+				currentMaterial: eachMaterial;
 				addCubeWithHalfExtent: eachBox halfExtent;
+				generateTexcoords0WithFacePlanarTransformWithScale: (Vector2 withAll: 0.5);
+				generateTangentSpaceFrame;
 				mesh));
 			addComponent: (WDGFBoxCollisionShapeComponent halfExtent: eachBox halfExtent);
 			addComponent: (WDGFCollisionObjectComponent new);
@@ -266,8 +286,8 @@ WDGFExamples class >> exampleRoom [
 	lightSourceActor := WDGFActor new
 		addComponent: (WDGFActorLightSourceSceneComponent with: (WDPointLightSource new
 			castShadows: true;
-			color: (Vector3 x: 0.8 y: 0.8 z: 0.2);
-			intensity: 5.0;
+			color: (Vector3 x: 0.8 y: 0.8 z: 0.5) normalized;
+			intensity: 10.0;
 			influenceRadius: 20.0;
 			yourself));
 		position: (Vector3 x: 0 y: 1.5 z: 0);
