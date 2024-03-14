@@ -6,10 +6,16 @@ Class {
 	#superclass : #WDGFCharacterActor,
 	#instVars : [
 		'cameraComponent',
-		'cameraAngles'
+		'cameraAngles',
+		'pickedObject'
 	],
 	#category : #'WodenGameFramework-Core-Actor-Character'
 }
+
+{ #category : #defaults }
+WDGFPlayerActor class >> defaultMaxPickableWeight [
+	^ 20
+]
 
 { #category : #initialization }
 WDGFPlayerActor >> initialize [
@@ -31,6 +37,9 @@ WDGFPlayerActor >> keyDownEvent: event [
 	].
 	event symbol = KeyboardKey D ifTrue: [
 		walkingDirection x: 1.
+	].
+	event symbol = KeyboardKey E ifTrue: [
+		self pickOrThrowObjectInFront
 	].
 	event symbol = KeyboardKey space ifTrue: [
 		self jump
@@ -77,6 +86,28 @@ WDGFPlayerActor >> mouseMoveEvent: event [
 
 ]
 
+{ #category : #'picking - throwing' }
+WDGFPlayerActor >> pickObjectInFront [
+	| ray rayCastQueryResult |
+	ray := cameraComponent worldRayFrom: Vector3 zeros to: (Vector3 z: -2.0).
+	rayCastQueryResult := self rayCast: ray forFirstActorSuchThat: [ :actor |
+		actor hasRigidBody and: [ actor mass <= self class defaultMaxPickableWeight ]
+	].
+	rayCastQueryResult ifNil: [ ^ self ].
+	
+	pickedObject := rayCastQueryResult actor.
+	Transcript show: pickedObject; cr.
+	
+
+]
+
+{ #category : #'picking - throwing' }
+WDGFPlayerActor >> pickOrThrowObjectInFront [
+	pickedObject
+		ifNil: [ self pickObjectInFront ]
+		ifNotNil: [ self throwPickedObject ]
+]
+
 { #category : #initialization }
 WDGFPlayerActor >> setupComponents [
 	super setupComponents.
@@ -88,6 +119,12 @@ WDGFPlayerActor >> setupComponents [
 	rootSceneComponent addChildSceneComponent: cameraComponent.
 	self addComponent: WDGFInputListenerComponent new.
 
+]
+
+{ #category : #'picking - throwing' }
+WDGFPlayerActor >> throwPickedObject [
+	Transcript show: 'TODO: Throw picked object'; cr.
+	pickedObject := nil.
 ]
 
 { #category : #'game events' }

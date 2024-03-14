@@ -28,6 +28,27 @@ WDGFPhysicsSubsystem >> physicsWorld [
 	^ physicsWorld
 ]
 
+{ #category : #queries }
+WDGFPhysicsSubsystem >> rayCast: ray excludingActors: exclusionSet forFirstActorSuchThat: aPredicate [
+	| physicsResult actor |
+	physicsResult := physicsWorld rayCast: ray forFirstSuchThat: [ :element |
+		element model isNotNil and: [
+			(exclusionSet includes: element model owner) not and: [
+				aPredicate value: element model owner
+			]
+		]
+	].
+	physicsResult ifNil: [ ^ nil ].
+	
+	actor := physicsResult collisionObject model owner.
+	^ WDGFActorRayCastingResult new
+		actor: actor;
+		ray: ray;
+		distance: physicsResult distance;
+		normal: physicsResult normal;
+		yourself
+]
+
 { #category : #accessing }
 WDGFPhysicsSubsystem >> updatePriority [
 	^ PhysicsUpdatePriority

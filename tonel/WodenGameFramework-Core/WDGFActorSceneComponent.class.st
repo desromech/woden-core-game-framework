@@ -161,3 +161,35 @@ WDGFActorSceneComponent >> transformChanged [
 		(ownerWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem) sceneChanged
 	]
 ]
+
+{ #category : #transforms }
+WDGFActorSceneComponent >> transformNormalVectorToWorld: normalVector [
+	| parentNormalVector |
+	parentNormalVector := transform transformNormalVector: normalVector.
+	^ parent
+		ifNil: [parentNormalVector]
+		ifNotNil: [parent transformNormalVector: parentNormalVector]
+]
+
+{ #category : #transforms }
+WDGFActorSceneComponent >> transformPositionToWorld: position [
+	| parentPosition |
+	parentPosition := transform transformPosition: position.
+	^ parent
+		ifNil: [parentPosition]
+		ifNotNil: [parent transformPositionToWorld: parentPosition]
+]
+
+{ #category : #transforms }
+WDGFActorSceneComponent >> transformVectorToWorld: vector [
+	| parentVector |
+	parentVector := transform transformPosition: vector.
+	^ parent
+		ifNil: [parentVector]
+		ifNotNil: [parent transformVectorToWorld: parentVector]
+]
+
+{ #category : #transforms }
+WDGFActorSceneComponent >> worldRayFrom: localStartPoint to: localEndPoint [
+	^ Ray3D from: (self transformPositionToWorld: localStartPoint) to: (self transformPositionToWorld: localEndPoint)
+]

@@ -44,6 +44,11 @@ WDGFActorComponent >> children [
 	^ #()
 ]
 
+{ #category : #testing }
+WDGFActorComponent >> isRigidBodyComponent [
+	^ false
+]
+
 { #category : #accessing }
 WDGFActorComponent >> owner [
 

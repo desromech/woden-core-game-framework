@@ -51,6 +51,11 @@ WDGFCollisionObjectComponent >> loadCollisionStateInto: aCollisionObject deltaTi
 	aCollisionObject transform: owner transform
 ]
 
+{ #category : #accessing }
+WDGFCollisionObjectComponent >> mass [
+	^ 0
+]
+
 { #category : #'physics setup' }
 WDGFCollisionObjectComponent >> privateConstructCollisionObject [
 	collisionObject := self privateMakeCollisionObjectInstance.
@@ -66,7 +71,7 @@ WDGFCollisionObjectComponent >> privateMakeCollisionObjectInstance [
 { #category : #hooks }
 WDGFCollisionObjectComponent >> privateRegisterInWorld [
 	| physicsSubsystem |
-	physicsSubsystem := ownerWorld getOrCreateSubsystemWithClass: WDGFPhysicsSubsystem.
+	physicsSubsystem := ownerWorld physicsSubsystem.
 	self privateConstructCollisionObject.
 	physicsSubsystem physicsWorld addCollisionObject: collisionObject
 ]

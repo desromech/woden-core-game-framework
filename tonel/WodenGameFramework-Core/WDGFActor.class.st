@@ -104,6 +104,11 @@ WDGFActor >> handle [
 	^ handle
 ]
 
+{ #category : #testing }
+WDGFActor >> hasRigidBody [
+	^ collisionObjectComponent isNotNil and: [ collisionObjectComponent isRigidBodyComponent ]
+]
+
 { #category : #initialization }
 WDGFActor >> initialize [
 	super initialize.
@@ -119,6 +124,11 @@ WDGFActor >> keyDownEvent: anEvent [
 
 { #category : #'input events' }
 WDGFActor >> keyUpEvent: anEvent [
+]
+
+{ #category : #accessing }
+WDGFActor >> mass [
+	^ collisionObjectComponent mass
 ]
 
 { #category : #message }
@@ -253,6 +263,11 @@ WDGFActor >> processMessage: selector withArguments: arguments [
 		messageSubscriptions processMessage: selector withArguments: arguments
 	].
 
+]
+
+{ #category : #utility }
+WDGFActor >> rayCast: ray forFirstActorSuchThat: aPredicate [
+	^ self world rayCast: ray excludingActors: { self } forFirstActorSuchThat: aPredicate
 ]
 
 { #category : #'component registration' }

@@ -23,6 +23,11 @@ WDGFRigidBodyObjectComponent >> initialize [
 	noTorque := false.
 ]
 
+{ #category : #testing }
+WDGFRigidBodyObjectComponent >> isRigidBodyComponent [
+	^ true
+]
+
 { #category : #accessing }
 WDGFRigidBodyObjectComponent >> mass [
 

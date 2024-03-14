@@ -95,12 +95,22 @@ WDGFWorld >> nextPendingMessage [
 	^ result
 ]
 
+{ #category : #accessing }
+WDGFWorld >> physicsSubsystem [
+	^ self getOrCreateSubsystemWithClass: WDGFPhysicsSubsystem
+]
+
 { #category : #messages }
 WDGFWorld >> processAllPendingMessages [
 	| message |
 	[ (message := self nextPendingMessage) notNil ] whileTrue: [ 
 		message process
 	]
+]
+
+{ #category : #queries }
+WDGFWorld >> rayCast: ray excludingActors: exclusionSet forFirstActorSuchThat: aPredicate [
+	^ self physicsSubsystem rayCast: ray excludingActors: exclusionSet forFirstActorSuchThat: aPredicate
 ]
 
 { #category : #'actor lifecycle' }
