@@ -29,6 +29,7 @@ WDGFPhysicsRopeConstraintComponent >> length: anObject [
 WDGFPhysicsRopeConstraintComponent >> privateConstructPhysicsConstraint [
 	physicsConstraint := WDPRopeConstraint new
 		stiffness: stiffness;
+		damping: damping;
 		length: length;
 		firstObject: firstObject;
 		firstObjectLocalAnchorPoint: firstObjectLocalAnchorPoint;

@@ -3,6 +3,7 @@ Class {
 	#superclass : #WDGFPhysicsConstraintComponent,
 	#instVars : [
 		'stiffness',
+		'damping',
 		'firstObject',
 		'secondObject'
 	],
@@ -12,6 +13,18 @@ Class {
 { #category : #testing }
 WDGFPhysicsPairUnionConstraintComponent class >> isAbstract [
 	^ self == WDGFPhysicsPairUnionConstraintComponent
+]
+
+{ #category : #accessing }
+WDGFPhysicsPairUnionConstraintComponent >> damping [
+
+	^ damping
+]
+
+{ #category : #accessing }
+WDGFPhysicsPairUnionConstraintComponent >> damping: anObject [
+
+	damping := anObject
 ]
 
 { #category : #accessing }
@@ -30,6 +43,8 @@ WDGFPhysicsPairUnionConstraintComponent >> firstObject: anObject [
 WDGFPhysicsPairUnionConstraintComponent >> initialize [
 	super initialize.
 	stiffness := 50.0.
+	damping := 10.0.
+	
 ]
 
 { #category : #accessing }

@@ -20,6 +20,7 @@ WDGFPhysicsHoldObjectConstraintComponent >> initialize [
 WDGFPhysicsHoldObjectConstraintComponent >> privateConstructPhysicsConstraint [
 	physicsConstraint := WDPHoldObjectConstraint new
 		stiffness: stiffness;
+		damping: damping;
 		firstObject: firstObject;
 		secondObject: secondObject;
 		targetRelativePosition: targetRelativePosition;

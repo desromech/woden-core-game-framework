@@ -191,6 +191,8 @@ WDGFPlayerActor >> pickObjectInFront [
 	pickedObject := rayCastQueryResult actor.
 	pickedObjectConstraintActor := WDGFActor new
 		addComponent: (WDGFPhysicsHoldObjectConstraintComponent new
+			stiffness: 100.0;
+			damping: 10.0;
 			firstObject: cameraComponent;
 			secondObject: pickedObject;
 			targetRelativePosition: (Vector3 z: -1.0);

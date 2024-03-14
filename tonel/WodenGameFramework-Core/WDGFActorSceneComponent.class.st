@@ -38,6 +38,12 @@ WDGFActorSceneComponent >> addedToActor: anActor [
 WDGFActorSceneComponent >> addedToParent: aParent [
 	self assert: parent isNil.
 	parent := aParent.
+	owner := aParent owner.
+]
+
+{ #category : #accessing }
+WDGFActorSceneComponent >> angularVelocity [
+	^ owner angularVelocity
 ]
 
 { #category : #accessing }
@@ -55,6 +61,11 @@ WDGFActorSceneComponent >> initialize [
 	super initialize.
 	transform := TRSTransform3D identity.
 	sceneBackground := false.
+]
+
+{ #category : #accessing }
+WDGFActorSceneComponent >> linearVelocity [
+	^ owner linearVelocity
 ]
 
 { #category : #accessing }
