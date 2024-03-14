@@ -21,3 +21,8 @@ WDGFCollisionShapeComponent >> addedToActor: anActor [
 WDGFCollisionShapeComponent >> asValidCollisionShape [
 	^ self subclassResponsibility
 ]
+
+{ #category : #accessing }
+WDGFCollisionShapeComponent >> localBoundingBox [
+	^ self subclassResponsibility
+]

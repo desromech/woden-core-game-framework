@@ -8,3 +8,8 @@ Class {
 WDGFNullCollisionShapeComponent >> asValidCollisionShape [
 	^ WDPNullCollisionShape uniqueInstance
 ]
+
+{ #category : #accessing }
+WDGFNullCollisionShapeComponent >> localBoundingBox [
+	^ AABox originPoint
+]

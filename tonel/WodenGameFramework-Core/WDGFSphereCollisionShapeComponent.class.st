@@ -25,6 +25,11 @@ WDGFSphereCollisionShapeComponent >> initialize [
 ]
 
 { #category : #accessing }
+WDGFSphereCollisionShapeComponent >> localBoundingBox [
+	^ AABox halfExtent: radius
+]
+
+{ #category : #accessing }
 WDGFSphereCollisionShapeComponent >> radius [
 
 	^ radius

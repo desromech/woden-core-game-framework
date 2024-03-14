@@ -170,7 +170,7 @@ WDGFPlayerActor >> mouseMoveEvent: event [
 
 { #category : #teleport }
 WDGFPlayerActor >> performTeleport [
-	Transcript show: 'TODO: teleport to '; show: lastValidTeleportDestination; cr.
+	self teleportTo: lastValidTeleportDestination - self localBoundingBox bottomPoint
 ]
 
 { #category : #'picking - throwing' }

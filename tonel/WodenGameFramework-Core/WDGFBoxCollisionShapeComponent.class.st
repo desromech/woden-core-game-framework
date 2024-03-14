@@ -33,3 +33,8 @@ WDGFBoxCollisionShapeComponent >> initialize [
 	super initialize.
 	halfExtent := Vector3 ones
 ]
+
+{ #category : #accessing }
+WDGFBoxCollisionShapeComponent >> localBoundingBox [
+	^ AABox halfExtent: halfExtent
+]

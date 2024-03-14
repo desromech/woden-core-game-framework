@@ -8,3 +8,8 @@ Class {
 WDGFCapsuleXCollisionShapeComponent >> asValidCollisionShape [
 	^ WDPCapsuleXCollisionShape height: height radius: radius
 ]
+
+{ #category : #accessing }
+WDGFCapsuleXCollisionShapeComponent >> localBoundingBox [
+	^ AABox halfExtent: (Vector3 x: height/2 + radius y: radius z: radius)
+]

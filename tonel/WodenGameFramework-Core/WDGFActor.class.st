@@ -54,6 +54,11 @@ WDGFActor >> beginPlay [
 ]
 
 { #category : #accessing }
+WDGFActor >> boundingBox [
+	^ self localBoundingBox transformedWith: self transform
+]
+
+{ #category : #accessing }
 WDGFActor >> collisionObjectComponent [
 
 	^ collisionObjectComponent
@@ -134,6 +139,13 @@ WDGFActor >> keyDownEvent: anEvent [
 
 { #category : #'input events' }
 WDGFActor >> keyUpEvent: anEvent [
+]
+
+{ #category : #accessing }
+WDGFActor >> localBoundingBox [
+	^ collisionShapeComponent
+		ifNil: [ AABox originPoint ]
+		ifNotNil: [ collisionShapeComponent localBoundingBox ]
 ]
 
 { #category : #accessing }
@@ -353,6 +365,12 @@ WDGFActor >> setupComponents [
 { #category : #'system subscriptions' }
 WDGFActor >> subscribeForTicking [
 	(self world getOrCreateSubsystemWithClass: WDGFActorTickSubsystem) subscribe: self
+]
+
+{ #category : #utility }
+WDGFActor >> teleportTo: targetPosition [
+	self flag: 'TODO: Suppress movement interpolation.'.
+	self position: targetPosition
 ]
 
 { #category : #'input events' }
