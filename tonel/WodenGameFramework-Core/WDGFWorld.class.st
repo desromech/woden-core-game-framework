@@ -85,6 +85,11 @@ WDGFWorld >> initialize [
 ]
 
 { #category : #accessing }
+WDGFWorld >> inputSubsystem [
+	^ self getOrCreateSubsystemWithClass: WDGFInputSubsystem
+]
+
+{ #category : #accessing }
 WDGFWorld >> isPlaying [
 	^ isPlaying
 ]
@@ -178,4 +183,9 @@ WDGFWorld >> updateWithDeltaTime: deltaTime [
 		self updateSingleTimeStep: updateTimeStep.
 		accumulatedDeltaTime := accumulatedDeltaTime - updateTimeStep
 	].
+]
+
+{ #category : #accessing }
+WDGFWorld >> vrSubsystem [
+	^ self getOrCreateSubsystemWithClass: WDGFVRSubsystem
 ]

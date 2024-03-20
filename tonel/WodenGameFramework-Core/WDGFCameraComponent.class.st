@@ -1,5 +1,5 @@
 "
-I am component that is used for controling a specific camera in the scene.
+I am component that is used for accessing the state and events of a specific VR tracked device.
 "
 Class {
 	#name : #WDGFCameraComponent,

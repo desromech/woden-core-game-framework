@@ -236,11 +236,13 @@ WDGFExamples class >> exampleRoom [
 	ceilingMaterial := WDMetallicRoughnessMaterial new
 		baseColorFactor: Color veryDarkGray;
 		roughnessFactor: 0.8;
+		metallicFactor: 0.0;
 		yourself.
 		
 	wallMaterial := WDMetallicRoughnessMaterial new
 		baseColorFactor: 0.8;
 		roughnessFactor: 0.8;
+		metallicFactor: 0.0;
 		yourself.
 
 	{

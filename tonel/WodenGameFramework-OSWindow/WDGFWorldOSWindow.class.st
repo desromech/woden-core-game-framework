@@ -53,7 +53,7 @@ WDGFWorldOSWindow >> convertMouseButtonState: osWindowButtonState [
 { #category : #events }
 WDGFWorldOSWindow >> dispatchQueuedEvents [
 	| inputSubsystem |
-	inputSubsystem := wodenWorld ifNotNil: [ :world | world getOrCreateSubsystemWithClass: WDGFInputSubsystem ].
+	inputSubsystem := wodenWorld ifNotNil: [ :world | world inputSubsystem ].
 
 	[convertedEventQueue isEmpty ] whileFalse: [ 
 		| convertedEvent |
@@ -205,6 +205,17 @@ WDGFWorldOSWindow >> playing [
 WDGFWorldOSWindow >> playing: anObject [
 
 	playing := anObject
+]
+
+{ #category : #rendering }
+WDGFWorldOSWindow >> pollVREventsAndUpdate [
+	vrSystem ifNil: [ ^ self ].
+	
+	wodenWorld ifNotNil: [
+		wodenWorld vrSubsystem updateAndProcessEventsFor: vrSystem
+	] ifNil: [
+		vrSystem resetTrackedDeviceEventHandlers; pollEvents.
+	].
 ]
 
 { #category : #accessing }

@@ -462,6 +462,74 @@ WDGFActor >> unsubscribeForTicking [
 	(self world getOrCreateSubsystemWithClass: WDGFActorTickSubsystem) unsubscribe: self
 ]
 
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceActivatedEvent: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceButtonPressedEvent: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceButtonReleasedEvent: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceButtonTouchEvent: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceButtonUntouchEvent: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceDeactivatedEvent: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceDualAnalogModeCancelEvent: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceDualAnalogModeSwitch1Event: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceDualAnalogModeSwitch2Event: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceDualAnalogMoveEvent: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceDualAnalogPressedEvent: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceDualAnalogReleasedEvent: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceDualAnalogTouchEvent: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceDualAnalogUntouchEvent: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceUpdatedEvent: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceUserInteractionEndedEvent: event from: trackedDeviceComponent [
+]
+
+{ #category : #'vr events' }
+WDGFActor >> vrTrackedDeviceUserInteractionStartedEvent: event from: trackedDeviceComponent [
+]
+
 { #category : #accessing }
 WDGFActor >> wantsToTick [
 

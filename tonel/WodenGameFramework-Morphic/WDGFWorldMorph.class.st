@@ -44,7 +44,7 @@ WDGFWorldMorph >> convertEventModifiers: event [
 { #category : #'event handling' }
 WDGFWorldMorph >> dispatchQueuedEvents [
 	| inputSubsystem |
-	inputSubsystem := wodenWorld ifNotNil: [ :world | world getOrCreateSubsystemWithClass: WDGFInputSubsystem ].
+	inputSubsystem := wodenWorld ifNotNil: [ :world | world inputSubsystem ].
 
 	[convertedEventQueue isEmpty ] whileFalse: [ 
 		| convertedEvent |

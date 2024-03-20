@@ -29,6 +29,11 @@ WDGFInputSubsystem >> registerInputListener: anInputListener [
 	inputListeners add: anInputListener
 ]
 
+{ #category : #initialization }
+WDGFInputSubsystem >> unregisterInputListener: anInputListener [
+	inputListeners remove: anInputListener
+]
+
 { #category : #accessing }
 WDGFInputSubsystem >> updatePriority [
 	^ InputUpdatePriority

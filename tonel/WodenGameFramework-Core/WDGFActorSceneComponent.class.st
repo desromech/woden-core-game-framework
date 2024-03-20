@@ -9,7 +9,8 @@ Class {
 		'children',
 		'parent',
 		'sceneNode',
-		'sceneBackground'
+		'sceneBackground',
+		'visible'
 	],
 	#category : #'WodenGameFramework-Core-Components-Scene'
 }
@@ -61,6 +62,7 @@ WDGFActorSceneComponent >> initialize [
 	super initialize.
 	transform := TRSTransform3D identity.
 	sceneBackground := false.
+	visible := true.
 ]
 
 { #category : #accessing }
@@ -112,6 +114,7 @@ WDGFActorSceneComponent >> privateRegisterInWorld [
 	sceneSubsystem := ownerWorld sceneSubsystem.
 	sceneNode := self privateConstructSceneNode.
 	sceneNode transform: transform.
+	sceneNode visible: visible.
 	
 	parent ifNil: [
 		sceneBackground ifTrue: [ 
@@ -210,6 +213,18 @@ WDGFActorSceneComponent >> transformVectorToWorld: vector [
 	^ parent
 		ifNil: [parentVector]
 		ifNotNil: [parent transformVectorToWorld: parentVector]
+]
+
+{ #category : #accessing }
+WDGFActorSceneComponent >> visible [
+
+	^ visible
+]
+
+{ #category : #accessing }
+WDGFActorSceneComponent >> visible: aBoolean [
+	visible := aBoolean.
+	sceneNode ifNotNil: [ sceneNode visible: visible ].
 ]
 
 { #category : #transforms }

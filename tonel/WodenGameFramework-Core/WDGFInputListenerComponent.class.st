@@ -4,7 +4,7 @@ I am a component that is used for listening for different input events.
 Class {
 	#name : #WDGFInputListenerComponent,
 	#superclass : #WDGFActorComponent,
-	#category : #'WodenGameFramework-Core-Actor'
+	#category : #'WodenGameFramework-Core-Components-Input'
 }
 
 { #category : #'event dispatching' }
@@ -14,8 +14,12 @@ WDGFInputListenerComponent >> dispatchInputEvent: anInputEvent [
 
 { #category : #hooks }
 WDGFInputListenerComponent >> privateRegisterInWorld [
-	| inputSubsystem |
-	inputSubsystem := ownerWorld getOrCreateSubsystemWithClass: WDGFInputSubsystem.
-	inputSubsystem registerInputListener: self
+	ownerWorld inputSubsystem registerInputListener: self
+
+]
+
+{ #category : #hooks }
+WDGFInputListenerComponent >> privateUnregisterFromWorld [
+	ownerWorld inputSubsystem unregisterInputListener: self
 
 ]
