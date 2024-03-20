@@ -218,6 +218,7 @@ WDGFPlayerActor >> setupComponents [
 	cameraComponent := WDGFCameraComponent new
 		isActive: true;
 		position: (Vector3 y: self class defaultHeight * 0.5);
+		headFloorTransform: (ReversibleAffineTransform3D translation: (Vector3 y: self class defaultHeight negated));
 		yourself.
 	rootSceneComponent addChildSceneComponent: cameraComponent.
 	self addComponent: WDGFInputListenerComponent new.

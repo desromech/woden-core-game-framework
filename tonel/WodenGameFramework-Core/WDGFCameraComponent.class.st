@@ -28,6 +28,16 @@ WDGFCameraComponent >> camera: anObject [
 	camera := anObject
 ]
 
+{ #category : #accessing }
+WDGFCameraComponent >> headFloorTransform [
+	^ camera headFloorTransform
+]
+
+{ #category : #accessing }
+WDGFCameraComponent >> headFloorTransform: aTransform [
+	camera headFloorTransform: aTransform
+]
+
 { #category : #initialization }
 WDGFCameraComponent >> initialize [
 	super initialize.
