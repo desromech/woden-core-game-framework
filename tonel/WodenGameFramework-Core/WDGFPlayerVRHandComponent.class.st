@@ -177,8 +177,6 @@ WDGFPlayerVRHandComponent >> onUpdatedTrackedDevice [
 	localTransform := (owner floorToLocalTransform transformTransform: deviceTransform) asTRSTransform3D.
 	modelComponent transform: localTransform.
 	isPreparingTeleport ifTrue: [ self attemptToUpdateTeleportDestination ].
-	Transcript show: 'linear '; show: deviceLinearVelocity; cr.
-	Transcript show: 'angular '; show: deviceAngularVelocity; cr.
 ]
 
 { #category : #'event handling' }
