@@ -210,7 +210,7 @@ WDGFPlayerVRHandComponent >> throwLinearVelocity [
 
 { #category : #'as yet unclassified' }
 WDGFPlayerVRHandComponent >> throwSpeedFactor [
-	^ 1.2
+	^ 1.0
 ]
 
 { #category : #utility }
