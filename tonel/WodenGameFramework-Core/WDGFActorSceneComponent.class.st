@@ -192,6 +192,15 @@ WDGFActorSceneComponent >> transformNormalVectorToWorld: normalVector [
 ]
 
 { #category : #transforms }
+WDGFActorSceneComponent >> transformOrientationToWorld: orientation [
+	| parentOrientation |
+	parentOrientation := transform rotation * orientation.
+	^ parent
+		ifNil: [parentOrientation]
+		ifNotNil: [parent transformOrientationToWorld: parentOrientation]
+]
+
+{ #category : #transforms }
 WDGFActorSceneComponent >> transformPositionToActorLocal: position [
 	parent ifNil: [ ^ position ].
 	^ parent transformPositionToActorLocal: (transform transformPosition: position)
@@ -213,6 +222,26 @@ WDGFActorSceneComponent >> transformVectorToWorld: vector [
 	^ parent
 		ifNil: [parentVector]
 		ifNotNil: [parent transformVectorToWorld: parentVector]
+]
+
+{ #category : #transforms }
+WDGFActorSceneComponent >> transformWorldOrientationToLocal: orientation [
+	| parentOrientation |
+	parentOrientation := parent
+		ifNil: [orientation]
+		ifNotNil: [parent transformWorldOrientationToLocal: orientation].
+	
+	^ transform inverseRotation * parentOrientation
+]
+
+{ #category : #transforms }
+WDGFActorSceneComponent >> transformWorldPositionToLocal: position [
+	| parentPosition |
+	parentPosition := parent
+		ifNil: [position]
+		ifNotNil: [parent transformWorldPositionToLocal: position].
+	^ transform transformWorldPositionToLocal: parentPosition.
+
 ]
 
 { #category : #accessing }

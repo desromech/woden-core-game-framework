@@ -129,6 +129,21 @@ WDGFActor >> endPlay [
 	"This message is sent at the end of a level"
 ]
 
+{ #category : #utility }
+WDGFActor >> findActorsIntersectingBox: box transform: boxTransform suchThat: aPredicate [
+	^ self world findActorsIntersectingBox: box transform: boxTransform suchThat: aPredicate
+]
+
+{ #category : #utility }
+WDGFActor >> findActorsIntersectingSphere: sphere suchThat: aPredicate [
+	^ self world findActorsIntersectingSphere: sphere suchThat: aPredicate
+]
+
+{ #category : #utility }
+WDGFActor >> findActorsIntersectingSphere: sphere transform: boxTransform suchThat: aPredicate [
+	^ self world findActorsIntersectingSphere: sphere transform: boxTransform suchThat: aPredicate
+]
+
 { #category : #'input events' }
 WDGFActor >> gamepadAxisEvent: anEvent [
 ]
@@ -443,8 +458,32 @@ WDGFActor >> transformLocalPosition: localPosition [
 ]
 
 { #category : #utility }
+WDGFActor >> transformOrientationToWorld: orientation [
+	^ self transform rotation * orientation
+	
+]
+
+{ #category : #utility }
 WDGFActor >> transformPositionToWorld: localPosition [
 	^ self transform transformPosition: localPosition 
+	
+]
+
+{ #category : #utility }
+WDGFActor >> transformVectorToWorld: localVector [
+	^ self transform transformVector3: localVector
+	
+]
+
+{ #category : #utility }
+WDGFActor >> transformWorldOrientationToLocal: orientation [
+	^ self transform inverseRotation * orientation
+	
+]
+
+{ #category : #utility }
+WDGFActor >> transformWorldPositionToLocal: localPosition [
+	^ self transform inverseTransformPosition: localPosition 
 	
 ]
 
@@ -552,4 +591,9 @@ WDGFActor >> wantsToTick: aBoolean [
 { #category : #accessing }
 WDGFActor >> world [
 	^ handle world
+]
+
+{ #category : #accessing }
+WDGFActor >> worldInertiaTensor [
+	^ collisionObjectComponent worldInertiaTensor
 ]

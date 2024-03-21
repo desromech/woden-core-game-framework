@@ -7,7 +7,9 @@ Class {
 		'isPreparingTeleport',
 		'lastValidTeleportDestination',
 		'lastValidTeleportDestinationNormal',
-		'teleportDestinationIndicator'
+		'teleportDestinationIndicator',
+		'pickedObject',
+		'pickedObjectConstraintActor'
 	],
 	#category : #'WodenGameFramework-Core-Actor-Character'
 }
@@ -55,6 +57,11 @@ WDGFPlayerVRHandComponent >> addIntoPlayerActor: playerActor [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFPlayerVRHandComponent >> angularVelocity [
+	^ owner angularVelocity + (owner transformVectorToWorld: (owner floorToLocalTransform transformVector3: deviceAngularVelocity))
+]
+
 { #category : #teleport }
 WDGFPlayerVRHandComponent >> attemptToUpdateTeleportDestination [
 	| ray rayCastQueryResult teleportDestination teleportNormal slopeCosine |
@@ -77,6 +84,26 @@ WDGFPlayerVRHandComponent >> attemptToUpdateTeleportDestination [
 
 { #category : #teleport }
 WDGFPlayerVRHandComponent >> beginPicking [
+	| pickBox pickableActors |
+	pickBox := AABox halfExtent: self class defaultHandHalfExtent.
+	pickableActors := owner findActorsIntersectingBox: pickBox transform: self worldTransform suchThat: [ :actor |
+		actor hasRigidBody and: [ actor mass <= owner class defaultMaxPickableWeight ]
+	].
+	pickableActors ifEmpty: [ ^ self ].
+	
+	pickedObject := pickableActors first.
+	pickedObjectConstraintActor := WDGFActor new
+		addComponent: (WDGFPhysicsHoldObjectConstraintComponent new
+			stiffness: 100.0;
+			damping: 10.0;
+			firstObject: self;
+			secondObject: pickedObject;
+			targetRelativePosition: (self transformWorldPositionToLocal: pickedObject position);
+			targetRelativeOrientation: (self transformWorldOrientationToLocal: pickedObject orientation);
+			yourself);
+		yourself.
+	pickedObject collisionActorExclusionSet: { owner }.
+	ownerWorld spawnActor: pickedObjectConstraintActor
 ]
 
 { #category : #teleport }
@@ -89,6 +116,19 @@ WDGFPlayerVRHandComponent >> beginTeleport [
 
 { #category : #teleport }
 WDGFPlayerVRHandComponent >> endPicking [
+	pickedObjectConstraintActor ifNotNil: [ 
+		pickedObjectConstraintActor destroy.
+		pickedObjectConstraintActor := nil.
+	].
+
+	pickedObject ifNil: [ ^ self ].
+	
+	pickedObject
+		collisionActorExclusionSet: #();
+		linearVelocity: self throwLinearVelocity;
+		angularVelocity: self throwAngularVelocity.
+	pickedObject := nil.
+
 ]
 
 { #category : #teleport }
@@ -117,6 +157,11 @@ WDGFPlayerVRHandComponent >> initialize [
 	lastValidTeleportDestinationNormal := nil.
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFPlayerVRHandComponent >> linearVelocity [
+	^ owner linearVelocity + (owner transformVectorToWorld: (owner floorToLocalTransform transformVector3: deviceLinearVelocity))
+]
+
 { #category : #hooks }
 WDGFPlayerVRHandComponent >> onGotTrackedDevice [
 	modelComponent visible: true.
@@ -129,10 +174,11 @@ WDGFPlayerVRHandComponent >> onLostTrackedDevice [
 
 { #category : #hooks }
 WDGFPlayerVRHandComponent >> onUpdatedTrackedDevice [
-	localTransform := owner floorToLocalTransform transformTransform: deviceTransform.
+	localTransform := (owner floorToLocalTransform transformTransform: deviceTransform) asTRSTransform3D.
 	modelComponent transform: localTransform.
 	isPreparingTeleport ifTrue: [ self attemptToUpdateTeleportDestination ].
-	
+	Transcript show: 'linear '; show: deviceLinearVelocity; cr.
+	Transcript show: 'angular '; show: deviceAngularVelocity; cr.
 ]
 
 { #category : #'event handling' }
@@ -152,9 +198,52 @@ WDGFPlayerVRHandComponent >> performTeleport [
 	owner teleportTo: lastValidTeleportDestination - owner localBoundingBox bottomPoint
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFPlayerVRHandComponent >> throwAngularVelocity [
+	^ self angularVelocity
+]
+
+{ #category : #'as yet unclassified' }
+WDGFPlayerVRHandComponent >> throwLinearVelocity [
+	^ owner linearVelocity + ((owner transformVectorToWorld: (owner floorToLocalTransform transformVector3: deviceLinearVelocity)) * self throwSpeedFactor)
+]
+
+{ #category : #'as yet unclassified' }
+WDGFPlayerVRHandComponent >> throwSpeedFactor [
+	^ 1.2
+]
+
+{ #category : #utility }
+WDGFPlayerVRHandComponent >> transformNormalVectorToWorld: vector [
+	^ owner transformNormalVectorToWorld: (localTransform transformNormalVector: vector)
+	
+]
+
+{ #category : #'as yet unclassified' }
+WDGFPlayerVRHandComponent >> transformOrientationToWorld: orientation [
+	^ owner transformOrientationToWorld: localTransform rotation * orientation
+]
+
 { #category : #utility }
 WDGFPlayerVRHandComponent >> transformPositionToWorld: position [
 	^ owner transformPositionToWorld: (localTransform transformPosition: position)
+	
+]
+
+{ #category : #utility }
+WDGFPlayerVRHandComponent >> transformVectorToWorld: vector [
+	^ owner transformVectorToWorld: (localTransform transformVector3: vector)
+	
+]
+
+{ #category : #'as yet unclassified' }
+WDGFPlayerVRHandComponent >> transformWorldOrientationToLocal: orientation [
+	^ localTransform inverseRotation * (owner transformWorldOrientationToLocal: orientation)
+]
+
+{ #category : #utility }
+WDGFPlayerVRHandComponent >> transformWorldPositionToLocal: position [
+	^ localTransform inverseTransformPosition: (owner transformWorldPositionToLocal: position)
 	
 ]
 
@@ -172,7 +261,7 @@ WDGFPlayerVRHandComponent >> updateTeleportDestinationIndicator [
 				addUVSphereWithRadius: self class defaultTeleportIndicatorRadius segments: 16 slices: 16;
 				mesh));
 			yourself.
-		owner world spawnActor: teleportDestinationIndicator
+		ownerWorld spawnActor: teleportDestinationIndicator
 	].
 
 	teleportDestinationIndicator position: lastValidTeleportDestination
@@ -181,4 +270,9 @@ WDGFPlayerVRHandComponent >> updateTeleportDestinationIndicator [
 { #category : #transforms }
 WDGFPlayerVRHandComponent >> worldRayFrom: startingPoint to: endPoint [
 	^ Ray3D from: (self transformPositionToWorld: startingPoint) to: (self transformPositionToWorld: endPoint)
+]
+
+{ #category : #'as yet unclassified' }
+WDGFPlayerVRHandComponent >> worldTransform [
+	^ owner transform transformTransform: localTransform 
 ]

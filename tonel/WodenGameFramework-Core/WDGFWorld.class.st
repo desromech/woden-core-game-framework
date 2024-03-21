@@ -59,6 +59,21 @@ WDGFWorld >> enqueueMessage: aMessage [
 	]
 ]
 
+{ #category : #queries }
+WDGFWorld >> findActorsIntersectingBox: box transform: boxTransform suchThat: aPredicate [
+	^ self physicsSubsystem findActorsIntersectingBox: box transform: boxTransform suchThat: aPredicate
+]
+
+{ #category : #queries }
+WDGFWorld >> findActorsIntersectingSphere: sphere suchThat: aPredicate [
+	^ self physicsSubsystem findActorsIntersectingSphere: sphere suchThat: aPredicate
+]
+
+{ #category : #queries }
+WDGFWorld >> findActorsIntersectingSphere: sphere transform: sphereTransform suchThat: aPredicate [
+	^ self physicsSubsystem findActorsIntersectingSphere: sphere transform: sphereTransform suchThat: aPredicate
+]
+
 { #category : #accessing }
 WDGFWorld >> getOrCreateSubsystemWithClass: aSubsystemClass [
 	^ subsystemDirectionary at: aSubsystemClass ifAbsentPut: [ 

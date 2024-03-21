@@ -125,6 +125,7 @@ WDGFPlayerActor >> pickObjectInFront [
 			firstObject: cameraComponent;
 			secondObject: pickedObject;
 			targetRelativePosition: (Vector3 z: -1.0);
+			targetRelativeOrientation: (cameraComponent transformWorldOrientationToLocal: pickedObject orientation);
 			yourself);
 		yourself.
 	pickedObject collisionActorExclusionSet: { self }.

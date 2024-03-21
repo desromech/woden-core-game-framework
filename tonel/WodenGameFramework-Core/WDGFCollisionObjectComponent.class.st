@@ -184,3 +184,8 @@ WDGFCollisionObjectComponent >> staticFrictionCoefficient: anObject [
 
 	staticFrictionCoefficient := anObject
 ]
+
+{ #category : #accessing }
+WDGFCollisionObjectComponent >> worldInertiaTensor [
+	^ Matrix3x3 zeros
+]

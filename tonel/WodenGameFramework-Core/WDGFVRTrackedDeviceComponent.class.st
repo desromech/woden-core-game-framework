@@ -203,7 +203,7 @@ WDGFVRTrackedDeviceComponent >> useTrackedDeviceForThisCycle: trackedDeviceForCy
 	pose := device currentPose.
 	deviceTransform := pose deviceToAbsoluteTransform.
 	deviceLinearVelocity := pose linearVelocity.
-	deviceAngularVelocity := pose linearVelocity.
+	deviceAngularVelocity := pose angularVelocity.
 	device eventHandler: self.
 	isNewDevice ifTrue: [ self gotTrackedDevice ].
 	self updatedTrackedDevice.

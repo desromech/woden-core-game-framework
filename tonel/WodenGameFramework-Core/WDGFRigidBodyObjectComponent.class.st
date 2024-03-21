@@ -74,3 +74,8 @@ WDGFRigidBodyObjectComponent >> setupCollisionObject [
 WDGFRigidBodyObjectComponent >> withoutTorque [
 	self noTorque: true
 ]
+
+{ #category : #accessing }
+WDGFRigidBodyObjectComponent >> worldInertiaTensor [
+	^ collisionObject worldInertiaTensor
+]
