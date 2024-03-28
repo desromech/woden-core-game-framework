@@ -9,7 +9,8 @@ Class {
 		'lastValidTeleportDestinationNormal',
 		'teleportDestinationIndicator',
 		'pickedObject',
-		'pickedObjectConstraintActor'
+		'pickedObjectConstraintActor',
+		'fallbackModel'
 	],
 	#category : #'WodenGameFramework-Core-Actor-Character'
 }
@@ -41,14 +42,7 @@ WDGFPlayerVRHandComponent class >> defaultTeleportUpVector [
 
 { #category : #adding }
 WDGFPlayerVRHandComponent >> addIntoPlayerActor: playerActor [
-	modelComponent := WDGFActorMeshSceneComponent with: (WDMeshBuilder new
-		currentMaterial: (WDMetallicRoughnessMaterial new
-			baseColorFactor: (Color fromHexString: '#855b40');
-			roughnessFactor: 0.6;
-			metallicFactor: 0.0;
-			yourself);
-		addCubeWithHalfExtent: self class defaultHandHalfExtent;
-		mesh).
+	modelComponent := WDGFActorMeshSceneComponent with: self fallbackModel.
 		
 	modelComponent visible: false.
 	playerActor rootSceneComponent addChildSceneComponent: modelComponent.
@@ -149,6 +143,19 @@ WDGFPlayerVRHandComponent >> endTeleport [
 	
 ]
 
+{ #category : #adding }
+WDGFPlayerVRHandComponent >> fallbackModel [
+	^ fallbackModel ifNil: [WDMeshBuilder new
+		currentMaterial: (WDMetallicRoughnessMaterial new
+			baseColorFactor: (Color fromHexString: '#855b40');
+			roughnessFactor: 0.6;
+			metallicFactor: 0.0;
+			yourself);
+		addCubeWithHalfExtent: self class defaultHandHalfExtent;
+		mesh
+	]
+]
+
 { #category : #initialization }
 WDGFPlayerVRHandComponent >> initialize [
 	super initialize.
@@ -175,7 +182,9 @@ WDGFPlayerVRHandComponent >> onLostTrackedDevice [
 { #category : #hooks }
 WDGFPlayerVRHandComponent >> onUpdatedTrackedDevice [
 	localTransform := (owner floorToLocalTransform transformTransform: deviceTransform) asTRSTransform3D.
-	modelComponent transform: localTransform.
+	modelComponent
+		transform: localTransform;
+		mesh: (device renderModel ifNil: [self fallbackModel]).
 	isPreparingTeleport ifTrue: [ self attemptToUpdateTeleportDestination ].
 ]
 

@@ -5,7 +5,6 @@ Class {
 		'deviceClass',
 		'deviceRole',
 		'deviceTransform',
-		'trackedDevice',
 		'device',
 		'deviceLinearVelocity',
 		'deviceAngularVelocity'

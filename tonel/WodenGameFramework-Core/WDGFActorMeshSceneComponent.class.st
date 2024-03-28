@@ -19,9 +19,18 @@ WDGFActorMeshSceneComponent >> mesh [
 ]
 
 { #category : #accessing }
-WDGFActorMeshSceneComponent >> mesh: anObject [
-
-	mesh := anObject
+WDGFActorMeshSceneComponent >> mesh: aMesh [
+	| isChanged |
+	isChanged := mesh ~~ aMesh.
+	mesh := aMesh.
+	
+	(isChanged and: [sceneNode isNotNil]) ifTrue: [
+		mesh ifNil: [ 
+			sceneNode renderables: #()
+		] ifNotNil: [
+			sceneNode renderables: { mesh }
+		]
+	].
 ]
 
 { #category : #hooks }
