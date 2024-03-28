@@ -10,7 +10,10 @@ Class {
 		'teleportDestinationIndicator',
 		'pickedObject',
 		'pickedObjectConstraintActor',
-		'fallbackModel'
+		'fallbackModel',
+		'pointerModelComponent',
+		'triggerTouched',
+		'isClicking'
 	],
 	#category : #'WodenGameFramework-Core-Actor-Character'
 }
@@ -31,6 +34,11 @@ WDGFPlayerVRHandComponent class >> defaultMaxTeleportSlopeCosine [
 ]
 
 { #category : #defaults }
+WDGFPlayerVRHandComponent class >> defaultPointerMaxDistance [
+	^ 3.0
+]
+
+{ #category : #defaults }
 WDGFPlayerVRHandComponent class >> defaultTeleportIndicatorRadius [
 	^ 0.30
 ]
@@ -42,9 +50,21 @@ WDGFPlayerVRHandComponent class >> defaultTeleportUpVector [
 
 { #category : #adding }
 WDGFPlayerVRHandComponent >> addIntoPlayerActor: playerActor [
+	| pointerRadius |
 	modelComponent := WDGFActorMeshSceneComponent with: self fallbackModel.
+	pointerRadius := 0.005.
+	pointerModelComponent := WDGFActorMeshSceneComponent with: (WDMeshBuilder new
+		currentMaterial: (WDUnlitMaterial new
+			withAlphaBlending;
+			colorFactor: (Vector4 x: 1.0 y: 0.4 z: 0.2 w: 0.4);
+			yourself);
+		addCubeMinX: pointerRadius negated y: pointerRadius negated z: self class defaultPointerMaxDistance negated
+			maxX: pointerRadius y: pointerRadius z: 0.0;
+		mesh).
+	modelComponent addChildSceneComponent: pointerModelComponent.
 		
 	modelComponent visible: false.
+	pointerModelComponent visible: false.
 	playerActor rootSceneComponent addChildSceneComponent: modelComponent.
 	
 	playerActor addComponent: self.
@@ -76,6 +96,11 @@ WDGFPlayerVRHandComponent >> attemptToUpdateTeleportDestination [
 	^ true
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFPlayerVRHandComponent >> beginClicking [
+	isClicking := true.
+]
+
 { #category : #teleport }
 WDGFPlayerVRHandComponent >> beginPicking [
 	| pickBox pickableActors |
@@ -100,12 +125,26 @@ WDGFPlayerVRHandComponent >> beginPicking [
 	ownerWorld spawnActor: pickedObjectConstraintActor
 ]
 
+{ #category : #'event handling' }
+WDGFPlayerVRHandComponent >> beginPickingOrClicking [
+	self beginPicking.
+	self updatePointerVisibility.
+	pickedObject ifNil: [ self beginClicking ].
+]
+
 { #category : #teleport }
 WDGFPlayerVRHandComponent >> beginTeleport [
 	isPreparingTeleport := true.
 	lastValidTeleportDestination := nil.
 	lastValidTeleportDestinationNormal := nil.
 	self attemptToUpdateTeleportDestination
+]
+
+{ #category : #'as yet unclassified' }
+WDGFPlayerVRHandComponent >> endClicking [
+	isClicking ifFalse: [ ^ self ].
+	isClicking := false.
+	
 ]
 
 { #category : #teleport }
@@ -123,6 +162,13 @@ WDGFPlayerVRHandComponent >> endPicking [
 		angularVelocity: self throwAngularVelocity.
 	pickedObject := nil.
 
+]
+
+{ #category : #'event handling' }
+WDGFPlayerVRHandComponent >> endPickingOrClicking [
+	self endPicking.
+	self endClicking.
+	self updatePointerVisibility.
 ]
 
 { #category : #teleport }
@@ -160,6 +206,8 @@ WDGFPlayerVRHandComponent >> fallbackModel [
 WDGFPlayerVRHandComponent >> initialize [
 	super initialize.
 	isPreparingTeleport := false.
+	triggerTouched := false.
+	isClicking := false.
 	lastValidTeleportDestination := nil.
 	lastValidTeleportDestinationNormal := nil.
 ]
@@ -191,13 +239,29 @@ WDGFPlayerVRHandComponent >> onUpdatedTrackedDevice [
 { #category : #'event handling' }
 WDGFPlayerVRHandComponent >> onVRTrackedDeviceButtonPressedEvent: event [
 	event isAxis0 ifTrue: [ self beginTeleport ].
-	event isAxis1 ifTrue: [ self beginPicking ].
+	event isAxis1 ifTrue: [ self beginPickingOrClicking ].
 ]
 
 { #category : #'event handling' }
 WDGFPlayerVRHandComponent >> onVRTrackedDeviceButtonReleasedEvent: event [
 	event isAxis0 ifTrue: [ self endTeleport ].
-	event isAxis1 ifTrue: [ self endPicking ].
+	event isAxis1 ifTrue: [ self endPickingOrClicking ].
+]
+
+{ #category : #'event handling' }
+WDGFPlayerVRHandComponent >> onVRTrackedDeviceButtonTouchEvent: event [
+	event isAxis1 ifTrue: [
+		triggerTouched := true.
+		self updatePointerVisibility.
+	].
+]
+
+{ #category : #'event handling' }
+WDGFPlayerVRHandComponent >> onVRTrackedDeviceButtonUntouchEvent: event [
+	event isAxis1 ifTrue: [
+		triggerTouched := false.
+		self updatePointerVisibility.
+	].
 ]
 
 { #category : #teleport }
@@ -254,6 +318,11 @@ WDGFPlayerVRHandComponent >> transformWorldPositionToLocal: position [
 	
 ]
 
+{ #category : #'event handling' }
+WDGFPlayerVRHandComponent >> updatePointerVisibility [
+	pointerModelComponent visible: (triggerTouched and: [pickedObject isNil])
+]
+
 { #category : #teleport }
 WDGFPlayerVRHandComponent >> updateTeleportDestinationIndicator [
 	lastValidTeleportDestination ifNil: [ ^ self ].
@@ -262,7 +331,7 @@ WDGFPlayerVRHandComponent >> updateTeleportDestinationIndicator [
 		teleportDestinationIndicator := WDGFActor new
 			addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
 				currentMaterial: (WDUnlitMaterial new
-					alphaMode: #BLEND;
+					withAlphaBlending;
 					colorFactor: ((Color fromHexString: '#D4821F') alpha: 0.3);
 					yourself);
 				addUVSphereWithRadius: self class defaultTeleportIndicatorRadius segments: 16 slices: 16;
