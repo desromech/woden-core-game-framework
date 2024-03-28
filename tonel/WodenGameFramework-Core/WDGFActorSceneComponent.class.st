@@ -22,24 +22,35 @@ WDGFActorSceneComponent >> addChildSceneComponent: childComponent [
 	children ifNil: [ children := OrderedCollection new. ].
 	children add: childComponent.
 	childComponent addedToParent: self.
+	(owner isNotNil and: [childComponent owner isNil]) ifTrue: [
+		owner addComponent: childComponent
+	].
 	^ childComponent
+]
+
+{ #category : #notifications }
+WDGFActorSceneComponent >> addedDirectlyToActor: anActor [
+	super addedDirectlyToActor: anActor.
+	parent ifNil: [ 
+		anActor rootSceneComponent ifNotNil: [ :rootComponent |
+			rootComponent addChildSceneComponent: self
+		] ifNil: [ 
+			anActor rootSceneComponent: self
+		].
+	].
+
 ]
 
 { #category : #notifications }
 WDGFActorSceneComponent >> addedToActor: anActor [
 	super addedToActor: anActor.
-	anActor rootSceneComponent ifNotNil: [ :rootComponent |
-		rootComponent addChildSceneComponent: self
-	] ifNil: [ 
-		anActor rootSceneComponent: self
-	]
+	self children do: [ :each | anActor addComponent: each ].
 ]
 
 { #category : #notifications }
 WDGFActorSceneComponent >> addedToParent: aParent [
 	self assert: parent isNil.
 	parent := aParent.
-	owner := aParent owner.
 ]
 
 { #category : #accessing }
@@ -240,7 +251,7 @@ WDGFActorSceneComponent >> transformWorldPositionToLocal: position [
 	parentPosition := parent
 		ifNil: [position]
 		ifNotNil: [parent transformWorldPositionToLocal: position].
-	^ transform transformWorldPositionToLocal: parentPosition.
+	^ transform inverseTransformPosition: parentPosition.
 
 ]
 

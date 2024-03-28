@@ -223,7 +223,7 @@ WDGFExamples class >> exampleFallingBoxStack [
 
 { #category : #examples }
 WDGFExamples class >> exampleRoom [
-	| floorMaterial ceilingMaterial wallMaterial lightSourceActor world |
+	| floorMaterial ceilingMaterial wallMaterial lightSourceActor world screenExtent screenHalfExtent screenActor screenForm screenTexture lastScreenPosition |
 	world := WDGFWorld new.
 	
 	floorMaterial := WDMetallicRoughnessMaterial new
@@ -295,6 +295,43 @@ WDGFExamples class >> exampleRoom [
 		position: (Vector3 x: 0 y: 1.5 z: 0);
 		yourself.
 	world spawnActor: lightSourceActor.
+	
+	screenExtent := 1024@512.
+	screenForm := Form extent: screenExtent depth: 32.
+	screenForm fillColor: Color black.
+	screenTexture := WDTexture forColorForm: screenForm.
+	screenHalfExtent := Vector3 xy: screenExtent asVector2 / 1000 z: 0.01.
+	lastScreenPosition := 0@0.
+	screenActor := WDGFActor new
+		addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
+			currentMaterial: (WDMetallicRoughnessMaterial new
+				doubleSided: true;
+				baseColorFactor: 0.05;
+				emissiveTexture: screenTexture;
+				emissiveFactor: 1.0;
+				metallicFactor: 0.0;
+				roughnessFactor: 0.1
+				yourself);
+			addScreenQuad: screenHalfExtent;
+			generateTexcoords0ForScreenProjection;
+			mesh));
+		addComponent: (WDGFInteractiveScreenComponent boundingBoxHalfExtent: screenHalfExtent screenExtent: screenExtent);
+		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: screenHalfExtent);
+		addComponent: (WDGFCollisionObjectComponent new);
+		orientation: (Quaternion yRotation: -90 degreesToRadians);
+		position: (Vector3 x: 3 y: 1 + screenHalfExtent y);
+		onMouseMoveEventDo: [ :event |
+			event buttons leftButton ifTrue: [
+				(FormCanvas on: screenForm)
+					line: lastScreenPosition to: event position color: Color magenta.
+				screenTexture changed
+			].
+
+			lastScreenPosition := event position.
+		];
+		yourself.
+
+	world spawnActor: screenActor.
 
 	world spawnActor: (WDGFPlayerActor new
 		position: (Vector3 y: 2.0);

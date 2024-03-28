@@ -22,6 +22,11 @@ WDGFActorComponent class >> asGameFrameworkComponent [
 ]
 
 { #category : #notifications }
+WDGFActorComponent >> addedDirectlyToActor: anActor [
+	self addedToActor: anActor
+]
+
+{ #category : #notifications }
 WDGFActorComponent >> addedToActor: anActor [
 	self assert: owner isNil.
 	owner := anActor.
@@ -42,6 +47,11 @@ WDGFActorComponent >> asGameFrameworkComponent [
 { #category : #accessing }
 WDGFActorComponent >> children [
 	^ #()
+]
+
+{ #category : #testing }
+WDGFActorComponent >> isInteractiveScreenComponent [
+	^ false
 ]
 
 { #category : #testing }

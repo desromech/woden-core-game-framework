@@ -12,8 +12,9 @@ Class {
 		'pickedObjectConstraintActor',
 		'fallbackModel',
 		'pointerModelComponent',
-		'triggerTouched',
-		'isClicking'
+		'pointerButtonTouchMask',
+		'pointerButtonPressedMask',
+		'currentPointedScreenComponents'
 	],
 	#category : #'WodenGameFramework-Core-Actor-Character'
 }
@@ -76,6 +77,47 @@ WDGFPlayerVRHandComponent >> angularVelocity [
 	^ owner angularVelocity + (owner transformVectorToWorld: (owner floorToLocalTransform transformVector3: deviceAngularVelocity))
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFPlayerVRHandComponent >> attemptToUpdatePointerAction [
+	| ray worldPoint oldPointedScreenComponets newPointedScreenComponents |
+	pointerModelComponent visible: self hasActivePointer.
+	worldPoint := self transformPositionToWorld: Vector3 zeros.
+	
+	oldPointedScreenComponets := currentPointedScreenComponents.
+	newPointedScreenComponents := #().
+	self hasActivePointer ifTrue: [ 
+		ray := self worldRayFrom: Vector3 zeros to: (Vector3 z: -1) * self class defaultPointerMaxDistance.
+	
+		newPointedScreenComponents := (owner rayCast: ray forFirstActorSuchThat: [ :actor |
+			actor hasSolidCollision
+		]) ifNotNil: [ :hitResult |
+			worldPoint := ray pointAtDistance: hitResult distance.
+			hitResult actor components select: [ :each |
+			each isInteractiveScreenComponent and: [ each containsPointInWorld: worldPoint ]
+		]
+		] ifNil: [ #() ].
+	].
+
+	"Leave"
+	oldPointedScreenComponets do: [ :each |
+		(newPointedScreenComponents includes: each) ifFalse: [
+			each dispatchPointerLeave: self atWorld: worldPoint withPressedButtons: pointerButtonPressedMask
+		]
+	].
+
+	"Enter"
+	newPointedScreenComponents do: [ :each |
+		(oldPointedScreenComponets includes: each) ifFalse: [
+			each dispatchPointerEnter: self atWorld: worldPoint withPressedButtons: pointerButtonPressedMask
+		]
+	].
+
+	currentPointedScreenComponents := newPointedScreenComponents.
+	currentPointedScreenComponents do: [ :each |
+		each dispatchPointer: self atWorld: worldPoint withPressedButtons: pointerButtonPressedMask
+	].
+]
+
 { #category : #teleport }
 WDGFPlayerVRHandComponent >> attemptToUpdateTeleportDestination [
 	| ray rayCastQueryResult teleportDestination teleportNormal slopeCosine |
@@ -94,11 +136,6 @@ WDGFPlayerVRHandComponent >> attemptToUpdateTeleportDestination [
 	lastValidTeleportDestinationNormal := teleportNormal.
 	self updateTeleportDestinationIndicator.
 	^ true
-]
-
-{ #category : #'as yet unclassified' }
-WDGFPlayerVRHandComponent >> beginClicking [
-	isClicking := true.
 ]
 
 { #category : #teleport }
@@ -125,26 +162,12 @@ WDGFPlayerVRHandComponent >> beginPicking [
 	ownerWorld spawnActor: pickedObjectConstraintActor
 ]
 
-{ #category : #'event handling' }
-WDGFPlayerVRHandComponent >> beginPickingOrClicking [
-	self beginPicking.
-	self updatePointerVisibility.
-	pickedObject ifNil: [ self beginClicking ].
-]
-
 { #category : #teleport }
 WDGFPlayerVRHandComponent >> beginTeleport [
 	isPreparingTeleport := true.
 	lastValidTeleportDestination := nil.
 	lastValidTeleportDestinationNormal := nil.
 	self attemptToUpdateTeleportDestination
-]
-
-{ #category : #'as yet unclassified' }
-WDGFPlayerVRHandComponent >> endClicking [
-	isClicking ifFalse: [ ^ self ].
-	isClicking := false.
-	
 ]
 
 { #category : #teleport }
@@ -162,13 +185,6 @@ WDGFPlayerVRHandComponent >> endPicking [
 		angularVelocity: self throwAngularVelocity.
 	pickedObject := nil.
 
-]
-
-{ #category : #'event handling' }
-WDGFPlayerVRHandComponent >> endPickingOrClicking [
-	self endPicking.
-	self endClicking.
-	self updatePointerVisibility.
 ]
 
 { #category : #teleport }
@@ -202,12 +218,18 @@ WDGFPlayerVRHandComponent >> fallbackModel [
 	]
 ]
 
+{ #category : #testing }
+WDGFPlayerVRHandComponent >> hasActivePointer [
+	^ pickedObject isNil and: [ (pointerButtonTouchMask bitOr: pointerButtonPressedMask) ~= 0 ]
+]
+
 { #category : #initialization }
 WDGFPlayerVRHandComponent >> initialize [
 	super initialize.
 	isPreparingTeleport := false.
-	triggerTouched := false.
-	isClicking := false.
+	pointerButtonTouchMask := 0.
+	pointerButtonPressedMask := 0.
+	currentPointedScreenComponents := #().
 	lastValidTeleportDestination := nil.
 	lastValidTeleportDestinationNormal := nil.
 ]
@@ -225,6 +247,7 @@ WDGFPlayerVRHandComponent >> onGotTrackedDevice [
 { #category : #hooks }
 WDGFPlayerVRHandComponent >> onLostTrackedDevice [
 	modelComponent visible: false.
+	self attemptToUpdatePointerAction.
 ]
 
 { #category : #hooks }
@@ -234,34 +257,43 @@ WDGFPlayerVRHandComponent >> onUpdatedTrackedDevice [
 		transform: localTransform;
 		mesh: (device renderModel ifNil: [self fallbackModel]).
 	isPreparingTeleport ifTrue: [ self attemptToUpdateTeleportDestination ].
+	self attemptToUpdatePointerAction.
 ]
 
 { #category : #'event handling' }
 WDGFPlayerVRHandComponent >> onVRTrackedDeviceButtonPressedEvent: event [
 	event isAxis0 ifTrue: [ self beginTeleport ].
-	event isAxis1 ifTrue: [ self beginPickingOrClicking ].
+	event isAxis1 ifTrue: [
+		pointerButtonPressedMask := pointerButtonPressedMask bitOr: 1.
+		self beginPicking
+	].
+	self attemptToUpdatePointerAction.
 ]
 
 { #category : #'event handling' }
 WDGFPlayerVRHandComponent >> onVRTrackedDeviceButtonReleasedEvent: event [
 	event isAxis0 ifTrue: [ self endTeleport ].
-	event isAxis1 ifTrue: [ self endPickingOrClicking ].
+	event isAxis1 ifTrue: [
+		pointerButtonPressedMask := pointerButtonPressedMask bitClear: 1.
+		self endPicking
+	].
+	self attemptToUpdatePointerAction.
 ]
 
 { #category : #'event handling' }
 WDGFPlayerVRHandComponent >> onVRTrackedDeviceButtonTouchEvent: event [
 	event isAxis1 ifTrue: [
-		triggerTouched := true.
-		self updatePointerVisibility.
+		pointerButtonTouchMask := pointerButtonTouchMask bitOr: 1
 	].
+	self attemptToUpdatePointerAction.
 ]
 
 { #category : #'event handling' }
 WDGFPlayerVRHandComponent >> onVRTrackedDeviceButtonUntouchEvent: event [
 	event isAxis1 ifTrue: [
-		triggerTouched := false.
-		self updatePointerVisibility.
+		pointerButtonTouchMask := pointerButtonTouchMask bitClear:  1.
 	].
+	self attemptToUpdatePointerAction.
 ]
 
 { #category : #teleport }
@@ -316,11 +348,6 @@ WDGFPlayerVRHandComponent >> transformWorldOrientationToLocal: orientation [
 WDGFPlayerVRHandComponent >> transformWorldPositionToLocal: position [
 	^ localTransform inverseTransformPosition: (owner transformWorldPositionToLocal: position)
 	
-]
-
-{ #category : #'event handling' }
-WDGFPlayerVRHandComponent >> updatePointerVisibility [
-	pointerModelComponent visible: (triggerTouched and: [pickedObject isNil])
 ]
 
 { #category : #teleport }

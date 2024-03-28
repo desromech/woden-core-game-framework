@@ -39,7 +39,7 @@ WDGFActor >> addComponent: anObjectConvertibleToComponent [
 	components ifNil: [ components := OrderedCollection new ].
 	components add: aComponent.
 	
-	aComponent addedToActor: self.
+	aComponent addedDirectlyToActor: self.
 	^ aComponent
 ]
 
