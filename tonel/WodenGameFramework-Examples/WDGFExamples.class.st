@@ -310,7 +310,7 @@ WDGFExamples class >> exampleRoom [
 				emissiveTexture: screenTexture;
 				emissiveFactor: 1.0;
 				metallicFactor: 0.0;
-				roughnessFactor: 0.1
+				roughnessFactor: 0.8;
 				yourself);
 			addScreenQuad: screenHalfExtent;
 			generateTexcoords0ForScreenProjection;
