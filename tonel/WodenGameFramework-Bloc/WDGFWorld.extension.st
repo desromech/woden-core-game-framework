@@ -12,5 +12,6 @@ WDGFWorld >> playInBlocSpace [
 	self beginPlay.
 	^ WDBlGFWorldElement new
 		wodenWorld: self;
+		playing: true;
 		openInSpace
 ]

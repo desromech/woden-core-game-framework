@@ -6,7 +6,9 @@ Class {
 	#superclass : #WDBlSceneElement,
 	#instVars : [
 		'wodenWorld',
-		'defaultCamera'
+		'defaultCamera',
+		'playing',
+		'updateTask'
 	],
 	#category : #'WodenGameFramework-Bloc'
 }
@@ -19,6 +21,33 @@ WDBlGFWorldElement >> getOrCreateDefaultCamera [
 		]
 ]
 
+{ #category : #initialization }
+WDBlGFWorldElement >> initialize [
+	super initialize.
+	playing := false.
+]
+
+{ #category : #'instance creation' }
+WDBlGFWorldElement >> newUpdateTask [
+	^ WDBlGFUpdateTask new worldElement: self
+]
+
+{ #category : #accessing }
+WDBlGFWorldElement >> playing [
+
+	^ playing
+]
+
+{ #category : #initialization }
+WDBlGFWorldElement >> playing: aBoolean [
+	playing := aBoolean.
+	playing ifTrue: [
+		self startUpdateTask.
+	] ifFalse: [
+		self stopUpdateTask
+	].
+]
+
 { #category : #accessing }
 WDBlGFWorldElement >> selectCurrentCamera [
 	wodenWorld ifNotNil: [ 
@@ -28,6 +57,38 @@ WDBlGFWorldElement >> selectCurrentCamera [
 	].
 
 	^ self getOrCreateDefaultCamera
+]
+
+{ #category : #initialization }
+WDBlGFWorldElement >> startUpdateTask [
+	self stopUpdateTask.
+	playing ifFalse: [ ^ self ].
+	self enqueueTask: (updateTask := self newUpdateTask)
+]
+
+{ #category : #initialization }
+WDBlGFWorldElement >> stopUpdateTask [
+	updateTask ifNotNil: [ 
+		updateTask stop.
+		self dequeueTask: updateTask
+	].
+
+
+]
+
+{ #category : #updating }
+WDBlGFWorldElement >> updateTimestep: deltaTime [
+	wodenWorld ifNil: [ ^ self ].
+	
+	wodenWorld updateWithDeltaTime: deltaTime.
+	self camera: self selectCurrentCamera.
+	self camera ifNotNil: [ :validCamera |
+		validCamera cameras first currentTime: wodenWorld currentTime.
+	].
+	wodenWorld isPlaying ifTrue: [ 
+		self invalidate.
+	].
+
 ]
 
 { #category : #accessing }
