@@ -8,10 +8,31 @@ Class {
 		'wodenWorld',
 		'defaultCamera',
 		'playing',
-		'updateTask'
+		'updateTask',
+		'convertedEventQueue'
 	],
 	#category : #'WodenGameFramework-Bloc'
 }
+
+{ #category : #'event handling' }
+WDBlGFWorldElement >> dispatchQueuedEvents [
+	| inputSubsystem |
+	inputSubsystem := wodenWorld ifNotNil: [ :world | world inputSubsystem ].
+
+	[convertedEventQueue isEmpty ] whileFalse: [ 
+		| convertedEvent |
+		convertedEvent := convertedEventQueue next.
+		inputSubsystem ifNotNil: [
+			inputSubsystem dispatchEvent: convertedEvent
+		]
+	]
+]
+
+{ #category : #'event handling' }
+WDBlGFWorldElement >> enqueueConvertedEvent: aConvertedEvent [
+	convertedEventQueue nextPut: aConvertedEvent.
+	self invalidate.
+]
 
 { #category : #accessing }
 WDBlGFWorldElement >> getOrCreateDefaultCamera [
@@ -25,6 +46,8 @@ WDBlGFWorldElement >> getOrCreateDefaultCamera [
 WDBlGFWorldElement >> initialize [
 	super initialize.
 	playing := false.
+	convertedEventQueue := AtomicSharedQueue new.
+	self addEventHandler: WDBlGFWorldEventListener new.
 ]
 
 { #category : #'instance creation' }
@@ -78,6 +101,7 @@ WDBlGFWorldElement >> stopUpdateTask [
 
 { #category : #updating }
 WDBlGFWorldElement >> updateTimestep: deltaTime [
+	self dispatchQueuedEvents.
 	wodenWorld ifNil: [ ^ self ].
 	
 	wodenWorld updateWithDeltaTime: deltaTime.

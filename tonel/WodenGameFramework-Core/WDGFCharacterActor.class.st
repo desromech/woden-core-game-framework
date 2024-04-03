@@ -51,6 +51,7 @@ WDGFCharacterActor >> setupComponents [
 	self addComponent: (WDGFCapsuleYCollisionShapeComponent height: self class defaultHeight - self class defaultBroadness radius: self class defaultBroadness / 2).
 	self addComponent: (WDGFCharacterBodyObjectComponent new
 		mass: self class defaultMass;
+		restitutionCoefficient: 0.0;
 		withoutTorque;
 		jumpVelocity: self class defaultJumpVelocity;
 		yourself).
