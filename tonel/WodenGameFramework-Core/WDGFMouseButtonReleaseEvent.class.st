@@ -11,3 +11,8 @@ Class {
 WDGFMouseButtonReleaseEvent class >> inputEventMessageName [
 	^ #mouseButtonReleaseEvent:
 ]
+
+{ #category : #'as yet unclassified' }
+WDGFMouseButtonReleaseEvent >> accept: anEventHandler [
+	^ anEventHandler mouseButtonReleaseEvent: self
+]

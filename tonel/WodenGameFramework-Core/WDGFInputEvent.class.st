@@ -17,6 +17,11 @@ WDGFInputEvent class >> isAbstract [
 	^ self == WDGFInputEvent
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFInputEvent >> accept: anEventHandler [
+	^ self subclassResponsibility
+]
+
 { #category : #'message name' }
 WDGFInputEvent >> inputEventMessageName [
 	^ self class inputEventMessageName

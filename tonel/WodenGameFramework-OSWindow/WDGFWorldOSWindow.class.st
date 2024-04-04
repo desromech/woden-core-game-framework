@@ -222,6 +222,7 @@ WDGFWorldOSWindow >> pollVREventsAndUpdate [
 WDGFWorldOSWindow >> selectCurrentCamera [
 	wodenWorld ifNotNil: [ 
 		(wodenWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem) findActiveCameraComponent ifNotNil: [ :cameraComponent |
+				cameraComponent viewportExtent: self windowExtent.
 				^ cameraComponent sceneNode
 		]
 	].

@@ -75,6 +75,7 @@ WDBlGFWorldElement >> playing: aBoolean [
 WDBlGFWorldElement >> selectCurrentCamera [
 	wodenWorld ifNotNil: [ 
 		(wodenWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem) findActiveCameraComponent ifNotNil: [ :cameraComponent |
+				cameraComponent viewportExtent: self extent.
 				^ cameraComponent sceneNode
 		]
 	].

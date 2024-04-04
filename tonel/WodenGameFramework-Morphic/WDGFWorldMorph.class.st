@@ -118,7 +118,7 @@ WDGFWorldMorph >> mouseDown: evt [
 	self enqueueConvertedEvent: (WDGFMouseButtonPressEvent new
 		modifiers: (self convertEventModifiers: evt);
 		buttons: (self convertEventButtonState: evt);
-		position: evt position asVector2;
+		position: (evt position - self position) asVector2;
 		button: (self convertEventButton: evt);
 		yourself).
 	evt hand newKeyboardFocus: self.
@@ -130,7 +130,7 @@ WDGFWorldMorph >> mouseMove: evt [
 	self enqueueConvertedEvent: (WDGFMouseMoveEvent new
 		modifiers: (self convertEventModifiers: evt);
 		buttons: (self convertEventButtonState: evt);
-		position: evt position asVector2;
+		position: (evt position - self position) asVector2;
 		delta: (evt endPoint - evt startPoint) asVector2;
 		yourself).
 	evt hand newKeyboardFocus: self.
@@ -141,7 +141,7 @@ WDGFWorldMorph >> mouseUp: evt [
 	self enqueueConvertedEvent: (WDGFMouseButtonReleaseEvent new
 		modifiers: (self convertEventModifiers: evt);
 		buttons: (self convertEventButtonState: evt);
-		position: evt position asVector2;
+		position: (evt position - self position) asVector2;
 		button: (self convertEventButton: evt);
 		yourself).
 	evt hand newKeyboardFocus: self.
@@ -182,6 +182,7 @@ WDGFWorldMorph >> playing: aBoolean [
 WDGFWorldMorph >> selectCurrentCamera [
 	wodenWorld ifNotNil: [ 
 		(wodenWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem) findActiveCameraComponent ifNotNil: [ :cameraComponent |
+				cameraComponent viewportExtent: self extent.
 				^ cameraComponent sceneNode
 		]
 	].

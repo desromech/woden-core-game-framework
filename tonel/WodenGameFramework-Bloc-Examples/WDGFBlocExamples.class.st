@@ -14,31 +14,29 @@ WDGFBlocExamples class >> exampleRoom [
 	
 	self buildSampleRoomOn: world.
 	
-	screenExtent := 512@256.
-	screenHalfExtent := Vector3 xy: screenExtent asVector2 / 1000 z: 0.01.
+	screenExtent := 256@128.
+	screenHalfExtent := Vector3 xy: screenExtent asVector2 / 1000 * 2.0 z: 0.01.
 
 	space := BlSpace new
 		extent: screenExtent;
 		host: (WDBlTextureHost extent: screenExtent).
-	space root addChild: (ToLabel text: 'Hello world').
+	space root addChild: (ToButton new
+		label: (ToLabel text: 'Test Button');
+		yourself).
 	space show.
 	screenTexture := space host texture.
 
 	lastScreenPosition := 0@0.
 	screenActor := WDGFActor new
 		addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
-			currentMaterial: (WDMetallicRoughnessMaterial new
+			currentMaterial: (WDUnlitMaterial new
 				doubleSided: true;
-				baseColorFactor: 0.05;
-				emissiveTexture: screenTexture;
-				emissiveFactor: 1.0;
-				metallicFactor: 0.0;
-				roughnessFactor: 0.8;
+				colorTexture: screenTexture;
 				yourself);
 			addScreenQuad: screenHalfExtent;
 			generateTexcoords0ForScreenProjection;
 			mesh));
-		addComponent: (WDGFInteractiveBlocScreenComponent boundingBoxHalfExtent: screenHalfExtent screenExtent: screenExtent);
+		addComponent: (WDGFInteractiveBlocScreenComponent boundingBoxHalfExtent: screenHalfExtent space: space);
 		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: screenHalfExtent);
 		addComponent: (WDGFCollisionObjectComponent new);
 		orientation: (Quaternion yRotation: -90 degreesToRadians);

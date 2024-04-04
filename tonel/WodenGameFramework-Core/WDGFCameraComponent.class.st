@@ -6,7 +6,8 @@ Class {
 	#superclass : #WDGFActorSceneComponent,
 	#instVars : [
 		'camera',
-		'isActive'
+		'isActive',
+		'viewportExtent'
 	],
 	#category : #'WodenGameFramework-Core-Components-Scene'
 }
@@ -14,6 +15,11 @@ Class {
 { #category : #'instance creation' }
 WDGFCameraComponent class >> with: aCamera [
 	^ self new camera: aCamera; yourself
+]
+
+{ #category : #'as yet unclassified' }
+WDGFCameraComponent >> aspectRatio [
+	^ viewportExtent x / viewportExtent y
 ]
 
 { #category : #accessing }
@@ -26,6 +32,11 @@ WDGFCameraComponent >> camera [
 WDGFCameraComponent >> camera: anObject [
 
 	camera := anObject
+]
+
+{ #category : #'as yet unclassified' }
+WDGFCameraComponent >> frustum [
+	^ camera frustumWithAspect: self aspectRatio.
 ]
 
 { #category : #accessing }
@@ -42,6 +53,7 @@ WDGFCameraComponent >> headFloorTransform: aTransform [
 WDGFCameraComponent >> initialize [
 	super initialize.
 	camera := WDCamera new.
+	viewportExtent := 1@1.
 	isActive := false.
 ]
 
@@ -55,6 +67,14 @@ WDGFCameraComponent >> isActive [
 WDGFCameraComponent >> isActive: anObject [
 
 	isActive := anObject
+]
+
+{ #category : #'as yet unclassified' }
+WDGFCameraComponent >> localRayForViewportPoint: point [
+	| normalizedPoint frustum |
+	normalizedPoint := self viewportPointToNormalized: point.
+	frustum := self frustum.
+	^ frustum rayForNormalizedPoint: point
 ]
 
 { #category : #hooks }
@@ -71,4 +91,36 @@ WDGFCameraComponent >> privateRegisterInWorld [
 WDGFCameraComponent >> privateUnregisterFromWorld [
 	super privateRegisterInWorld.
 	ownerWorld sceneSubsystem removeCameraComponent: self
+]
+
+{ #category : #accessing }
+WDGFCameraComponent >> viewportExtent [
+
+	^ viewportExtent
+]
+
+{ #category : #accessing }
+WDGFCameraComponent >> viewportExtent: anObject [
+
+	viewportExtent := anObject
+]
+
+{ #category : #'as yet unclassified' }
+WDGFCameraComponent >> viewportPointToNormalized: point [
+	^ Vector2 x: (point x / viewportExtent x) y: 1.0 - (point y / viewportExtent y)
+]
+
+{ #category : #'as yet unclassified' }
+WDGFCameraComponent >> worldRayForViewportPoint: point [
+	| normalizedPoint frustum nearPoint farPoint |
+	normalizedPoint := self viewportPointToNormalized: point.
+	frustum := self frustum.
+	nearPoint := frustum normalizedPointInNearPlane: normalizedPoint.
+	farPoint := frustum normalizedPointInFarPlane: normalizedPoint.
+	^ Ray3D from: (self transformPositionToWorld: nearPoint) to: (self transformPositionToWorld: farPoint)
+]
+
+{ #category : #'as yet unclassified' }
+WDGFCameraComponent >> worldRayForViewportPoint: point maxDistance: maxDistance [
+	^ (self worldRayForViewportPoint: point) withMaxDistance: maxDistance
 ]

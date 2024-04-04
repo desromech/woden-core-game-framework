@@ -16,6 +16,11 @@ WDGFMouseWheelEvent class >> inputEventMessageName [
 	^ #mouseWheelEvent:
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFMouseWheelEvent >> accept: anEventHandler [
+	^ anEventHandler mouseWheelEvent: self
+]
+
 { #category : #initialization }
 WDGFMouseWheelEvent >> initialize [
 	super initialize.

@@ -19,6 +19,11 @@ Class {
 	#category : #'WodenGameFramework-Core-Events'
 }
 
+{ #category : #combining }
+WDGFInputStateModifiers >> alt [
+	^ leftAlt or: [  rightAlt ]
+]
+
 { #category : #accessing }
 WDGFInputStateModifiers >> capsLock [
 
@@ -29,6 +34,16 @@ WDGFInputStateModifiers >> capsLock [
 WDGFInputStateModifiers >> capsLock: anObject [
 
 	capsLock := anObject
+]
+
+{ #category : #accessing }
+WDGFInputStateModifiers >> cmd [
+	^ leftCmd or: [  rightCmd ]
+]
+
+{ #category : #combining }
+WDGFInputStateModifiers >> ctrl [
+	^ leftCtrl or: [  rightCtrl ]
 ]
 
 { #category : #initialization }
@@ -154,4 +169,9 @@ WDGFInputStateModifiers >> rightShift [
 WDGFInputStateModifiers >> rightShift: anObject [
 
 	rightShift := anObject
+]
+
+{ #category : #combining }
+WDGFInputStateModifiers >> shift [
+	^ leftShift or: [  rightShift ]
 ]

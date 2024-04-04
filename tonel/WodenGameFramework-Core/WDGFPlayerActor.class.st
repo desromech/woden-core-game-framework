@@ -9,7 +9,8 @@ Class {
 		'cameraAngles',
 		'pickedObject',
 		'pickedObjectConstraintActor',
-		'floorToLocalTransform'
+		'floorToLocalTransform',
+		'camera3DPointer'
 	],
 	#category : #'WodenGameFramework-Core-Actor-Character'
 }
@@ -22,6 +23,11 @@ WDGFPlayerActor class >> defaultMaxPickableWeight [
 { #category : #defaults }
 WDGFPlayerActor class >> defaultMaxPickingDistance [
 	^ 2
+]
+
+{ #category : #defaults }
+WDGFPlayerActor class >> defaultPointerMaxDistance [
+	^ 3.0
 ]
 
 { #category : #'as yet unclassified' }
@@ -43,6 +49,7 @@ WDGFPlayerActor >> floorToLocalTransform [
 WDGFPlayerActor >> initialize [
 	super initialize.
 	cameraAngles := Vector3 zeros.
+	camera3DPointer := WDGF3DPointerDevice for: self.
 
 ]
 
@@ -98,10 +105,26 @@ WDGFPlayerActor >> keyUpEvent: event [
 ]
 
 { #category : #'input events' }
-WDGFPlayerActor >> mouseMoveEvent: event [
-	| delta |
-	delta := event delta.
+WDGFPlayerActor >> mouseButtonPressEvent: event [
+	| worldRay |
+	worldRay := cameraComponent worldRayForViewportPoint: event position maxDistance: self class defaultPointerMaxDistance.
+	camera3DPointer updatePointerActionWithWorldRay: worldRay mouseButtonMask: event buttons.
+]
 
+{ #category : #'input events' }
+WDGFPlayerActor >> mouseButtonReleaseEvent: event [
+	| worldRay |
+	worldRay := cameraComponent worldRayForViewportPoint: event position maxDistance: self class defaultPointerMaxDistance.
+	camera3DPointer updatePointerActionWithWorldRay: worldRay mouseButtonMask: event buttons.
+]
+
+{ #category : #'input events' }
+WDGFPlayerActor >> mouseMoveEvent: event [
+	| delta worldRay |
+	delta := event delta.
+	worldRay := cameraComponent worldRayForViewportPoint: event position maxDistance: self class defaultPointerMaxDistance.
+	camera3DPointer updatePointerActionWithWorldRay: worldRay mouseButtonMask: event buttons.
+	
 	event buttons leftButton ifTrue: [ 
 		cameraAngles := cameraAngles + (Vector3 x: delta y negated degreesToRadians y: delta x negated degreesToRadians z: 0.0).
 	].

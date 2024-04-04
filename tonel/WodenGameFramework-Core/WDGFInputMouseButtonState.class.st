@@ -14,6 +14,18 @@ Class {
 	#category : #'WodenGameFramework-Core-Events'
 }
 
+{ #category : #converting }
+WDGFInputMouseButtonState >> asMask [
+	| mask |
+	mask := 0.
+	leftButton ifTrue: [ mask := mask bitOr: 1 ].
+	middleButton ifTrue: [ mask := mask bitOr: 2 ].
+	rightButton ifTrue: [ mask := mask bitOr: 4 ].
+	extraButton ifTrue: [ mask := mask bitOr: 8 ].
+	extraButton2 ifTrue: [ mask := mask bitOr: 16 ].
+	^ mask
+]
+
 { #category : #accessing }
 WDGFInputMouseButtonState >> extraButton [
 
@@ -83,4 +95,15 @@ WDGFInputMouseButtonState >> rightButton [
 WDGFInputMouseButtonState >> rightButton: anObject [
 
 	rightButton := anObject
+]
+
+{ #category : #converting }
+WDGFInputMouseButtonState >> setFromMask: aMask [
+	leftButton := aMask anyMask: 1.
+	middleButton := aMask anyMask: 2.
+	rightButton := aMask anyMask: 4.
+	extraButton := aMask anyMask: 8.
+	extraButton2 := aMask anyMask: 16.
+	
+
 ]

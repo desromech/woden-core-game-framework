@@ -11,3 +11,8 @@ Class {
 WDGFMouseButtonPressEvent class >> inputEventMessageName [
 	^ #mouseButtonPressEvent:
 ]
+
+{ #category : #'as yet unclassified' }
+WDGFMouseButtonPressEvent >> accept: anEventHandler [
+	^ anEventHandler mouseButtonPressEvent: self
+]

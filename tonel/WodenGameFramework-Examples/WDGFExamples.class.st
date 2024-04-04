@@ -7,7 +7,7 @@ Class {
 	#category : #'WodenGameFramework-Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sample common' }
 WDGFExamples class >> buildSampleRoomOn: world [
 	| floorMaterial ceilingMaterial wallMaterial lightSourceActor |
 	floorMaterial := WDMetallicRoughnessMaterial new
@@ -321,7 +321,7 @@ WDGFExamples class >> exampleRoom [
 			addScreenQuad: screenHalfExtent;
 			generateTexcoords0ForScreenProjection;
 			mesh));
-		addComponent: (WDGFInteractiveScreenComponent boundingBoxHalfExtent: screenHalfExtent screenExtent: screenExtent);
+		addComponent: (WDGFInteractiveScreenTextureComponent boundingBoxHalfExtent: screenHalfExtent texture: screenTexture);
 		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: screenHalfExtent);
 		addComponent: (WDGFCollisionObjectComponent new);
 		orientation: (Quaternion yRotation: -90 degreesToRadians);

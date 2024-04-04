@@ -2,11 +2,10 @@
 I am a component which is used to express an interactive screen element inside the actor.
 "
 Class {
-	#name : #WDGFInteractiveScreenComponent,
+	#name : #WDGFAbstractInteractiveScreenComponent,
 	#superclass : #WDGFActorSceneComponent,
 	#instVars : [
 		'boundingBox',
-		'screenExtent',
 		'currentPointerPosition',
 		'currentPressedButtonMask',
 		'currentPressedButtonState'
@@ -15,29 +14,19 @@ Class {
 }
 
 { #category : #accessing }
-WDGFInteractiveScreenComponent class >> boundingBox: aBoundingBox screenExtent: screenExtent [
-	^ self new boundingBox: aBoundingBox; screenExtent: screenExtent; yourself
-]
-
-{ #category : #accessing }
-WDGFInteractiveScreenComponent class >> boundingBoxHalfExtent: aHalfExtent screenExtent: screenExtent [
-	^ self boundingBox: (AABox halfExtent: aHalfExtent) screenExtent: screenExtent
-]
-
-{ #category : #accessing }
-WDGFInteractiveScreenComponent >> boundingBox [
+WDGFAbstractInteractiveScreenComponent >> boundingBox [
 
 	^ boundingBox
 ]
 
 { #category : #accessing }
-WDGFInteractiveScreenComponent >> boundingBox: anObject [
+WDGFAbstractInteractiveScreenComponent >> boundingBox: anObject [
 
 	boundingBox := anObject
 ]
 
 { #category : #'pointer dispatching' }
-WDGFInteractiveScreenComponent >> containsPointInWorld: aPointInWorld [
+WDGFAbstractInteractiveScreenComponent >> containsPointInWorld: aPointInWorld [
 	| localPoint |
 	localPoint := self transformWorldPositionToLocal: aPointInWorld.
 	^ boundingBox min x <= localPoint x and: [ localPoint x <= boundingBox max x and: [
@@ -46,12 +35,12 @@ WDGFInteractiveScreenComponent >> containsPointInWorld: aPointInWorld [
 ]
 
 { #category : #'event management' }
-WDGFInteractiveScreenComponent >> dispatchEvent: anInputEvent [
+WDGFAbstractInteractiveScreenComponent >> dispatchEvent: anInputEvent [
 	owner ifNotNil: [ owner send: anInputEvent inputEventMessageName with: anInputEvent ]
 ]
 
 { #category : #'pointer dispatching' }
-WDGFInteractiveScreenComponent >> dispatchPointer: pointer atWorld: worldPoint withPressedButtons: buttonPressedMask [
+WDGFAbstractInteractiveScreenComponent >> dispatchPointer: pointer atWorld: worldPoint withPressedButtons: buttonPressedMask [
 	| pointerPosition delta |
 	self dispatchPointer: pointer pressedButtonEventsFor: buttonPressedMask position: currentPointerPosition.
 	
@@ -67,8 +56,8 @@ WDGFInteractiveScreenComponent >> dispatchPointer: pointer atWorld: worldPoint w
 	
 ]
 
-{ #category : #'as yet unclassified' }
-WDGFInteractiveScreenComponent >> dispatchPointer: pointer pressedButtonEventFor: button position: position [
+{ #category : #'pointer dispatching' }
+WDGFAbstractInteractiveScreenComponent >> dispatchPointer: pointer pressedButtonEventFor: button position: position [
 	self dispatchEvent: (WDGFMouseButtonPressEvent new
 		buttons: currentPressedButtonState copy;
 		position: position;
@@ -76,16 +65,13 @@ WDGFInteractiveScreenComponent >> dispatchPointer: pointer pressedButtonEventFor
 		yourself)
 ]
 
-{ #category : #'as yet unclassified' }
-WDGFInteractiveScreenComponent >> dispatchPointer: pointer pressedButtonEventsFor: newButtonPressedMask position: position [
+{ #category : #'pointer dispatching' }
+WDGFAbstractInteractiveScreenComponent >> dispatchPointer: pointer pressedButtonEventsFor: newButtonPressedMask position: position [
 	| releasedButtonMask pressedButtonMask |
 	releasedButtonMask := currentPressedButtonMask bitAnd: newButtonPressedMask bitInvert.
 	pressedButtonMask := currentPressedButtonMask bitInvert bitAnd: newButtonPressedMask.
 	currentPressedButtonMask := newButtonPressedMask.
-	currentPressedButtonState
-		leftButton: (currentPressedButtonMask anyMask: 1);
-		middleButton: (currentPressedButtonMask anyMask: 2);
-		rightButton: (currentPressedButtonMask anyMask: 4).
+	currentPressedButtonState setFromMask: currentPressedButtonMask.
 
 	(releasedButtonMask anyMask: 1) ifTrue: [ 
 		self dispatchPointer: pointer releasedButtonEventFor: 0 position: position
@@ -108,8 +94,8 @@ WDGFInteractiveScreenComponent >> dispatchPointer: pointer pressedButtonEventsFo
 
 ]
 
-{ #category : #'as yet unclassified' }
-WDGFInteractiveScreenComponent >> dispatchPointer: pointer releasedButtonEventFor: button position: position [
+{ #category : #'pointer dispatching' }
+WDGFAbstractInteractiveScreenComponent >> dispatchPointer: pointer releasedButtonEventFor: button position: position [
 	self dispatchEvent: (WDGFMouseButtonReleaseEvent new
 		buttons: currentPressedButtonState copy;
 		position: position;
@@ -119,48 +105,51 @@ WDGFInteractiveScreenComponent >> dispatchPointer: pointer releasedButtonEventFo
 ]
 
 { #category : #'pointer dispatching' }
-WDGFInteractiveScreenComponent >> dispatchPointerEnter: pointer atWorld: worldPoint withPressedButtons: buttonPressedMask [
+WDGFAbstractInteractiveScreenComponent >> dispatchPointerEnter: pointer atWorld: worldPoint withPressedButtons: buttonPressedMask [
 	currentPointerPosition := self transformWorldPointToScreen: worldPoint.
 	self dispatchPointer: pointer pressedButtonEventsFor: buttonPressedMask position: currentPointerPosition.
+	self mouseEntered
 ]
 
 { #category : #'pointer dispatching' }
-WDGFInteractiveScreenComponent >> dispatchPointerLeave: pointer atWorld: worldPoint withPressedButtons: buttonPressedMask [
+WDGFAbstractInteractiveScreenComponent >> dispatchPointerLeave: pointer atWorld: worldPoint withPressedButtons: buttonPressedMask [
 	self dispatchPointer: pointer pressedButtonEventsFor: buttonPressedMask position: currentPointerPosition.
 	currentPointerPosition := self transformWorldPointToScreen: worldPoint.
+	self mouseLeft
 ]
 
 { #category : #initialization }
-WDGFInteractiveScreenComponent >> initialize [
+WDGFAbstractInteractiveScreenComponent >> initialize [
 	super initialize.
 	boundingBox := AABox unit.
-	screenExtent := 64@64.
 	currentPointerPosition := Vector2 zeros.
 	currentPressedButtonMask := 0.
 	currentPressedButtonState := WDGFInputMouseButtonState new.
 ]
 
 { #category : #testing }
-WDGFInteractiveScreenComponent >> isInteractiveScreenComponent [
+WDGFAbstractInteractiveScreenComponent >> isInteractiveScreenComponent [
 	^ true
 ]
 
-{ #category : #accessing }
-WDGFInteractiveScreenComponent >> screenExtent [
+{ #category : #'as yet unclassified' }
+WDGFAbstractInteractiveScreenComponent >> mouseEntered [
+]
 
-	^ screenExtent
+{ #category : #'as yet unclassified' }
+WDGFAbstractInteractiveScreenComponent >> mouseLeft [
 ]
 
 { #category : #accessing }
-WDGFInteractiveScreenComponent >> screenExtent: anObject [
-
-	screenExtent := anObject
+WDGFAbstractInteractiveScreenComponent >> screenExtent [
+	^ self subclassResponsibility
 ]
 
 { #category : #'pointer dispatching' }
-WDGFInteractiveScreenComponent >> transformWorldPointToScreen: worldPoint [
-	| localPoint boxNormalizedPoint |
+WDGFAbstractInteractiveScreenComponent >> transformWorldPointToScreen: worldPoint [
+	| localPoint boxNormalizedPoint screenExtent |
 	localPoint := (self transformWorldPositionToLocal: worldPoint) xy.
 	boxNormalizedPoint := (localPoint - boundingBox min xy) / boundingBox extent xy.
+	screenExtent := self screenExtent.
 	^ Vector2 x: screenExtent x * boxNormalizedPoint x y: screenExtent y * (1.0 - boxNormalizedPoint y)
 ]

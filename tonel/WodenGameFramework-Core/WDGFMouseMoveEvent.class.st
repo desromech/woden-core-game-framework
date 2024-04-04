@@ -15,6 +15,11 @@ WDGFMouseMoveEvent class >> inputEventMessageName [
 	^ #mouseMoveEvent:
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFMouseMoveEvent >> accept: anEventHandler [
+	^ anEventHandler mouseMoveEvent: self
+]
+
 { #category : #accessing }
 WDGFMouseMoveEvent >> delta [
 
