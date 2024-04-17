@@ -11,8 +11,10 @@ BaselineOfWodenGameFramework >> baseline: spec [
 		spec
 			baseline: #'WodenSceneGraph' with: [ spec repository: 'github://desromech/woden-core-scene-graph' ];
 			baseline: #'WodenCorePhysics' with: [ spec repository: 'github://desromech/woden-core-physics' ];
+			baseline: #'OpenAL' with: [ spec repository: 'github://desromech/pharo-openal' ];
+
 			package: #'WodenGameFramework-Core' with: [
-				spec requires: #( #'WodenSceneGraph' #'WodenCorePhysics').
+				spec requires: #( #'WodenSceneGraph' #'WodenCorePhysics' #'OpenAL').
 			];
 			package: #'WodenGameFramework-Core-Tests' with: [
 				spec requires: #( #'WodenGameFramework-Core' ).
