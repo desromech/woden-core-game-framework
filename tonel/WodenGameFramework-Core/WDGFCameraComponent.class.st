@@ -84,13 +84,15 @@ WDGFCameraComponent >> privateRegisterInWorld [
 		sceneNode cameras: { camera }
 	].
 
-	ownerWorld sceneSubsystem addCameraComponent: self
+	ownerWorld sceneSubsystem addCameraComponent: self.
+	ownerWorld soundSubsystem addCameraComponent: self.
 ]
 
 { #category : #hooks }
 WDGFCameraComponent >> privateUnregisterFromWorld [
 	super privateRegisterInWorld.
-	ownerWorld sceneSubsystem removeCameraComponent: self
+	ownerWorld sceneSubsystem removeCameraComponent: self.
+	ownerWorld soundSubsystem removeCameraComponent: self.
 ]
 
 { #category : #accessing }

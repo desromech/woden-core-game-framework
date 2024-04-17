@@ -147,6 +147,11 @@ WDGFWorld >> sceneSubsystem [
 	^ self getOrCreateSubsystemWithClass: WDGFSceneSubsystem
 ]
 
+{ #category : #accessing }
+WDGFWorld >> soundSubsystem [
+	^ self getOrCreateSubsystemWithClass: WDGFSoundSubsystem
+]
+
 { #category : #'actor lifecycle' }
 WDGFWorld >> spawnActor: anObjectConvertibleToActor [
 	| anActor |
