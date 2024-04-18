@@ -41,6 +41,13 @@ WDGFWorldMorph >> convertEventModifiers: event [
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFWorldMorph >> destroyResources [
+	super destroyResources.
+	wodenWorld ifNotNil: [ wodenWorld closeAndDestroy ].
+	
+]
+
 { #category : #'event handling' }
 WDGFWorldMorph >> dispatchQueuedEvents [
 	| inputSubsystem |
