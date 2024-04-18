@@ -33,6 +33,11 @@ WDGFWorld >> beginPlay [
 
 ]
 
+{ #category : #'connection open/close' }
+WDGFWorld >> closeAndDestroy [
+	subsystems do: [ :each | each closeAndDestroy ]
+]
+
 { #category : #accessing }
 WDGFWorld >> currentTime [
 	^ currentTime

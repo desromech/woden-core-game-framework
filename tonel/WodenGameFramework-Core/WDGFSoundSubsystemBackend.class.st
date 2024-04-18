@@ -39,6 +39,10 @@ WDGFSoundSubsystemBackend class >> priority [
 	^ self subclassResponsibility
 ]
 
+{ #category : #deleting }
+WDGFSoundSubsystemBackend >> destroy [
+]
+
 { #category : #initialization }
 WDGFSoundSubsystemBackend >> initializeForSubsystem: subsystem [
 	self subclassResponsibility
@@ -54,7 +58,7 @@ WDGFSoundSubsystemBackend >> unregisterSoundSourceComponent: sourceComponent [
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 WDGFSoundSubsystemBackend >> updateForSubsystem: subsystem timeStep: delta [
 	self subclassResponsibility
 ]

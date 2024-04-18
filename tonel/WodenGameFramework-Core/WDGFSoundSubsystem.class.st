@@ -7,8 +7,8 @@ Class {
 	#instVars : [
 		'cameraComponents',
 		'backend',
-		'backendSesion',
-		'soundSourceComponents'
+		'soundSourceComponents',
+		'backendSession'
 	],
 	#category : #'WodenGameFramework-Core-Subsystem'
 }
@@ -18,11 +18,27 @@ WDGFSoundSubsystem >> addCameraComponent: aCameraComponent [
 	cameraComponents add: aCameraComponent.
 ]
 
+{ #category : #'connection open/close' }
+WDGFSoundSubsystem >> closeAndDestroy [
+	super closeAndDestroy.
+	self destroyBackend.
+]
+
+{ #category : #'connection open/close' }
+WDGFSoundSubsystem >> destroyBackend [
+	(backend isNotNil and: [ backendSession == AGPU session ]) ifTrue: [ 
+		backend destroy
+	].
+
+	backend := nil.
+	backendSession := nil.
+]
+
 { #category : #update }
 WDGFSoundSubsystem >> ensureBackendIsValid [
-	(backend isNotNil and: [backendSesion == AGPU session]) ifTrue: [^ self].
+	(backend isNotNil and: [backendSession == AGPU session]) ifTrue: [^ self].
 	backend := WDGFSoundSubsystemBackend findAvailable new.
-	backendSesion := AGPU session.
+	backendSession := AGPU session.
 	backend initializeForSubsystem: self.
 ]
 

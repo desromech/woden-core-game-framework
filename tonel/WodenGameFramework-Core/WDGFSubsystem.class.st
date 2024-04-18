@@ -32,6 +32,10 @@ WDGFSubsystem class >> initialize [
 WDGFSubsystem >> beginPlay [
 ]
 
+{ #category : #'connection open/close' }
+WDGFSubsystem >> closeAndDestroy [
+]
+
 { #category : #notifying }
 WDGFSubsystem >> createdInWorld: newOwnerWorld [
 	self assert: ownerWorld isNil.

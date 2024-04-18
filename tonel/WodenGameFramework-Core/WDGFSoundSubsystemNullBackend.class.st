@@ -32,7 +32,7 @@ WDGFSoundSubsystemNullBackend >> unregisterSoundSourceComponent: sourceComponent
 	"Nothing is required here"
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 WDGFSoundSubsystemNullBackend >> updateForSubsystem: subsystem timeStep: delta [
 	"Do nothing in this backend."
 ]

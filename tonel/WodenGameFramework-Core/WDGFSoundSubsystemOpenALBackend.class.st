@@ -27,7 +27,19 @@ WDGFSoundSubsystemOpenALBackend class >> priority [
 	^ 10
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deleting }
+WDGFSoundSubsystemOpenALBackend >> destroy [
+	(context isNotNil and: [contextSession == AGPU session]) ifTrue: [
+		context destroy.
+		device close.
+	].
+
+	context := nil.
+	contextSession := nil.
+	device := nil.
+]
+
+{ #category : #deleting }
 WDGFSoundSubsystemOpenALBackend >> ensureValidOpenALContext [
 	| contextAttributes |
 	(context isNotNil and: [contextSession == AGPU session]) ifTrue: [ ^ self ].
@@ -89,7 +101,7 @@ WDGFSoundSubsystemOpenALBackend >> unregisterSoundSourceComponent: sourceCompone
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deleting }
 WDGFSoundSubsystemOpenALBackend >> updateForSubsystem: subsystem timeStep: delta [
 	self ensureValidOpenALContext.
 	
@@ -109,7 +121,7 @@ WDGFSoundSubsystemOpenALBackend >> updateForSubsystem: subsystem timeStep: delta
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deleting }
 WDGFSoundSubsystemOpenALBackend >> updateListenerWithCameraComponent: listenerCamera [
 	| position linearVelocity forward up orientation |
 	position := Vector3 zeros.
@@ -139,7 +151,7 @@ WDGFSoundSubsystemOpenALBackend >> updateListenerWithCameraComponent: listenerCa
 		listenerfv: AL_ORIENTATION values: orientation
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deleting }
 WDGFSoundSubsystemOpenALBackend >> updateSoundSourceComponent: sourceComponent [
 	soundSources at: sourceComponent ifPresent: [ :source |
 		source
@@ -148,7 +160,7 @@ WDGFSoundSubsystemOpenALBackend >> updateSoundSourceComponent: sourceComponent [
 	]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deleting }
 WDGFSoundSubsystemOpenALBackend >> validBufferOrNilForSample: sample [
 	sample ifNil: [ ^ nil ].
 

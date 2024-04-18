@@ -50,6 +50,12 @@ WDGFWorldOSWindow >> convertMouseButtonState: osWindowButtonState [
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFWorldOSWindow >> destroyResources [
+	super destroyResources.
+	wodenWorld ifNotNil: [ wodenWorld closeAndDestroy ]
+]
+
 { #category : #events }
 WDGFWorldOSWindow >> dispatchQueuedEvents [
 	| inputSubsystem |
