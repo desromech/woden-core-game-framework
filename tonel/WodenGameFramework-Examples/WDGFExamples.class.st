@@ -324,7 +324,7 @@ WDGFExamples class >> exampleRoom [
 		addComponent: (WDGFInteractiveScreenTextureComponent boundingBoxHalfExtent: screenHalfExtent texture: screenTexture);
 		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: screenHalfExtent);
 		addComponent: (WDGFCollisionObjectComponent new);
-		addComponent: (WDGFSoundSampleSourceComponent sample: (WDSoundSample generateNoiseWithDuration: 0.5 withRate: 44100 amplitude: 1.0 seed: 1 lowPassCutoff: 150.0) gain: 0.1 pitch: 1.0 looped: true);
+		addComponent: (WDGFSoundSampleSourceComponent sample: (WDSoundSample generateNoiseWithDuration: 0.5 withRate: 44100 amplitude: 1.0 seed: 1 lowPassCutoff: 50.0) gain: 0.15 pitch: 1.0 looped: true);
 		orientation: (Quaternion yRotation: -90 degreesToRadians);
 		position: (Vector3 x: 3 y: 1 + screenHalfExtent y);
 		onMouseMoveEventDo: [ :event |
