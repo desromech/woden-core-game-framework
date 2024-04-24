@@ -26,9 +26,24 @@ WDGFActor class >> asGameFrameworkActor [
 	^ self new
 ]
 
+{ #category : #serialization }
+WDGFActor class >> editorCategoryPath [
+	^ 'Base Actors'
+]
+
+{ #category : #serialization }
+WDGFActor class >> editorName [
+	^ self name
+]
+
 { #category : #initialization }
 WDGFActor class >> initialize [
 	ZeroTransform := TRSTransform3D identity.
+]
+
+{ #category : #serialization }
+WDGFActor class >> jsonObjectTypeName [
+	^ self name withoutPrefix: 'WDGF'
 ]
 
 { #category : #adding }
