@@ -14,6 +14,12 @@ Class {
 	#category : #'WodenGameFramework-Bloc'
 }
 
+{ #category : #'hooks - children' }
+WDBlGFWorldElement >> destroyResources [
+	super destroyResources.
+	wodenWorld ifNotNil: [ wodenWorld closeAndDestroy ].
+]
+
 { #category : #'event handling' }
 WDBlGFWorldElement >> dispatchQueuedEvents [
 	| inputSubsystem |
