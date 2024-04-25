@@ -262,14 +262,14 @@ WDGFWorldLoader >> loadWorldSettingsFrom: worldSettingsDesc [
 
 	hdriPath := (worldSettingsDesc at: 'hdri' ifAbsent: [ nil ]) ifNil: [ '' ].
 	useHDRIAsSkybox := (worldSettingsDesc at: 'useHDRIAsSkybox' ifAbsent: [ nil ]) ifNil: [ true ].
-	backgroundActor := WDGFStaticBackgroundActor new name: 'StaticBackground'.
+	backgroundActor := WDGFStaticBackgroundActor new name: 'StaticBackground'; yourself.
 
 	hdriPath ifNotEmpty: [
 		| hdriSolvedPath |
 		hdriSolvedPath := world applicationSettings resolveAssetPath: hdriPath.
 		hdriSolvedPath exists ifTrue: [
 			lightProbe := WDLightProbe forHDRIFileReference: hdriSolvedPath.
-		]		
+		]
 	].
 
 	backgroundActor addComponent: (WDGFAmbientLightProbeComponent new
