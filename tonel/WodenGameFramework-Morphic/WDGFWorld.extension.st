@@ -23,5 +23,6 @@ WDGFWorld >> playInMorphic [
 
 { #category : #'*WodenGameFramework-Morphic' }
 WDGFWorld >> playInWindow [
+	(self respondsTo: #playInOSWindow) ifTrue: [ ^ self playInOSWindow ].
 	^ self playInMorphic
 ]

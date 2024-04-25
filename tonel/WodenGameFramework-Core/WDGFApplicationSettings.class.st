@@ -41,6 +41,11 @@ WDGFApplicationSettings >> loadMaterialWithPath: path [
 ]
 
 { #category : #'accessing - ui' }
+WDGFApplicationSettings >> mapsLocation [
+	^ self assetsLocations first / 'maps'
+]
+
+{ #category : #'accessing - ui' }
 WDGFApplicationSettings >> projectLocation [
 	^ FileLocator imageDirectory
 ]

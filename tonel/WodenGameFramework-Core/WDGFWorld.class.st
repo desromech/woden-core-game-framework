@@ -133,7 +133,7 @@ WDGFWorld >> isPlaying [
 
 { #category : #'as yet unclassified' }
 WDGFWorld >> loadFromFileNamed: aFileName [
-	WDGFWorldLoader new loadFromFileNamed: aFileName in: self
+	WDGFWorldLoader new loadFromFileNamed: (applicationSettings resolveAssetPath: aFileName) in: self
 ]
 
 { #category : #messages }
