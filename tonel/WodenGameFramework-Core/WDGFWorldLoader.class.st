@@ -28,6 +28,7 @@ WDGFWorldLoader >> loadActor: actor bspBrushFrom: bspBrushDesc [
 	].
 
 	meshBuilder isEmpty ifFalse: [
+		meshBuilder generateTangentSpaceFrame.
 		actor addComponent: ((WDGFActorMeshSceneComponent with: meshBuilder mesh)
 			transform: transform;
 			yourself)
