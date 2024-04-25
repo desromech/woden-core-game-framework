@@ -13,7 +13,7 @@ WDGFBoxCollisionShapeComponent class >> halfExtent: aVector3 [
 ]
 
 { #category : #converting }
-WDGFBoxCollisionShapeComponent >> asValidCollisionShape [
+WDGFBoxCollisionShapeComponent >> asValidCollisionShapeWithoutTransform [
 	^ WDPBoxCollisionShape halfExtent: halfExtent
 ]
 

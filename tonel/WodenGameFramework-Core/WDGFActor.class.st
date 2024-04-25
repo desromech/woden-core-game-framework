@@ -33,7 +33,7 @@ WDGFActor class >> editorCategoryPath [
 
 { #category : #serialization }
 WDGFActor class >> editorName [
-	^ self name
+	^ self jsonObjectTypeName
 ]
 
 { #category : #initialization }
@@ -53,6 +53,17 @@ WDGFActor >> addComponent: anObjectConvertibleToComponent [
 	self assert: (self components includes: aComponent) not.
 	components ifNil: [ components := OrderedCollection new ].
 	components add: aComponent.
+	
+	aComponent addedDirectlyToActor: self.
+	^ aComponent
+]
+
+{ #category : #adding }
+WDGFActor >> addComponent: anObjectConvertibleToComponent noCheckBefore: oldComponent [
+	| aComponent |
+	aComponent := anObjectConvertibleToComponent asGameFrameworkComponent.
+	self assert: (self components includes: aComponent) not.
+	components add: aComponent before: oldComponent.
 	
 	aComponent addedDirectlyToActor: self.
 	^ aComponent

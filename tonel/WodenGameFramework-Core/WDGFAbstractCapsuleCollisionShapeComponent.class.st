@@ -1,3 +1,6 @@
+"
+I am a compound collision shape component.
+"
 Class {
 	#name : #WDGFAbstractCapsuleCollisionShapeComponent,
 	#superclass : #WDGFCollisionShapeComponent,

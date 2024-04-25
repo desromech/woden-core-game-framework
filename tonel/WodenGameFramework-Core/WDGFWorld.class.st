@@ -5,6 +5,7 @@ Class {
 	#name : #WDGFWorld,
 	#superclass : #WDGFWorldElement,
 	#instVars : [
+		'applicationSettings',
 		'actors',
 		'firstPendingMessage',
 		'lastPendingMessage',
@@ -18,9 +19,24 @@ Class {
 	#category : #'WodenGameFramework-Core-Actor'
 }
 
+{ #category : #constructing }
+WDGFWorld class >> withApplicationSettings: applicationSettings [
+	^ self new applicationSettings: applicationSettings; yourself
+]
+
 { #category : #accessing }
 WDGFWorld >> actors [
 	^ actors
+]
+
+{ #category : #initialization }
+WDGFWorld >> applicationSettings [
+	^ applicationSettings
+]
+
+{ #category : #initialization }
+WDGFWorld >> applicationSettings: newSettings [
+	applicationSettings := newSettings asApplicationSettings
 ]
 
 { #category : #'actor lifecycle' }
@@ -95,6 +111,7 @@ WDGFWorld >> getOrCreateSubsystemWithClass: aSubsystemClass [
 { #category : #initialization }
 WDGFWorld >> initialize [
 	super initialize.
+	self applicationSettings: WDGFApplicationSettings.
 	actors := OrderedCollection new.
 	subsystems := OrderedCollection new.
 	subsystemDirectionary := Dictionary new.
@@ -112,6 +129,11 @@ WDGFWorld >> inputSubsystem [
 { #category : #accessing }
 WDGFWorld >> isPlaying [
 	^ isPlaying
+]
+
+{ #category : #'as yet unclassified' }
+WDGFWorld >> loadFromFileNamed: aFileName [
+	WDGFWorldLoader new loadFromFileNamed: aFileName in: self
 ]
 
 { #category : #messages }

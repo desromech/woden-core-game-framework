@@ -13,7 +13,7 @@ WDGFSphereCollisionShapeComponent class >> radius: radius [
 ]
 
 { #category : #converting }
-WDGFSphereCollisionShapeComponent >> asValidCollisionShape [
+WDGFSphereCollisionShapeComponent >> asValidCollisionShapeWithoutTransform [
 	^ WDPSphereCollisionShape radius: radius
 ]
 

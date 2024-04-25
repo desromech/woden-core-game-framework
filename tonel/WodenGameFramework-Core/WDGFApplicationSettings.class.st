@@ -24,7 +24,27 @@ WDGFApplicationSettings >> assetsLocations [
 			ifNil: [ #() ]
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFApplicationSettings >> loadMaterialWithPath: path [
+	| solvedPath |
+	solvedPath := self resolveAssetPath: path.
+	solvedPath exists ifFalse: [ ^ nil ].
+	^ WDMaterial loadFromFileReference: solvedPath
+]
+
 { #category : #'accessing - ui' }
 WDGFApplicationSettings >> projectLocation [
 	^ FileLocator imageDirectory
+]
+
+{ #category : #'as yet unclassified' }
+WDGFApplicationSettings >> resolveAssetPath: path [
+	| pathFileReference |
+	pathFileReference := path asFileReference.
+	self assetsLocations do: [ :each |
+		| resolved |
+		resolved := each resolve: pathFileReference.
+		resolved exists ifTrue: [ ^ resolved ]
+	].
+	^ pathFileReference
 ]
