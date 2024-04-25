@@ -251,5 +251,36 @@ WDGFWorldLoader >> loadMaterialList: materialList [
 { #category : #loading }
 WDGFWorldLoader >> loadWorldFromJson: json [
 	self loadMaterialList: ((json at: 'materials' ifAbsent: [nil]) ifNil: [#()]).
+	self loadWorldSettingsFrom: json.
 	self loadActorsFrom: ((json at: 'children' ifAbsent: [nil]) ifNil: [#()]).
+]
+
+{ #category : #'as yet unclassified' }
+WDGFWorldLoader >> loadWorldSettingsFrom: worldSettingsDesc [
+	| ambientLighting hdriPath useHDRIAsSkybox backgroundActor lightProbe |
+	ambientLighting := Vector3 zeros.
+
+	hdriPath := (worldSettingsDesc at: 'hdri' ifAbsent: [ nil ]) ifNil: [ '' ].
+	useHDRIAsSkybox := (worldSettingsDesc at: 'useHDRIAsSkybox' ifAbsent: [ nil ]) ifNil: [ true ].
+	backgroundActor := WDGFStaticBackgroundActor new name: 'StaticBackground'.
+
+	hdriPath ifNotEmpty: [
+		| hdriSolvedPath |
+		hdriSolvedPath := world applicationSettings resolveAssetPath: hdriPath.
+		hdriSolvedPath exists ifTrue: [
+			lightProbe := WDLightProbe forHDRIFileReference: hdriSolvedPath.
+		]		
+	].
+
+	backgroundActor addComponent: (WDGFAmbientLightProbeComponent new
+		ambientLighting: ambientLighting;
+		lightProbe: lightProbe;
+		yourself).
+
+	useHDRIAsSkybox ifTrue: [
+		backgroundActor addComponent: (WDGFSkyBoxComponent with: lightProbe environment).
+	].
+
+	world spawnActor: backgroundActor
+	
 ]
