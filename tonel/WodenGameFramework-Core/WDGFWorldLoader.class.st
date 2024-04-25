@@ -256,7 +256,7 @@ WDGFWorldLoader >> loadWorldFromJson: json [
 	self loadActorsFrom: ((json at: 'children' ifAbsent: [nil]) ifNil: [#()]).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #loading }
 WDGFWorldLoader >> loadWorldSettingsFrom: worldSettingsDesc [
 	| ambientLighting hdriPath useHDRIAsSkybox backgroundActor lightProbe |
 	ambientLighting := Vector3 zeros.

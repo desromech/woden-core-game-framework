@@ -12,7 +12,7 @@ Class {
 	#pools : [
 		'OpenALConstants'
 	],
-	#category : #'WodenGameFramework-Core-Sound'
+	#category : #'WodenGameFramework-OpenAL'
 }
 
 { #category : #accessing }
