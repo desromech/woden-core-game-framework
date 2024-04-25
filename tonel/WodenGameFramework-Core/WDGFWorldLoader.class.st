@@ -215,8 +215,8 @@ WDGFWorldLoader >> loadBSPBrushFace: eachFace into: meshBuilder [
 	ny := plane normal y.
 	nz := plane normal z.
 	meshBuilder
-		beginTriangles;
 		currentMaterial: material;
+		beginTriangles;
 		addPositionsData: vertices;
 		addTexcoords0Data: texcoords.
 	1 to: vertexCount do: [ :vi |
