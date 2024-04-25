@@ -53,7 +53,7 @@ WDGFCollisionObjectComponent >> collisionActorExclusionSet: actorSet [
 
 	newExclusionSet := actorSet collect: [ :eachActor |
 		eachActor collisionObjectComponent ifNotNil: [ :comp | comp collisionObject ]
-	] thenSelect: [ :each | each isNotNil ].
+	] thenSelect: [ :each | each notNil ].
 
 	collisionObject collisionObjectExclusionSet: newExclusionSet.
 	
@@ -160,7 +160,7 @@ WDGFCollisionObjectComponent >> saveCollisionStateFrom: aCollisionObject [
 { #category : #'physics setup' }
 WDGFCollisionObjectComponent >> setupCollisionObject [
 	| shape |
-	shape := (owner isNotNil and: [owner collisionShapeComponent isNotNil])
+	shape := (owner notNil and: [owner collisionShapeComponent notNil])
 		ifTrue: [ owner collisionShapeComponent asValidCollisionShapeWithoutTransform ]
 		ifFalse: [ WDPNullCollisionShape uniqueInstance ].
 	

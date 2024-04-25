@@ -26,7 +26,7 @@ WDGFSoundSubsystem >> closeAndDestroy [
 
 { #category : #'connection open/close' }
 WDGFSoundSubsystem >> destroyBackend [
-	(backend isNotNil and: [ backendSession == AGPU session ]) ifTrue: [ 
+	(backend notNil and: [ backendSession == AGPU session ]) ifTrue: [ 
 		backend destroy
 	].
 
@@ -36,7 +36,7 @@ WDGFSoundSubsystem >> destroyBackend [
 
 { #category : #update }
 WDGFSoundSubsystem >> ensureBackendIsValid [
-	(backend isNotNil and: [backendSession == AGPU session]) ifTrue: [^ self].
+	(backend notNil and: [backendSession == AGPU session]) ifTrue: [^ self].
 	backend := WDGFSoundSubsystemBackend findAvailable new.
 	backendSession := AGPU session.
 	backend initializeForSubsystem: self.

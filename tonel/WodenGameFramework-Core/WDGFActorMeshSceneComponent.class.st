@@ -24,7 +24,7 @@ WDGFActorMeshSceneComponent >> mesh: aMesh [
 	isChanged := mesh ~~ aMesh.
 	mesh := aMesh.
 	
-	(isChanged and: [sceneNode isNotNil]) ifTrue: [
+	(isChanged and: [sceneNode notNil]) ifTrue: [
 		mesh ifNil: [ 
 			sceneNode renderables: #()
 		] ifNotNil: [

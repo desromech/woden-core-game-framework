@@ -187,12 +187,12 @@ WDGFActor >> handle [
 
 { #category : #testing }
 WDGFActor >> hasRigidBody [
-	^ collisionObjectComponent isNotNil and: [ collisionObjectComponent isRigidBodyComponent ]
+	^ collisionObjectComponent notNil and: [ collisionObjectComponent isRigidBodyComponent ]
 ]
 
 { #category : #testing }
 WDGFActor >> hasSolidCollision [
-	^ collisionObjectComponent isNotNil and: [ collisionObjectComponent isSolidCollision ]
+	^ collisionObjectComponent notNil and: [ collisionObjectComponent isSolidCollision ]
 ]
 
 { #category : #initialization }

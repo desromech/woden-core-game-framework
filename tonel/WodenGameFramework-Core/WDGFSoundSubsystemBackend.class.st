@@ -20,7 +20,7 @@ WDGFSoundSubsystemBackend class >> findAvailable [
 			]
 		]
 	].
-	self assert: bestFound isNotNil.
+	self assert: bestFound notNil.
 	^ bestFound
 ]
 

@@ -18,21 +18,21 @@ WDGFPhysicsSubsystem class >> defaultGravity [
 { #category : #queries }
 WDGFPhysicsSubsystem >> findActorsIntersectingBox: box transform: transform suchThat: aPredicate [
 	^ (physicsWorld findObjectsIntersectingBox: box transform: transform suchThat: [ :element |
-		element model isNotNil and: [aPredicate value: element model owner]
+		element model notNil and: [aPredicate value: element model owner]
 	]) collect: [:eachCollisionObject | eachCollisionObject model owner]
 ]
 
 { #category : #queries }
 WDGFPhysicsSubsystem >> findActorsIntersectingSphere: sphere suchThat: aPredicate [
 	^ (physicsWorld findObjectsIntersectingSphere: sphere suchThat: [ :element |
-		element model isNotNil and: [aPredicate value: element model owner]
+		element model notNil and: [aPredicate value: element model owner]
 	]) collect: [:eachCollisionObject | eachCollisionObject model owner]
 ]
 
 { #category : #queries }
 WDGFPhysicsSubsystem >> findActorsIntersectingSphere: sphere transform: transform suchThat: aPredicate [
 	^ (physicsWorld findObjectsIntersectingSphere: sphere transform: transform suchThat: [ :element |
-		element model isNotNil and: [aPredicate value: element model owner]
+		element model notNil and: [aPredicate value: element model owner]
 	]) collect: [:eachCollisionObject | eachCollisionObject model owner]
 ]
 
@@ -53,7 +53,7 @@ WDGFPhysicsSubsystem >> physicsWorld [
 WDGFPhysicsSubsystem >> rayCast: ray excludingActors: exclusionSet forFirstActorSuchThat: aPredicate [
 	| physicsResult actor |
 	physicsResult := physicsWorld rayCast: ray forFirstSuchThat: [ :element |
-		element model isNotNil and: [
+		element model notNil and: [
 			(exclusionSet includes: element model owner) not and: [
 				aPredicate value: element model owner
 			]

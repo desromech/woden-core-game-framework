@@ -22,7 +22,7 @@ WDGFActorSceneComponent >> addChildSceneComponent: childComponent [
 	children ifNil: [ children := OrderedCollection new. ].
 	children add: childComponent.
 	childComponent addedToParent: self.
-	(owner isNotNil and: [childComponent owner isNil]) ifTrue: [
+	(owner notNil and: [childComponent owner isNil]) ifTrue: [
 		owner addComponent: childComponent
 	].
 	^ childComponent

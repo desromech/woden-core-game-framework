@@ -19,7 +19,7 @@ Class {
 
 { #category : #testing }
 WDGFSoundSubsystemOpenALBackend class >> isAvailable [
-	^ ([OpenAL loadLibrary] on: Error do: [ :e | ^ false ]) isNotNil
+	^ ([OpenAL loadLibrary] on: Error do: [ :e | ^ false ]) notNil
 ]
 
 { #category : #testing }
@@ -29,7 +29,7 @@ WDGFSoundSubsystemOpenALBackend class >> priority [
 
 { #category : #deleting }
 WDGFSoundSubsystemOpenALBackend >> destroy [
-	(context isNotNil and: [contextSession == AGPU session]) ifTrue: [
+	(context notNil and: [contextSession == AGPU session]) ifTrue: [
 		context destroy.
 		device close.
 	].
@@ -42,7 +42,7 @@ WDGFSoundSubsystemOpenALBackend >> destroy [
 { #category : #deleting }
 WDGFSoundSubsystemOpenALBackend >> ensureValidOpenALContext [
 	| contextAttributes |
-	(context isNotNil and: [contextSession == AGPU session]) ifTrue: [ ^ self ].
+	(context notNil and: [contextSession == AGPU session]) ifTrue: [ ^ self ].
 	
 	soundBuffers := IdentityDictionary new.
 	soundSources := IdentityDictionary new.
