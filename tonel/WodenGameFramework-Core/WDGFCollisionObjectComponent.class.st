@@ -160,8 +160,9 @@ WDGFCollisionObjectComponent >> saveCollisionStateFrom: aCollisionObject [
 { #category : #'physics setup' }
 WDGFCollisionObjectComponent >> setupCollisionObject [
 	| shape |
-	shape := (owner ifNotNil: [ owner collisionShapeComponent asValidCollisionShapeWithoutTransform ])
-		ifNil: [ WDPNullCollisionShape uniqueInstance ].
+	shape := (owner isNotNil and: [owner collisionShapeComponent isNotNil])
+		ifTrue: [ owner collisionShapeComponent asValidCollisionShapeWithoutTransform ]
+		ifFalse: [ WDPNullCollisionShape uniqueInstance ].
 	
 	collisionObject
 		model: self;

@@ -4,6 +4,9 @@ I hold the settings for a specific game framework application.
 Class {
 	#name : #WDGFApplicationSettings,
 	#superclass : #Object,
+	#instVars : [
+		'actorClassNameDictionary'
+	],
 	#category : #'WodenGameFramework-Core-Actor'
 }
 
@@ -22,6 +25,11 @@ WDGFApplicationSettings >> assetsLocations [
 	^	self projectLocation
 			ifNotNil: [ :location | { location / 'assets' } ]
 			ifNil: [ #() ]
+]
+
+{ #category : #'as yet unclassified' }
+WDGFApplicationSettings >> findActorClassByName: className [
+	^ self validActorClassNameDictionary at: className ifAbsent: [ nil ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -47,4 +55,16 @@ WDGFApplicationSettings >> resolveAssetPath: path [
 		resolved exists ifTrue: [ ^ resolved ]
 	].
 	^ pathFileReference
+]
+
+{ #category : #'as yet unclassified' }
+WDGFApplicationSettings >> validActorClassNameDictionary [
+	^ actorClassNameDictionary ifNil: [
+		actorClassNameDictionary := Dictionary new.
+		WDGFActor withAllSubclassesDo: [ :eachSubclass |
+			actorClassNameDictionary at: eachSubclass jsonObjectTypeName put: eachSubclass
+		].
+		
+		actorClassNameDictionary
+	]
 ]

@@ -64,8 +64,6 @@ WDGFActor >> addComponent: anObjectConvertibleToComponent noCheckBefore: oldComp
 	aComponent := anObjectConvertibleToComponent asGameFrameworkComponent.
 	self assert: (self components includes: aComponent) not.
 	components add: aComponent before: oldComponent.
-	
-	aComponent addedDirectlyToActor: self.
 	^ aComponent
 ]
 

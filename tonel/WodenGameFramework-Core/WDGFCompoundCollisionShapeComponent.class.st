@@ -20,7 +20,7 @@ WDGFCompoundCollisionShapeComponent >> asValidCollisionShapeWithoutTransform [
 	| compoundShape |
 	compoundShape := WDPCompoundCollisionShape new.
 	elements do: [ :each |
-		compoundShape addShape: each shape withTransform: each transform
+		compoundShape addShape: each asValidCollisionShapeWithoutTransform withTransform: each transform
 	].
 	^ compoundShape
 ]
