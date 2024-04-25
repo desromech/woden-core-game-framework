@@ -13,7 +13,7 @@ BaselineOfWodenGameFramework >> baseline: spec [
 			baseline: #'WodenCorePhysics' with: [ spec repository: 'github://desromech/woden-core-physics' ];
 
 			package: #'WodenGameFramework-Core' with: [
-				spec requires: #( #'WodenSceneGraph' #'WodenCorePhysics' #'OpenAL').
+				spec requires: #( #'WodenSceneGraph' #'WodenCorePhysics').
 			];
 			package: #'WodenGameFramework-Core-Tests' with: [
 				spec requires: #( #'WodenGameFramework-Core' ).
