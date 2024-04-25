@@ -35,7 +35,7 @@ WDGFWorldMorph >> convertEventButtonState: event [
 WDGFWorldMorph >> convertEventModifiers: event [
 	^ WDGFInputStateModifiers new
 		leftShift: event shiftPressed;
-		leftAlt: event altKeyPressed;
+		leftAlt: event optionKeyPressed;
 		rightCtrl: event controlKeyPressed;
 		leftCmd: event commandKeyPressed;
 		yourself
