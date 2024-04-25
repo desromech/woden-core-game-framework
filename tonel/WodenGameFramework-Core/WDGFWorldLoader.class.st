@@ -36,11 +36,11 @@ WDGFWorldLoader >> loadActor: actor bspBrushFrom: bspBrushDesc [
 	(bspBrushDesc at: 'vertices' ifAbsent: [ nil ]) ifNotNil: [ :verticesData |
 		| convexHullPoints |
 		convexHullPoints := (0 to: verticesData size // 3 - 1) collect: [:vi |
-			Vector3 x: (verticesData at: vi*3 + 1) y: (verticesData at: vi*3 + 2) z: (verticesData at: vi*3 + 3)
+			transform transformPosition: (
+				Vector3 x: (verticesData at: vi*3 + 1) y: (verticesData at: vi*3 + 2) z: (verticesData at: vi*3 + 3)
+			)
 		].
-		actor addComponent: ((WDGFConvexHullCollisionShapeComponent withPoints: convexHullPoints)
-			transform: transform;
-			yourself)
+		actor addComponent: (WDGFConvexHullCollisionShapeComponent withPoints: convexHullPoints)
 	].
 ]
 
