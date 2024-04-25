@@ -9,6 +9,9 @@ Class {
 
 { #category : #examples }
 WDGFBlocExamples class >> exampleRoom [
+	"
+	self exampleRoom
+	"
 	| world screenExtent screenHalfExtent screenActor screenTexture space lastScreenPosition |
 	world := WDGFWorld new.
 	

@@ -83,6 +83,9 @@ WDGFExamples class >> buildSampleRoomOn: world [
 
 { #category : #examples }
 WDGFExamples class >> exampleCubeAndLightActor [
+	"
+	self exampleCubeAndLightActor
+	"
 	| cubeMesh cubeActor lightSourceActor world currentTime |
 	world := WDGFWorld new.
 
@@ -117,6 +120,9 @@ WDGFExamples class >> exampleCubeAndLightActor [
 
 { #category : #examples }
 WDGFExamples class >> exampleCubeAndLightActor2 [
+	"
+	self exampleCubeAndLightActor2
+	"
 	| cubeActor lightSourceActor world currentTime |
 	world := WDGFWorld new.
 
@@ -149,6 +155,9 @@ WDGFExamples class >> exampleCubeAndLightActor2 [
 
 { #category : #examples }
 WDGFExamples class >> exampleCubeAndLightActor3 [
+	"
+	self exampleCubeAndLightActor3
+	"
 	| cubeActor world currentTime |
 	world := WDGFWorld new.
 
@@ -180,6 +189,9 @@ WDGFExamples class >> exampleCubeAndLightActor3 [
 
 { #category : #examples }
 WDGFExamples class >> exampleFallingBox [
+	"
+	self exampleFallingBox
+	"
 	| fallingBoxActor lightSourceActor world |
 	world := WDGFWorld new.
 
@@ -209,6 +221,9 @@ WDGFExamples class >> exampleFallingBox [
 
 { #category : #examples }
 WDGFExamples class >> exampleFallingBoxAndFloor [
+	"
+	self exampleFallingBoxAndFloor
+	"
 	| fallingBoxActor floorActor lightSourceActor world collisionMargin |
 	world := WDGFWorld new.
 
@@ -251,6 +266,9 @@ WDGFExamples class >> exampleFallingBoxAndFloor [
 
 { #category : #examples }
 WDGFExamples class >> exampleFallingBoxStack [
+	"
+	self exampleFallingBoxStack
+	"
 	| fallingBoxActor floorActor lightSourceActor world collisionMargin fallingBoxMesh |
 	world := WDGFWorld new.
 
@@ -297,6 +315,9 @@ WDGFExamples class >> exampleFallingBoxStack [
 
 { #category : #examples }
 WDGFExamples class >> exampleRoom [
+	"
+	self exampleFallingBoxStack
+	"
 	| world screenExtent screenHalfExtent screenActor screenForm screenTexture lastScreenPosition |
 	world := WDGFWorld new.
 	
@@ -349,6 +370,9 @@ WDGFExamples class >> exampleRoom [
 
 { #category : #examples }
 WDGFExamples class >> exampleSuspendedBoxWithRod [
+	"
+	self exampleSuspendedBoxWithRod
+	"
 	| suspendedBox anchorBox lightSourceActor world constraintActor |
 	world := WDGFWorld new.
 
@@ -399,6 +423,9 @@ WDGFExamples class >> exampleSuspendedBoxWithRod [
 
 { #category : #examples }
 WDGFExamples class >> exampleSuspendedBoxWithRope [
+	"
+	self exampleSuspendedBoxWithRod
+	"
 	| suspendedBox anchorBox lightSourceActor world constraintActor |
 	world := WDGFWorld new.
 
