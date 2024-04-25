@@ -205,7 +205,7 @@ WDGFPlayerActor >> throwPickedObject [
 { #category : #'game events' }
 WDGFPlayerActor >> tick: deltaSeconds [
 	super tick: deltaSeconds.
-	cameraAngles x: (cameraAngles x clampBetween: Float halfPi negated and: Float halfPi).
+	cameraAngles x: (cameraAngles x min: Float halfPi max: Float halfPi negated).
 	cameraComponent orientation: (Quaternion xRotation: cameraAngles x).
 	self orientation: (Quaternion yRotation: cameraAngles y).
 ]

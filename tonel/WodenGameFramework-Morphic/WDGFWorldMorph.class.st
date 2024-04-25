@@ -100,7 +100,7 @@ WDGFWorldMorph >> handlesMouseWheel: anEvent [
 WDGFWorldMorph >> initialize [
 	super initialize.
 	playing := false.
-	convertedEventQueue := AtomicSharedQueue new.
+	convertedEventQueue := SharedQueue new.
 ]
 
 { #category : #'event handling' }
