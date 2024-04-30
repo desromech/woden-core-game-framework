@@ -5,7 +5,9 @@ Class {
 	#name : #WDGFApplicationSettings,
 	#superclass : #Object,
 	#instVars : [
-		'actorClassNameDictionary'
+		'actorClassNameDictionary',
+		'materialAssetCache',
+		'modelAssetCache'
 	],
 	#category : #'WodenGameFramework-Core-Actor'
 }
@@ -32,12 +34,33 @@ WDGFApplicationSettings >> findActorClassByName: className [
 	^ self validActorClassNameDictionary at: className ifAbsent: [ nil ]
 ]
 
+{ #category : #initialization }
+WDGFApplicationSettings >> initialize [
+	super initialize.
+	materialAssetCache := WeakValueDictionary new.
+	modelAssetCache := WeakValueDictionary new.
+]
+
 { #category : #'as yet unclassified' }
 WDGFApplicationSettings >> loadMaterialWithPath: path [
 	| solvedPath |
 	solvedPath := self resolveAssetPath: path.
 	solvedPath exists ifFalse: [ ^ nil ].
-	^ WDMaterial loadFromFileReference: solvedPath
+	^ materialAssetCache at: solvedPath fullName ifAbsentPut: [
+		WDMaterial loadFromFileReference: solvedPath
+	]
+]
+
+{ #category : #'as yet unclassified' }
+WDGFApplicationSettings >> loadModelWithPath: path [
+	| solvedPath |
+	solvedPath := self resolveAssetPath: path.
+	solvedPath exists ifFalse: [ ^ nil ].
+	^ modelAssetCache at: solvedPath fullName ifAbsentPut: [
+		[
+			WDModelAssetReadWriter readFileNamed: solvedPath
+		] on: Error do: [ :e | nil ]
+	]
 ]
 
 { #category : #'accessing - ui' }

@@ -52,6 +52,7 @@ WDGFWorldLoader >> loadActor: actor childFrom: childDesc [
 	childType ifNil: [ ^ self ].
 	
 	childType = 'BSPBrush' ifTrue: [ ^ self loadActor: actor bspBrushFrom: childDesc ].
+	childType = 'ModelReference' ifTrue: [ ^ self loadActor: actor modelReferenceFrom: childDesc ].
 	childType = 'PointLightSource' ifTrue: [ ^ self loadActor: actor pointLightSourceFrom: childDesc ].
 	childType = 'SpotLightSource' ifTrue: [ ^ self loadActor: actor spotLightSourceFrom: childDesc ].
 	childType = 'DirectionalLightSource' ifTrue: [ ^ self loadActor: actor directionalLightSourceFrom: childDesc ].
@@ -99,6 +100,22 @@ WDGFWorldLoader >> loadActor: actor from: actorDescription [
 		self loadActor: actor childrenFrom: childrenDesc
 	].
 
+]
+
+{ #category : #loading }
+WDGFWorldLoader >> loadActor: actor modelReferenceFrom: modelReferenceDesc [
+	| transform modelPath modelAsset |
+	transform := TRSTransform3D identity.
+	(modelReferenceDesc at: 'transform' ifAbsent: [ nil ]) ifNotNil: [ :transformDesc |
+		transform := TRSTransform3D loadFromJson: transformDesc
+	].
+	modelPath := (modelReferenceDesc at: 'path' ifAbsent: [ nil ]) ifNil: [''].
+
+	modelAsset := world applicationSettings loadModelWithPath: modelPath.
+	modelAsset ifNil: [ ^ self ].
+	
+	actor addComponent: (WDGFActorModelAssetSceneComponent with: modelAsset).
+	
 ]
 
 { #category : #loading }
