@@ -1,6 +1,6 @@
 Class {
 	#name : #WDGFConvexHullCollisionShapeComponent,
-	#superclass : #WDGFCollisionShapeComponent,
+	#superclass : #WDGFAbstractCollisionShapeComponent,
 	#instVars : [
 		'points',
 		'localBoundingBox'

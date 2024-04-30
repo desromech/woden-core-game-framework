@@ -1,6 +1,6 @@
 Class {
 	#name : #WDGFBoxCollisionShapeComponent,
-	#superclass : #WDGFCollisionShapeComponent,
+	#superclass : #WDGFAbstractCollisionShapeComponent,
 	#instVars : [
 		'halfExtent'
 	],

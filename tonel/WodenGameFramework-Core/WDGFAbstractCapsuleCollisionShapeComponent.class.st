@@ -3,7 +3,7 @@ I am a compound collision shape component.
 "
 Class {
 	#name : #WDGFAbstractCapsuleCollisionShapeComponent,
-	#superclass : #WDGFCollisionShapeComponent,
+	#superclass : #WDGFAbstractCollisionShapeComponent,
 	#instVars : [
 		'height',
 		'radius'

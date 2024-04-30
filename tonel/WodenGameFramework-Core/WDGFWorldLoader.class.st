@@ -124,7 +124,11 @@ WDGFWorldLoader >> loadActor: actor modelReferenceFrom: modelReferenceDesc [
 		yourself).
 	
 	hasCollisions ifTrue: [
-		self halt
+		(modelAsset getCollisionShapeNamed: collisionElementName) ifNotNil: [ :collisionShape |
+			| transformedCollisionShape |
+			transformedCollisionShape := collisionShape transformedWith: transform.
+			actor addComponent: (WDGFCollisionShapeComponent with: transformedCollisionShape)
+		]
 	].
 
 ]

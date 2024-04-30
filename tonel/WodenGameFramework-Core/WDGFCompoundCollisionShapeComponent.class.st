@@ -1,6 +1,6 @@
 Class {
 	#name : #WDGFCompoundCollisionShapeComponent,
-	#superclass : #WDGFCollisionShapeComponent,
+	#superclass : #WDGFAbstractCollisionShapeComponent,
 	#instVars : [
 		'elements',
 		'localBoundingBox'

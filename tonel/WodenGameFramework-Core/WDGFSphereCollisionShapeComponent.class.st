@@ -1,6 +1,6 @@
 Class {
 	#name : #WDGFSphereCollisionShapeComponent,
-	#superclass : #WDGFCollisionShapeComponent,
+	#superclass : #WDGFAbstractCollisionShapeComponent,
 	#instVars : [
 		'radius'
 	],
