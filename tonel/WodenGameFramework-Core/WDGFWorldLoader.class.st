@@ -114,7 +114,10 @@ WDGFWorldLoader >> loadActor: actor modelReferenceFrom: modelReferenceDesc [
 	modelAsset := world applicationSettings loadModelWithPath: modelPath.
 	modelAsset ifNil: [ ^ self ].
 	
-	actor addComponent: (WDGFActorModelAssetSceneComponent with: modelAsset).
+	actor addComponent: (WDGFActorModelAssetSceneComponent new
+		modelAsset: modelAsset;
+		transform: transform;
+		yourself).
 	
 ]
 
