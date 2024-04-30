@@ -6,7 +6,7 @@ Class {
 
 { #category : #converting }
 WDGFCapsuleXCollisionShapeComponent >> asValidCollisionShapeWithoutTransform [
-	^ WDPCapsuleXCollisionShape height: height radius: radius
+	^ WDCapsuleXCollisionShape height: height radius: radius
 ]
 
 { #category : #accessing }

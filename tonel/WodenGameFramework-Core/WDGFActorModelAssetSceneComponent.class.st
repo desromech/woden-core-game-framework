@@ -2,7 +2,8 @@ Class {
 	#name : #WDGFActorModelAssetSceneComponent,
 	#superclass : #WDGFActorSceneComponent,
 	#instVars : [
-		'modelAsset'
+		'modelAsset',
+		'elementName'
 	],
 	#category : #'WodenGameFramework-Core-Components-Scene'
 }
@@ -10,6 +11,18 @@ Class {
 { #category : #'instance creation' }
 WDGFActorModelAssetSceneComponent class >> with: aModelAsset [
 	^ self new modelAsset: aModelAsset; yourself
+]
+
+{ #category : #accessing }
+WDGFActorModelAssetSceneComponent >> elementName [
+
+	^ elementName
+]
+
+{ #category : #accessing }
+WDGFActorModelAssetSceneComponent >> elementName: anObject [
+
+	elementName := anObject
 ]
 
 { #category : #accessing }
@@ -28,7 +41,7 @@ WDGFActorModelAssetSceneComponent >> modelAsset: anObject [
 WDGFActorModelAssetSceneComponent >> privateRegisterInWorld [
 	super privateRegisterInWorld.
 	modelAsset ifNotNil: [
-		modelAsset instanceDefaultSceneNode ifNotNil: [ :modelSceneNode |
+		(modelAsset instanceSceneNodeForElementNamed: elementName) ifNotNil: [ :modelSceneNode |
 			sceneNode add: modelSceneNode
 		]
 	].

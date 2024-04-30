@@ -14,7 +14,7 @@ WDGFSphereCollisionShapeComponent class >> radius: radius [
 
 { #category : #converting }
 WDGFSphereCollisionShapeComponent >> asValidCollisionShapeWithoutTransform [
-	^ WDPSphereCollisionShape radius: radius
+	^ WDSphereCollisionShape radius: radius
 ]
 
 { #category : #initialization }

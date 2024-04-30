@@ -104,21 +104,29 @@ WDGFWorldLoader >> loadActor: actor from: actorDescription [
 
 { #category : #loading }
 WDGFWorldLoader >> loadActor: actor modelReferenceFrom: modelReferenceDesc [
-	| transform modelPath modelAsset |
+	| transform modelPath modelAsset hasCollisions elementName collisionElementName |
 	transform := TRSTransform3D identity.
 	(modelReferenceDesc at: 'transform' ifAbsent: [ nil ]) ifNotNil: [ :transformDesc |
 		transform := TRSTransform3D loadFromJson: transformDesc
 	].
 	modelPath := (modelReferenceDesc at: 'path' ifAbsent: [ nil ]) ifNil: [''].
+	elementName := (modelReferenceDesc at: 'elementName' ifAbsent: [ nil ]) ifNil: [''].
+	hasCollisions := (modelReferenceDesc at: 'hasCollisions' ifAbsent: [ nil ]) ifNil: [false].
+	collisionElementName := (modelReferenceDesc at: 'collisionElementName' ifAbsent: [ nil ]) ifNil: [''].
 
 	modelAsset := world applicationSettings loadModelWithPath: modelPath.
 	modelAsset ifNil: [ ^ self ].
 	
 	actor addComponent: (WDGFActorModelAssetSceneComponent new
 		modelAsset: modelAsset;
+		elementName: elementName;
 		transform: transform;
 		yourself).
 	
+	hasCollisions ifTrue: [
+		self halt
+	].
+
 ]
 
 { #category : #loading }

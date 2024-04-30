@@ -15,7 +15,7 @@ WDGFConvexHullCollisionShapeComponent class >> withPoints: aListOfPoints [
 
 { #category : #converting }
 WDGFConvexHullCollisionShapeComponent >> asValidCollisionShapeWithoutTransform [
-	^ WDPConvexHullCollisionShape withPoints: points
+	^ WDConvexHullCollisionShape withPoints: points
 ]
 
 { #category : #accessing }

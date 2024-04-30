@@ -42,7 +42,7 @@ WDGFCollisionShapeComponent >> asValidCollisionShape [
 	shapeWithoutTransform := self asValidCollisionShapeWithoutTransform.
 	transform isIdentity ifTrue: [ ^ shapeWithoutTransform ].
 
-	^ WDPCompoundCollisionShape new
+	^ WDCompoundCollisionShape new
 		addShape: shapeWithoutTransform withTransform: transform;
 		yourself
 ]
