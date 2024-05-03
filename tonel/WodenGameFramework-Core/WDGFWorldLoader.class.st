@@ -70,7 +70,7 @@ WDGFWorldLoader >> loadActor: actor childrenFrom: childrenDesc [
 WDGFWorldLoader >> loadActor: actor directionalLightSourceFrom: lightSourceDesc [
 	| lightSource color intensity transform |
 	transform := TRSTransform3D identity.
-	lightSource := WDPointLightSource new.
+	lightSource := WDDirectionalLightSource new.
 	color := Vector3 ones.
 	(lightSourceDesc at: 'color' ifAbsent: [nil]) ifNotNil: [ :colorDesc |
 		color := Vector3 loadFromJson: colorDesc
