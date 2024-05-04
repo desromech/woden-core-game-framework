@@ -293,6 +293,10 @@ WDGFWorldLoader >> loadWorldSettingsFrom: worldSettingsDesc [
 	| ambientLighting hdriPath useHDRIAsSkybox backgroundActor lightProbe |
 	ambientLighting := Vector3 zeros.
 
+	((worldSettingsDesc at: 'ambientLighting' ifAbsent: [ nil ]) ifNil: [ true ]) ifNotNil: [ :desc |
+		ambientLighting := Vector3 loadFromJson: desc.
+	].
+
 	hdriPath := (worldSettingsDesc at: 'hdri' ifAbsent: [ nil ]) ifNil: [ '' ].
 	useHDRIAsSkybox := (worldSettingsDesc at: 'useHDRIAsSkybox' ifAbsent: [ nil ]) ifNil: [ true ].
 	backgroundActor := WDGFStaticBackgroundActor new name: 'StaticBackground'; yourself.

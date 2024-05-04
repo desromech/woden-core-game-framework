@@ -52,7 +52,7 @@ WDGFBlocExamples class >> exampleRoom [
 		position: (Vector3 y: 2.0);
 		yourself).
 
-	world playInMorphic
+	world playInWindow
 ]
 
 { #category : #'see class side' }

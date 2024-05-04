@@ -115,7 +115,7 @@ WDGFExamples class >> exampleCubeAndLightActor [
 	world spawnActor: lightSourceActor.
 	world spawnActor: (WDGFActorTemplates staticCameraWithPosition: (Vector3 z: 3.0)).
 
-	world playInMorphic
+	world playInWindow
 ]
 
 { #category : #examples }
@@ -150,7 +150,7 @@ WDGFExamples class >> exampleCubeAndLightActor2 [
 	world spawnActor: lightSourceActor.
 	world spawnActor: (WDGFActorTemplates staticCameraWithPosition: (Vector3 z: 3.0)).
 
-	world playInMorphic
+	world playInWindow
 ]
 
 { #category : #examples }
@@ -184,7 +184,7 @@ WDGFExamples class >> exampleCubeAndLightActor3 [
 				yourself).
 	world spawnActor: (WDGFActorTemplates staticCameraWithPosition: (Vector3 z: 3.0)).
 
-	world playInMorphic
+	world playInWindow
 ]
 
 { #category : #examples }
@@ -216,7 +216,7 @@ WDGFExamples class >> exampleFallingBox [
 
 	world spawnActor: (WDGFActorTemplates staticCameraWithPosition: (Vector3 z: 3.0)).
 
-	world playInMorphic
+	world playInWindow
 ]
 
 { #category : #examples }
@@ -261,7 +261,7 @@ WDGFExamples class >> exampleFallingBoxAndFloor [
 
 	world spawnActor: (WDGFActorTemplates staticCameraWithPosition: (Vector3 x: 0.0 y: 1.0 z: 5.0)).
 
-	world playInMorphic
+	world playInWindow
 ]
 
 { #category : #examples }
@@ -310,7 +310,7 @@ WDGFExamples class >> exampleFallingBoxStack [
 
 	world spawnActor: (WDGFActorTemplates staticCameraWithPosition: (Vector3 x: 0.0 y: 1.0 z: 5.0)).
 
-	world playInMorphic
+	world playInWindow
 ]
 
 { #category : #examples }
@@ -365,7 +365,7 @@ WDGFExamples class >> exampleRoom [
 		position: (Vector3 y: 2.0);
 		yourself).
 
-	world playInMorphic
+	world playInWindow
 ]
 
 { #category : #examples }
@@ -418,7 +418,7 @@ WDGFExamples class >> exampleSuspendedBoxWithRod [
 
 	world spawnActor: (WDGFActorTemplates staticCameraWithPosition: (Vector3 x: 0.0 y: 1.0 z: 5.0)).
 
-	world playInMorphic
+	world playInWindow
 ]
 
 { #category : #examples }
@@ -471,7 +471,7 @@ WDGFExamples class >> exampleSuspendedBoxWithRope [
 
 	world spawnActor: (WDGFActorTemplates staticCameraWithPosition: (Vector3 x: 0.0 y: 1.0 z: 5.0)).
 
-	world playInMorphic
+	world playInWindow
 ]
 
 { #category : #'see class side' }
