@@ -100,3 +100,10 @@ WDGF3DPointerDevice >> updatePointerActionWithWorldRay: ray mouseButtonMask: mou
 	pointerButtonTouchMask := pointerButtonPressedMask := mouseButtonState asMask.
 	^ self updatePointerActionWithWorldRay: ray
 ]
+
+{ #category : #updating }
+WDGF3DPointerDevice >> updatePointerActionWithWorldRay: ray touchMask: touchMask pressedMask: pressedMask [
+	pointerButtonTouchMask := touchMask.
+	pointerButtonPressedMask := pressedMask.
+	^ self updatePointerActionWithWorldRay: ray
+]

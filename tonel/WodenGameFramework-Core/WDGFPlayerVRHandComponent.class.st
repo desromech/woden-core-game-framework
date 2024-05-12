@@ -12,9 +12,7 @@ Class {
 		'pickedObjectConstraintActor',
 		'fallbackModel',
 		'pointerModelComponent',
-		'pointerButtonTouchMask',
-		'pointerButtonPressedMask',
-		'currentPointedScreenComponents'
+		'hand3DPointer'
 	],
 	#category : #'WodenGameFramework-Core-Actor-Character'
 }
@@ -79,43 +77,13 @@ WDGFPlayerVRHandComponent >> angularVelocity [
 
 { #category : #'as yet unclassified' }
 WDGFPlayerVRHandComponent >> attemptToUpdatePointerAction [
-	| ray worldPoint oldPointedScreenComponets newPointedScreenComponents |
+	| ray worldPoint |
 	pointerModelComponent visible: self hasActivePointer.
 	worldPoint := self transformPositionToWorld: Vector3 zeros.
 	
-	oldPointedScreenComponets := currentPointedScreenComponents.
-	newPointedScreenComponents := #().
-	self hasActivePointer ifTrue: [ 
-		ray := self worldRayFrom: Vector3 zeros to: (Vector3 z: -1) * self class defaultPointerMaxDistance.
-	
-		newPointedScreenComponents := (owner rayCast: ray forFirstActorSuchThat: [ :actor |
-			actor hasSolidCollision
-		]) ifNotNil: [ :hitResult |
-			worldPoint := ray pointAtDistance: hitResult distance.
-			hitResult actor components select: [ :each |
-			each isInteractiveScreenComponent and: [ each containsPointInWorld: worldPoint ]
-		]
-		] ifNil: [ #() ].
-	].
-
-	"Leave"
-	oldPointedScreenComponets do: [ :each |
-		(newPointedScreenComponents includes: each) ifFalse: [
-			each dispatchPointerLeave: self atWorld: worldPoint withPressedButtons: pointerButtonPressedMask
-		]
-	].
-
-	"Enter"
-	newPointedScreenComponents do: [ :each |
-		(oldPointedScreenComponets includes: each) ifFalse: [
-			each dispatchPointerEnter: self atWorld: worldPoint withPressedButtons: pointerButtonPressedMask
-		]
-	].
-
-	currentPointedScreenComponents := newPointedScreenComponents.
-	currentPointedScreenComponents do: [ :each |
-		each dispatchPointer: self atWorld: worldPoint withPressedButtons: pointerButtonPressedMask
-	].
+	ray := self worldRayFrom: Vector3 zeros to: (Vector3 z: -1) * self class defaultPointerMaxDistance.
+			
+	hand3DPointer updatePointerActionWithWorldRay: ray touchMask: self currentPointerButtonTouchMask pressedMask: self currentPointerButtonPressedMask
 ]
 
 { #category : #teleport }
@@ -170,6 +138,16 @@ WDGFPlayerVRHandComponent >> beginTeleport [
 	self attemptToUpdateTeleportDestination
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFPlayerVRHandComponent >> currentPointerButtonPressedMask [
+	^ (analogButtonPressedState anyMask: AnalogFirstTriggerPressed) ifTrue: [ 1 ] ifFalse: [ 0 ]
+]
+
+{ #category : #'as yet unclassified' }
+WDGFPlayerVRHandComponent >> currentPointerButtonTouchMask [
+	^ (analogButtonTouchedState anyMask: AnalogFirstTriggerPressed) ifTrue: [ 1 ] ifFalse: [ 0 ]
+]
+
 { #category : #teleport }
 WDGFPlayerVRHandComponent >> endPicking [
 	pickedObjectConstraintActor ifNotNil: [ 
@@ -220,18 +198,17 @@ WDGFPlayerVRHandComponent >> fallbackModel [
 
 { #category : #testing }
 WDGFPlayerVRHandComponent >> hasActivePointer [
-	^ pickedObject isNil and: [ (pointerButtonTouchMask bitOr: pointerButtonPressedMask) ~= 0 ]
+	^ pickedObject isNil and: [ self currentPointerButtonTouchMask ~= 0]
 ]
 
 { #category : #initialization }
 WDGFPlayerVRHandComponent >> initialize [
 	super initialize.
+	localTransform := TRSTransform3D identity.
 	isPreparingTeleport := false.
-	pointerButtonTouchMask := 0.
-	pointerButtonPressedMask := 0.
-	currentPointedScreenComponents := #().
 	lastValidTeleportDestination := nil.
 	lastValidTeleportDestinationNormal := nil.
+	hand3DPointer := WDGF3DPointerDevice for: self.
 ]
 
 { #category : #'as yet unclassified' }
@@ -241,7 +218,9 @@ WDGFPlayerVRHandComponent >> linearVelocity [
 
 { #category : #hooks }
 WDGFPlayerVRHandComponent >> onGotTrackedDevice [
+	localTransform := (owner floorToLocalTransform transformTransform: deviceTransform) asTRSTransform3D.
 	modelComponent visible: true.
+	self attemptToUpdatePointerAction.
 ]
 
 { #category : #hooks }
@@ -261,44 +240,31 @@ WDGFPlayerVRHandComponent >> onUpdatedTrackedDevice [
 ]
 
 { #category : #'event handling' }
-WDGFPlayerVRHandComponent >> onVRTrackedDeviceButtonPressedEvent: event [
-	event isAxis0 ifTrue: [ self beginTeleport ].
-	event isAxis1 ifTrue: [
-		pointerButtonPressedMask := pointerButtonPressedMask bitOr: 1.
+WDGFPlayerVRHandComponent >> onVRTrackedDeviceAnalogButtonPressed: mask [
+	(mask anyMask: AnalogJoystickButtonUp) ifTrue: [ self beginTeleport ].
+	(mask anyMask: AnalogFirstTriggerPressed) ifTrue: [ 
 		self beginPicking
 	].
-	self attemptToUpdatePointerAction.
+
 ]
 
 { #category : #'event handling' }
-WDGFPlayerVRHandComponent >> onVRTrackedDeviceButtonReleasedEvent: event [
-	event isAxis0 ifTrue: [ self endTeleport ].
-	event isAxis1 ifTrue: [
-		pointerButtonPressedMask := pointerButtonPressedMask bitClear: 1.
+WDGFPlayerVRHandComponent >> onVRTrackedDeviceAnalogButtonReleased: mask [
+	(mask anyMask: AnalogJoystickButtonUp) ifTrue: [ self endTeleport ].
+	(mask anyMask: AnalogFirstTriggerPressed) ifTrue: [
 		self endPicking
 	].
-	self attemptToUpdatePointerAction.
-]
-
-{ #category : #'event handling' }
-WDGFPlayerVRHandComponent >> onVRTrackedDeviceButtonTouchEvent: event [
-	event isAxis1 ifTrue: [
-		pointerButtonTouchMask := pointerButtonTouchMask bitOr: 1
-	].
-	self attemptToUpdatePointerAction.
-]
-
-{ #category : #'event handling' }
-WDGFPlayerVRHandComponent >> onVRTrackedDeviceButtonUntouchEvent: event [
-	event isAxis1 ifTrue: [
-		pointerButtonTouchMask := pointerButtonTouchMask bitClear:  1.
-	].
-	self attemptToUpdatePointerAction.
+	
 ]
 
 { #category : #teleport }
 WDGFPlayerVRHandComponent >> performTeleport [
 	owner teleportTo: lastValidTeleportDestination - owner localBoundingBox bottomPoint
+]
+
+{ #category : #utility }
+WDGFPlayerVRHandComponent >> rayCast: ray forFirstActorSuchThat: aPredictate [
+	^ owner rayCast: ray forFirstActorSuchThat: aPredictate
 ]
 
 { #category : #'as yet unclassified' }
