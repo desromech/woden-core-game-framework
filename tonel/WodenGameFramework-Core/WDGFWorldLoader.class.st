@@ -6,7 +6,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'world',
-		'materials'
+		'materials',
+		'extraActors'
 	],
 	#category : #'WodenGameFramework-Core-Serialization'
 }
@@ -53,10 +54,11 @@ WDGFWorldLoader >> loadActor: actor childFrom: childDesc [
 	
 	childType = 'BSPBrush' ifTrue: [ ^ self loadActor: actor bspBrushFrom: childDesc ].
 	childType = 'ModelReference' ifTrue: [ ^ self loadActor: actor modelReferenceFrom: childDesc ].
+	childType = 'PropReference' ifTrue: [ ^ self loadActor: actor propReferenceFrom: childDesc ].
 	childType = 'PointLightSource' ifTrue: [ ^ self loadActor: actor pointLightSourceFrom: childDesc ].
 	childType = 'SpotLightSource' ifTrue: [ ^ self loadActor: actor spotLightSourceFrom: childDesc ].
 	childType = 'DirectionalLightSource' ifTrue: [ ^ self loadActor: actor directionalLightSourceFrom: childDesc ].
-	self error: 'Unsupport actor child with type ' -- childType
+	self error: 'Unsupport actor child with type ' , childType
 ]
 
 { #category : #loading }
@@ -159,6 +161,25 @@ WDGFWorldLoader >> loadActor: actor pointLightSourceFrom: lightSourceDesc [
 ]
 
 { #category : #loading }
+WDGFWorldLoader >> loadActor: actor propReferenceFrom: propReferenceDesc [
+	| transform propPath propAsset |
+	transform := TRSTransform3D identity.
+	(propReferenceDesc at: 'transform' ifAbsent: [ nil ]) ifNotNil: [ :transformDesc |
+		transform := TRSTransform3D loadFromJson: transformDesc
+	].
+	propPath := (propReferenceDesc at: 'path' ifAbsent: [ nil ]) ifNil: [''].
+
+	propAsset := world applicationSettings loadPropWithPath: propPath.
+	propAsset ifNil: [ ^ self ].
+	
+	propAsset instantiateActor ifNotNil: [ :propActor |
+		propActor transform: transform.
+		extraActors add: propActor
+	]
+
+]
+
+{ #category : #loading }
 WDGFWorldLoader >> loadActor: actor propertiesFrom: actorProperties [
 	"TODO: Implement this when required."
 ]
@@ -193,6 +214,7 @@ WDGFWorldLoader >> loadActor: actor spotLightSourceFrom: lightSourceDesc [
 { #category : #loading }
 WDGFWorldLoader >> loadActorsFrom: actorsList [
 	| loadedActors |
+	extraActors := OrderedCollection new.
 	"Load the actor contents."
 	loadedActors := actorsList collect: [ :each |
 		| actorClass |
@@ -217,6 +239,7 @@ WDGFWorldLoader >> loadActorsFrom: actorsList [
 	].
 
 	"Spawn the actors."
+	extraActors do: [ :each | world spawnActor: each ].
 	loadedActors doWithIndex: [ :eachActor :eachActorIndex |
 		eachActor ifNotNil: [
 			world spawnActor: eachActor.
