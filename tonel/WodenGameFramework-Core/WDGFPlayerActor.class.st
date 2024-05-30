@@ -107,6 +107,7 @@ WDGFPlayerActor >> keyUpEvent: event [
 { #category : #'input events' }
 WDGFPlayerActor >> mouseButtonPressEvent: event [
 	| worldRay |
+	self world inputSubsystem captureMouse.
 	worldRay := cameraComponent worldRayForViewportPoint: event position maxDistance: self class defaultPointerMaxDistance.
 	camera3DPointer updatePointerActionWithWorldRay: worldRay mouseButtonMask: event buttons.
 ]
@@ -125,7 +126,7 @@ WDGFPlayerActor >> mouseMoveEvent: event [
 	worldRay := cameraComponent worldRayForViewportPoint: event position maxDistance: self class defaultPointerMaxDistance.
 	camera3DPointer updatePointerActionWithWorldRay: worldRay mouseButtonMask: event buttons.
 	
-	event buttons leftButton ifTrue: [ 
+	(self world inputSubsystem hasMouseCapture or: [ event buttons rightButton ]) ifTrue: [ 
 		cameraAngles := cameraAngles + (Vector3 x: delta y negated degreesToRadians y: delta x negated degreesToRadians z: 0.0).
 	].
 

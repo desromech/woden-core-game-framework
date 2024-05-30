@@ -8,7 +8,8 @@ Class {
 		'playing',
 		'wodenWorld',
 		'convertedEventQueue',
-		'defaultCamera'
+		'defaultCamera',
+		'hasMouseCapture'
 	],
 	#category : #'WodenGameFramework-OSWindow'
 }
@@ -16,6 +17,14 @@ Class {
 { #category : #'as yet unclassified' }
 WDGFWorldOSWindow class >> eventHandlerClass [
 	^ WDGFWorldOSWindowEventHandler
+]
+
+{ #category : #'mouse capture' }
+WDGFWorldOSWindow >> captureMouse [
+	osWindow ifNotNil: [
+		hasMouseCapture := true.
+		osWindow captureMouse
+	].
 ]
 
 { #category : #events }
@@ -104,11 +113,17 @@ WDGFWorldOSWindow >> getOrCreateDefaultCamera [
 		]
 ]
 
+{ #category : #accessing }
+WDGFWorldOSWindow >> hasMouseCapture [
+	^ hasMouseCapture
+]
+
 { #category : #initialization }
 WDGFWorldOSWindow >> initialize [
 	super initialize.
 	playing := false.
 	convertedEventQueue := AtomicSharedQueue new.
+	hasMouseCapture := false.
 ]
 
 { #category : #events }
@@ -138,6 +153,10 @@ WDGFWorldOSWindow >> onJoyButtonUp: anEvent [
 
 { #category : #events }
 WDGFWorldOSWindow >> onKeyDown: anEvent [
+	(anEvent symbol = 1073741882 and: [anEvent modifiers shift]) ifTrue: [ 
+		self releaseMouse
+	].
+	
 	self enqueueConvertedEvent: (WDGFKeyDownEvent new
 		modifiers: (self convertModifiers: anEvent modifiers);
 		symbol: (self convertKeySymbol: anEvent symbol);
@@ -224,6 +243,14 @@ WDGFWorldOSWindow >> pollVREventsAndUpdate [
 	].
 ]
 
+{ #category : #'mouse capture' }
+WDGFWorldOSWindow >> releaseMouse [
+	osWindow ifNotNil: [
+		hasMouseCapture := false.
+		osWindow releaseMouse
+	]
+]
+
 { #category : #accessing }
 WDGFWorldOSWindow >> selectCurrentCamera [
 	wodenWorld ifNotNil: [ 
@@ -244,11 +271,17 @@ WDGFWorldOSWindow >> wodenWorld [
 
 { #category : #accessing }
 WDGFWorldOSWindow >> wodenWorld: anObject [
-	| sceneSubsystem |
+	| sceneSubsystem inputSubsystem |
 	wodenWorld := anObject.
 	sceneSubsystem := wodenWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem.
+	inputSubsystem := wodenWorld getOrCreateSubsystemWithClass: WDGFInputSubsystem.
 	self scene: sceneSubsystem scene.
 	self camera: self selectCurrentCamera.
 	sceneSubsystem whenSceneChangedDo: [ self changed ].
+	inputSubsystem
+		supportsMouseCapture: true;
+		hasMouseCaptureBlock: [ self hasMouseCapture ];
+		onCaptureMouseDo: [ self captureMouse ];
+		onReleaseMouseDo: [ self releaseMouse ].
 	self changed.
 ]
