@@ -253,9 +253,11 @@ WDGFWorldOSWindow >> releaseMouse [
 
 { #category : #accessing }
 WDGFWorldOSWindow >> selectCurrentCamera [
+	self overlay: nil.
 	wodenWorld ifNotNil: [ 
 		(wodenWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem) findActiveCameraComponent ifNotNil: [ :cameraComponent |
 				cameraComponent viewportExtent: self windowExtent.
+				self overlay: cameraComponent overlay.
 				^ cameraComponent sceneNode
 		]
 	].

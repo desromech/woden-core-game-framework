@@ -108,14 +108,14 @@ WDGFPlayerActor >> keyUpEvent: event [
 WDGFPlayerActor >> mouseButtonPressEvent: event [
 	| worldRay |
 	self world inputSubsystem captureMouse.
-	worldRay := cameraComponent worldRayForViewportPoint: event position maxDistance: self class defaultPointerMaxDistance.
+	worldRay := cameraComponent worldRayForMouseEventPosition: event maxDistance: self class defaultPointerMaxDistance.
 	camera3DPointer updatePointerActionWithWorldRay: worldRay mouseButtonMask: event buttons.
 ]
 
 { #category : #'input events' }
 WDGFPlayerActor >> mouseButtonReleaseEvent: event [
 	| worldRay |
-	worldRay := cameraComponent worldRayForViewportPoint: event position maxDistance: self class defaultPointerMaxDistance.
+	worldRay := cameraComponent worldRayForMouseEventPosition: event maxDistance: self class defaultPointerMaxDistance.
 	camera3DPointer updatePointerActionWithWorldRay: worldRay mouseButtonMask: event buttons.
 ]
 
@@ -123,7 +123,7 @@ WDGFPlayerActor >> mouseButtonReleaseEvent: event [
 WDGFPlayerActor >> mouseMoveEvent: event [
 	| delta worldRay |
 	delta := event delta.
-	worldRay := cameraComponent worldRayForViewportPoint: event position maxDistance: self class defaultPointerMaxDistance.
+	worldRay := cameraComponent worldRayForMouseEventPosition: event maxDistance: self class defaultPointerMaxDistance.
 	camera3DPointer updatePointerActionWithWorldRay: worldRay mouseButtonMask: event buttons.
 	
 	(self world inputSubsystem hasMouseCapture or: [ event buttons rightButton ]) ifTrue: [ 
@@ -175,6 +175,7 @@ WDGFPlayerActor >> setupComponents [
 		isActive: true;
 		position: (Vector3 y: self class defaultHeight * 0.5);
 		headFloorTransform: (ReversibleAffineTransform3D translation: (Vector3 y: self class defaultHeight negated));
+		overlay: WDGFPlayerHUDOverlay new;
 		yourself.
 	rootSceneComponent addChildSceneComponent: cameraComponent.
 	self addComponent: WDGFInputListenerComponent new.

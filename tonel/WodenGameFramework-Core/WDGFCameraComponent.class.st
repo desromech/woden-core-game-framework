@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'camera',
 		'isActive',
-		'viewportExtent'
+		'viewportExtent',
+		'overlay'
 	],
 	#category : #'WodenGameFramework-Core-Components-Scene'
 }
@@ -77,6 +78,27 @@ WDGFCameraComponent >> localRayForViewportPoint: point [
 	^ frustum rayForNormalizedPoint: point
 ]
 
+{ #category : #'as yet unclassified' }
+WDGFCameraComponent >> mouseEventPositionToNormalized: mouseEvent [
+	self owner world inputSubsystem hasMouseCapture ifTrue: [
+		^ Vector2 x: 0.5 y: 0.5
+	].
+
+	^ self viewportPointToNormalized: mouseEvent position
+]
+
+{ #category : #accessing }
+WDGFCameraComponent >> overlay [
+
+	^ overlay
+]
+
+{ #category : #accessing }
+WDGFCameraComponent >> overlay: anObject [
+
+	overlay := anObject
+]
+
 { #category : #hooks }
 WDGFCameraComponent >> privateRegisterInWorld [
 	super privateRegisterInWorld.
@@ -110,6 +132,21 @@ WDGFCameraComponent >> viewportExtent: anObject [
 { #category : #'as yet unclassified' }
 WDGFCameraComponent >> viewportPointToNormalized: point [
 	^ Vector2 x: (point x / viewportExtent x) y: 1.0 - (point y / viewportExtent y)
+]
+
+{ #category : #'as yet unclassified' }
+WDGFCameraComponent >> worldRayForMouseEventPosition: event [
+	| normalizedPoint frustum nearPoint farPoint |
+	normalizedPoint := self mouseEventPositionToNormalized: event.
+	frustum := self frustum.
+	nearPoint := frustum normalizedPointInNearPlane: normalizedPoint.
+	farPoint := frustum normalizedPointInFarPlane: normalizedPoint.
+	^ Ray3D from: (self transformPositionToWorld: nearPoint) to: (self transformPositionToWorld: farPoint)
+]
+
+{ #category : #'as yet unclassified' }
+WDGFCameraComponent >> worldRayForMouseEventPosition: point maxDistance: maxDistance [
+	^ (self worldRayForMouseEventPosition: point) withMaxDistance: maxDistance
 ]
 
 { #category : #'as yet unclassified' }

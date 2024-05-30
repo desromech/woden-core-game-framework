@@ -187,9 +187,11 @@ WDGFWorldMorph >> playing: aBoolean [
 
 { #category : #accessing }
 WDGFWorldMorph >> selectCurrentCamera [
+	self overlay: nil.
 	wodenWorld ifNotNil: [ 
 		(wodenWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem) findActiveCameraComponent ifNotNil: [ :cameraComponent |
 				cameraComponent viewportExtent: self extent.
+				self overlay: cameraComponent overlay.
 				^ cameraComponent sceneNode
 		]
 	].
