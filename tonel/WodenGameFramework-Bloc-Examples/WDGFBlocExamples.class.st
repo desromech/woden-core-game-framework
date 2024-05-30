@@ -12,10 +12,10 @@ WDGFBlocExamples class >> exampleRoom [
 	"
 	self exampleRoom
 	"
-	| world screenExtent screenHalfExtent screenActor screenTexture space lastScreenPosition |
+	| world screenExtent screenHalfExtent screenActor screenTexture space lastScreenPosition lightSource |
 	world := WDGFWorld new.
 	
-	self buildSampleRoomOn: world.
+	lightSource := self buildSampleRoomOn: world.
 	
 	screenExtent := 256@128.
 	screenHalfExtent := Vector3 xy: screenExtent asVector2 / 1000 * 2.0 z: 0.01.
@@ -24,7 +24,8 @@ WDGFBlocExamples class >> exampleRoom [
 		extent: screenExtent;
 		host: (WDBlTextureHost extent: screenExtent).
 	space root addChild: (ToButton new
-		label: (ToLabel text: 'Test Button');
+		label: (ToLabel text: 'Toggle Lights');
+		whenClickedDo: [ lightSource visible: lightSource visible not ];
 		yourself).
 	space show.
 	screenTexture := space host texture.

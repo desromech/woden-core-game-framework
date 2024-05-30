@@ -79,6 +79,7 @@ WDGFExamples class >> buildSampleRoomOn: world [
 		position: (Vector3 x: 0 y: 1.5 z: 0);
 		yourself.
 	world spawnActor: lightSourceActor.
+	^ lightSourceActor
 ]
 
 { #category : #examples }

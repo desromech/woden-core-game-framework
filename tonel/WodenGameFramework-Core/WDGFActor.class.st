@@ -525,6 +525,21 @@ WDGFActor >> unsubscribeForTicking [
 	(self world getOrCreateSubsystemWithClass: WDGFActorTickSubsystem) unsubscribe: self
 ]
 
+{ #category : #accessing }
+WDGFActor >> visible [
+	^ rootSceneComponent
+		ifNotNil: [ rootSceneComponent visible ]
+		ifNil: [ false ]
+]
+
+{ #category : #accessing }
+WDGFActor >> visible: aBoolean [
+	rootSceneComponent ifNotNil: [
+		rootSceneComponent visible: aBoolean
+	]
+	
+]
+
 { #category : #'vr events' }
 WDGFActor >> vrTrackedDeviceActivatedEvent: event from: trackedDeviceComponent [
 ]

@@ -74,22 +74,22 @@ WDGFAbstractInteractiveScreenComponent >> dispatchPointer: pointer pressedButton
 	currentPressedButtonState setFromMask: currentPressedButtonMask.
 
 	(releasedButtonMask anyMask: 1) ifTrue: [ 
-		self dispatchPointer: pointer releasedButtonEventFor: 0 position: position
-	].
-	(releasedButtonMask anyMask: 2) ifTrue: [ 
 		self dispatchPointer: pointer releasedButtonEventFor: 1 position: position
 	].
-	(releasedButtonMask anyMask: 4) ifTrue: [ 
+	(releasedButtonMask anyMask: 2) ifTrue: [ 
 		self dispatchPointer: pointer releasedButtonEventFor: 2 position: position
 	].
-	(pressedButtonMask anyMask: 1) ifTrue: [ 
-		self dispatchPointer: pointer pressedButtonEventFor: 0 position: position
+	(releasedButtonMask anyMask: 4) ifTrue: [ 
+		self dispatchPointer: pointer releasedButtonEventFor: 3 position: position
 	].
-	(pressedButtonMask anyMask: 2) ifTrue: [ 
+	(pressedButtonMask anyMask: 1) ifTrue: [ 
 		self dispatchPointer: pointer pressedButtonEventFor: 1 position: position
 	].
-	(pressedButtonMask anyMask: 4) ifTrue: [ 
+	(pressedButtonMask anyMask: 2) ifTrue: [ 
 		self dispatchPointer: pointer pressedButtonEventFor: 2 position: position
+	].
+	(pressedButtonMask anyMask: 4) ifTrue: [ 
+		self dispatchPointer: pointer pressedButtonEventFor: 3 position: position
 	].
 
 ]

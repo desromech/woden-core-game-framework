@@ -16,9 +16,9 @@ Class {
 
 { #category : #'event handling' }
 WDGFWorldMorph >> convertEventButton: event [
-	event redButtonChanged ifTrue: [ ^ 0 ].
-	event blueButtonChanged ifTrue: [ ^ 1 ].
-	event yellowButtonChanged ifTrue: [ ^ 2 ].
+	event redButtonChanged ifTrue: [ ^ 1 ].
+	event blueButtonChanged ifTrue: [ ^ 2 ].
+	event yellowButtonChanged ifTrue: [ ^ 3 ].
 	^ 0
 ]
 
