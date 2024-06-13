@@ -2,15 +2,16 @@
 I am an event listener that converts Bloc events into the events used by the Woden Game Framework.
 "
 Class {
-	#name : #WDBlGFWorldEventListener,
-	#superclass : #BlEventListener,
+	#name : 'WDBlGFWorldEventListener',
+	#superclass : 'BlEventListener',
 	#instVars : [
 		'worldElement'
 	],
-	#category : #'WodenGameFramework-Bloc'
+	#category : 'WodenGameFramework-Bloc',
+	#package : 'WodenGameFramework-Bloc'
 }
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDBlGFWorldEventListener >> convertModifiers: blocModifiers [
 	^ WDGFInputStateModifiers new
 		leftShift: blocModifiers isShift;
@@ -22,7 +23,7 @@ WDBlGFWorldEventListener >> convertModifiers: blocModifiers [
 		yourself
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 WDBlGFWorldEventListener >> convertMouseButtonState: blocEvent [
 	^ WDGFInputMouseButtonState new
 		leftButton: blocEvent primaryButtonPressed;
@@ -31,7 +32,7 @@ WDBlGFWorldEventListener >> convertMouseButtonState: blocEvent [
 		yourself
 ]
 
-{ #category : #'keyboard handlers' }
+{ #category : 'keyboard handlers' }
 WDBlGFWorldEventListener >> keyDownEvent: anEvent [
 	worldElement enqueueConvertedEvent: (WDGFKeyDownEvent new
 		modifiers: (self convertModifiers: anEvent modifiers);
@@ -39,7 +40,7 @@ WDBlGFWorldEventListener >> keyDownEvent: anEvent [
 		yourself)
 ]
 
-{ #category : #'keyboard handlers' }
+{ #category : 'keyboard handlers' }
 WDBlGFWorldEventListener >> keyUpEvent: anEvent [
 	worldElement enqueueConvertedEvent: (WDGFKeyUpEvent new
 		modifiers: (self convertModifiers: anEvent modifiers);
@@ -47,17 +48,17 @@ WDBlGFWorldEventListener >> keyUpEvent: anEvent [
 		yourself)
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 WDBlGFWorldEventListener >> mouseDownEvent: anEvent [
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 WDBlGFWorldEventListener >> mouseEnterEvent: anEvent [
 	anEvent consumed: true.
 	worldElement requestFocus.
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 WDBlGFWorldEventListener >> mouseMoveEvent: anEvent [
 	worldElement enqueueConvertedEvent: (WDGFMouseMoveEvent new
 		modifiers: (self convertModifiers: anEvent modifiers);
@@ -67,20 +68,20 @@ WDBlGFWorldEventListener >> mouseMoveEvent: anEvent [
 		yourself)
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 WDBlGFWorldEventListener >> mouseUpEvent: anEvent [
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 WDBlGFWorldEventListener >> mouseWheelEvent: anEvent [
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 WDBlGFWorldEventListener >> onInstalledIn: anElement [
 	worldElement := anElement
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 WDBlGFWorldEventListener >> textInputEvent: anEvent [
 	worldElement enqueueConvertedEvent: (WDGFTextInputEvent new
 		modifiers: (self convertModifiers: anEvent modifiers);

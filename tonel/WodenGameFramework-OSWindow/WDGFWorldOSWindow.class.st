@@ -2,24 +2,40 @@
 I am an OSWindow that is used for displaying a Woden Game Framework World. I am also used for injecting user inputs an events into this environment.
 "
 Class {
-	#name : #WDGFWorldOSWindow,
-	#superclass : #WDSceneOSWindow,
+	#name : 'WDGFWorldOSWindow',
+	#superclass : 'WDSceneOSWindow',
 	#instVars : [
 		'playing',
 		'wodenWorld',
 		'convertedEventQueue',
 		'defaultCamera',
-		'hasMouseCapture'
+		'hasMouseCapture',
+		'inputMouseCapture',
+		'menuEnabled',
+		'cameraOverlays'
 	],
-	#category : #'WodenGameFramework-OSWindow'
+	#category : 'WodenGameFramework-OSWindow',
+	#package : 'WodenGameFramework-OSWindow'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFWorldOSWindow class >> eventHandlerClass [
 	^ WDGFWorldOSWindowEventHandler
 ]
 
-{ #category : #'mouse capture' }
+{ #category : 'accessing' }
+WDGFWorldOSWindow >> cameraOverlays [
+
+	^ cameraOverlays
+]
+
+{ #category : 'accessing' }
+WDGFWorldOSWindow >> cameraOverlays: anObject [
+
+	cameraOverlays := anObject
+]
+
+{ #category : 'mouse capture' }
 WDGFWorldOSWindow >> captureMouse [
 	osWindow ifNotNil: [
 		hasMouseCapture := true.
@@ -27,12 +43,12 @@ WDGFWorldOSWindow >> captureMouse [
 	].
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 WDGFWorldOSWindow >> convertKeySymbol: keySymbol [
 	^ OSKeySymbols mapKeySymbolValueToKeyboardKey: keySymbol
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 WDGFWorldOSWindow >> convertModifiers: osWindowModifiers [
 	^ WDGFInputStateModifiers new
 		leftShift: osWindowModifiers leftShift;
@@ -48,7 +64,7 @@ WDGFWorldOSWindow >> convertModifiers: osWindowModifiers [
 		yourself
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 WDGFWorldOSWindow >> convertMouseButtonState: osWindowButtonState [
 	^ WDGFInputMouseButtonState new
 		leftButton: osWindowButtonState button1;
@@ -59,27 +75,32 @@ WDGFWorldOSWindow >> convertMouseButtonState: osWindowButtonState [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFWorldOSWindow >> destroyResources [
 	super destroyResources.
 	wodenWorld ifNotNil: [ wodenWorld closeAndDestroy ]
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 WDGFWorldOSWindow >> dispatchQueuedEvents [
-	| inputSubsystem |
+	| inputSubsystem menuSubsystem |
 	inputSubsystem := wodenWorld ifNotNil: [ :world | world inputSubsystem ].
+	menuSubsystem := wodenWorld ifNotNil: [ :world | world menuSubsystem ].
 
 	[convertedEventQueue isEmpty ] whileFalse: [ 
 		| convertedEvent |
 		convertedEvent := convertedEventQueue next.
-		inputSubsystem ifNotNil: [
-			inputSubsystem dispatchEvent: convertedEvent
-		]
+		(menuSubsystem isNotNil and: [ menuSubsystem isEnabled ]) ifTrue: [ 
+			menuSubsystem dispatchEvent: convertedEvent
+		] ifFalse: [ 
+			inputSubsystem ifNotNil: [
+				inputSubsystem dispatchEvent: convertedEvent
+			]
+		].
 	]
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 WDGFWorldOSWindow >> doUpdate [
 	| currentStepTime deltaTime |
 	lastSceneUpdateTime ifNil: [ lastSceneUpdateTime := Time monotonicMicrosecondClockValue ].
@@ -90,6 +111,7 @@ WDGFWorldOSWindow >> doUpdate [
 	wodenWorld ifNotNil: [
 		wodenWorld updateWithDeltaTime: deltaTime.
 		self camera: self selectCurrentCamera.
+		self updateOverlays.
 		self camera ifNotNil: [ :validCamera |
 			validCamera cameras first currentTime: wodenWorld currentTime.
 		].
@@ -99,13 +121,13 @@ WDGFWorldOSWindow >> doUpdate [
 	lastSceneUpdateTime := currentStepTime
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 WDGFWorldOSWindow >> enqueueConvertedEvent: aConvertedEvent [
 	convertedEventQueue nextPut: aConvertedEvent.
 	self changed.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorldOSWindow >> getOrCreateDefaultCamera [
 	^ defaultCamera ifNil: [defaultCamera := WDCamera new asSceneNode
 			position: (Vector3 x: 0 y: 0 z: 0);
@@ -113,20 +135,48 @@ WDGFWorldOSWindow >> getOrCreateDefaultCamera [
 		]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorldOSWindow >> hasMouseCapture [
 	^ hasMouseCapture
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFWorldOSWindow >> initialize [
 	super initialize.
 	playing := false.
 	convertedEventQueue := AtomicSharedQueue new.
 	hasMouseCapture := false.
+	inputMouseCapture := false.
+	menuEnabled := false.
+	cameraOverlays := #().
+	
 ]
 
-{ #category : #events }
+{ #category : 'accessing' }
+WDGFWorldOSWindow >> inputMouseCapture [
+
+	^ inputMouseCapture
+]
+
+{ #category : 'accessing' }
+WDGFWorldOSWindow >> inputMouseCapture: anObject [
+	inputMouseCapture := anObject.
+	self updateMouseCapture.
+]
+
+{ #category : 'accessing' }
+WDGFWorldOSWindow >> menuEnabled [
+
+	^ menuEnabled
+]
+
+{ #category : 'accessing' }
+WDGFWorldOSWindow >> menuEnabled: anObject [
+	menuEnabled := anObject.
+	self updateMouseCapture.
+]
+
+{ #category : 'events' }
 WDGFWorldOSWindow >> onJoyAxis: anEvent [
 	self enqueueConvertedEvent: (WDGFGamepadAxisEvent new
 		id: anEvent which;
@@ -135,7 +185,7 @@ WDGFWorldOSWindow >> onJoyAxis: anEvent [
 		yourself)
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 WDGFWorldOSWindow >> onJoyButtonDown: anEvent [
 	self enqueueConvertedEvent: (WDGFGamepadButtonPressEvent new
 		id: anEvent which;
@@ -143,7 +193,7 @@ WDGFWorldOSWindow >> onJoyButtonDown: anEvent [
 		yourself)
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 WDGFWorldOSWindow >> onJoyButtonUp: anEvent [
 	self enqueueConvertedEvent: (WDGFGamepadButtonReleaseEvent new
 		id: anEvent which;
@@ -151,7 +201,7 @@ WDGFWorldOSWindow >> onJoyButtonUp: anEvent [
 		yourself)
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 WDGFWorldOSWindow >> onKeyDown: anEvent [
 	(anEvent symbol = 1073741882 and: [anEvent modifiers shift]) ifTrue: [ 
 		self releaseMouse
@@ -163,7 +213,7 @@ WDGFWorldOSWindow >> onKeyDown: anEvent [
 		yourself)
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 WDGFWorldOSWindow >> onKeyUp: anEvent [
 	self enqueueConvertedEvent: (WDGFKeyUpEvent new
 		modifiers: (self convertModifiers: anEvent modifiers);
@@ -171,7 +221,7 @@ WDGFWorldOSWindow >> onKeyUp: anEvent [
 		yourself)
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 WDGFWorldOSWindow >> onMouseButtonPress: anEvent [
 	self enqueueConvertedEvent: (WDGFMouseButtonPressEvent new
 		modifiers: (self convertModifiers: anEvent modifiers);
@@ -181,7 +231,7 @@ WDGFWorldOSWindow >> onMouseButtonPress: anEvent [
 		yourself)
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 WDGFWorldOSWindow >> onMouseButtonRelease: anEvent [
 	self enqueueConvertedEvent: (WDGFMouseButtonReleaseEvent new
 		modifiers: (self convertModifiers: anEvent modifiers);
@@ -191,7 +241,7 @@ WDGFWorldOSWindow >> onMouseButtonRelease: anEvent [
 		yourself)
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 WDGFWorldOSWindow >> onMouseMove: anEvent [
 	self enqueueConvertedEvent: (WDGFMouseMoveEvent new
 		modifiers: (self convertModifiers: anEvent modifiers);
@@ -201,7 +251,7 @@ WDGFWorldOSWindow >> onMouseMove: anEvent [
 		yourself)
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 WDGFWorldOSWindow >> onMouseWheel: anEvent [
 	self enqueueConvertedEvent: (WDGFMouseWheelEvent new
 		modifiers: (self convertModifiers: anEvent modifiers);
@@ -212,7 +262,7 @@ WDGFWorldOSWindow >> onMouseWheel: anEvent [
 		yourself)
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 WDGFWorldOSWindow >> onTextInput: anEvent [
 	self enqueueConvertedEvent: (WDGFTextInputEvent new
 		modifiers: (self convertModifiers: anEvent modifiers);
@@ -220,19 +270,19 @@ WDGFWorldOSWindow >> onTextInput: anEvent [
 		yourself)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorldOSWindow >> playing [
 
 	^ playing
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorldOSWindow >> playing: anObject [
 
 	playing := anObject
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 WDGFWorldOSWindow >> pollVREventsAndUpdate [
 	vrSystem ifNil: [ ^ self ].
 	
@@ -243,7 +293,7 @@ WDGFWorldOSWindow >> pollVREventsAndUpdate [
 	].
 ]
 
-{ #category : #'mouse capture' }
+{ #category : 'mouse capture' }
 WDGFWorldOSWindow >> releaseMouse [
 	osWindow ifNotNil: [
 		hasMouseCapture := false.
@@ -251,13 +301,13 @@ WDGFWorldOSWindow >> releaseMouse [
 	]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorldOSWindow >> selectCurrentCamera [
-	self overlay: nil.
+	self cameraOverlays: #().
 	wodenWorld ifNotNil: [ 
 		(wodenWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem) findActiveCameraComponent ifNotNil: [ :cameraComponent |
 				cameraComponent viewportExtent: self windowExtent.
-				self overlay: cameraComponent overlay.
+				self cameraOverlays: cameraComponent overlays.
 				^ cameraComponent sceneNode
 		]
 	].
@@ -265,25 +315,54 @@ WDGFWorldOSWindow >> selectCurrentCamera [
 	^ self getOrCreateDefaultCamera
 ]
 
-{ #category : #accessing }
+{ #category : 'as yet unclassified' }
+WDGFWorldOSWindow >> updateMouseCapture [
+	(menuEnabled not and: [ inputMouseCapture ]) ifTrue: [ 
+		self captureMouse
+	] ifFalse: [ 
+		self releaseMouse
+	]
+]
+
+{ #category : 'as yet unclassified' }
+WDGFWorldOSWindow >> updateOverlays [
+	| newOverlays |
+	newOverlays := cameraOverlays.
+
+	wodenWorld ifNotNil: [
+		wodenWorld menuSubsystem isEnabled ifTrue: [
+			wodenWorld menuSubsystem overlay ifNotNil: [ :menuOverlay |
+				newOverlays := newOverlays , { menuOverlay }
+			]
+		]
+	].
+
+	self overlays: newOverlays
+	
+]
+
+{ #category : 'accessing' }
 WDGFWorldOSWindow >> wodenWorld [
 
 	^ wodenWorld
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorldOSWindow >> wodenWorld: anObject [
-	| sceneSubsystem inputSubsystem |
+	| sceneSubsystem menuSubsystem inputSubsystem |
 	wodenWorld := anObject.
-	sceneSubsystem := wodenWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem.
-	inputSubsystem := wodenWorld getOrCreateSubsystemWithClass: WDGFInputSubsystem.
+	sceneSubsystem := wodenWorld sceneSubsystem.
+	inputSubsystem := wodenWorld inputSubsystem .
+	menuSubsystem := wodenWorld menuSubsystem.
 	self scene: sceneSubsystem scene.
 	self camera: self selectCurrentCamera.
 	sceneSubsystem whenSceneChangedDo: [ self changed ].
+	menuSubsystem
+		onMenuEnabledChangedDo: [ :enabled | self menuEnabled: enabled ].
 	inputSubsystem
 		supportsMouseCapture: true;
 		hasMouseCaptureBlock: [ self hasMouseCapture ];
-		onCaptureMouseDo: [ self captureMouse ];
-		onReleaseMouseDo: [ self releaseMouse ].
+		onCaptureMouseDo: [ self inputMouseCapture: true ];
+		onReleaseMouseDo: [ self inputMouseCapture: false ].
 	self changed.
 ]

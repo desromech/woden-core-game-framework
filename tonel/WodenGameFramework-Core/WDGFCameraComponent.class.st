@@ -8,7 +8,8 @@ Class {
 		'camera',
 		'isActive',
 		'viewportExtent',
-		'overlay'
+		'overlay',
+		'overlays'
 	],
 	#category : 'WodenGameFramework-Core-Components-Scene',
 	#package : 'WodenGameFramework-Core',
@@ -58,6 +59,7 @@ WDGFCameraComponent >> initialize [
 	camera := WDCamera new.
 	viewportExtent := 1@1.
 	isActive := false.
+	overlays := #().
 ]
 
 { #category : 'accessing' }
@@ -90,15 +92,24 @@ WDGFCameraComponent >> mouseEventPositionToNormalized: mouseEvent [
 ]
 
 { #category : 'accessing' }
-WDGFCameraComponent >> overlay [
-
-	^ overlay
+WDGFCameraComponent >> overlay: aWDOverlay [
+	aWDOverlay ifNotNil: [ 
+		self overlays: { aWDOverlay }
+	] ifNil: [ 
+		self overlays: #()
+	]
 ]
 
 { #category : 'accessing' }
-WDGFCameraComponent >> overlay: anObject [
+WDGFCameraComponent >> overlays [
 
-	overlay := anObject
+	^ overlays
+]
+
+{ #category : 'accessing' }
+WDGFCameraComponent >> overlays: anObject [
+
+	overlays := anObject
 ]
 
 { #category : 'hooks' }

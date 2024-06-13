@@ -1,13 +1,13 @@
-Extension { #name : #WDGFWorld }
+Extension { #name : 'WDGFWorld' }
 
-{ #category : #'*WodenGameFramework-OSWindow' }
+{ #category : '*WodenGameFramework-OSWindow' }
 WDGFWorld >> openInOSWindow [
 	^ WDGFWorldOSWindow new
 		wodenWorld: self;
 		open
 ]
 
-{ #category : #'*WodenGameFramework-OSWindow' }
+{ #category : '*WodenGameFramework-OSWindow' }
 WDGFWorld >> playInOSWindow [
 	self beginPlay.
 	^ WDGFWorldOSWindow new
@@ -15,7 +15,7 @@ WDGFWorld >> playInOSWindow [
 		open
 ]
 
-{ #category : #'*WodenGameFramework-OSWindow' }
+{ #category : '*WodenGameFramework-OSWindow' }
 WDGFWorld >> playInVR [
 	self beginPlay.
 	^ WDGFWorldOSWindow new

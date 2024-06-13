@@ -2,23 +2,32 @@
 I contain woden examples that use Bloc/Toplo.
 "
 Class {
-	#name : #WDGFBlocExamples,
-	#superclass : #WDGFExamples,
-	#category : #'WodenGameFramework-Bloc-Examples'
+	#name : 'WDGFBlocExamples',
+	#superclass : 'WDGFExamples',
+	#category : 'WodenGameFramework-Bloc-Examples',
+	#package : 'WodenGameFramework-Bloc-Examples'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 WDGFBlocExamples class >> exampleRoom [
 	"
 	self exampleRoom
 	"
-	| world screenExtent screenHalfExtent screenActor screenTexture space lastScreenPosition lightSource |
+	| world screenExtent screenHalfExtent screenActor screenTexture space lastScreenPosition lightSource menuOverlay |
 	world := WDGFWorld new.
 	
 	lightSource := self buildSampleRoomOn: world.
 	
 	screenExtent := 256@128.
 	screenHalfExtent := Vector3 xy: screenExtent asVector2 / 1000 * 2.0 z: 0.01.
+	
+	menuOverlay := WDGFBlOverlay withExtent: 256@256.
+	menuOverlay 	space root addChild: (ToButton new
+		label: (ToLabel text: 'Test Menu');
+		whenClickedDo: [ lightSource visible: lightSource visible not ];
+		yourself).
+	menuOverlay 	space show.
+	world menuSubsystem overlay: menuOverlay.
 
 	space := BlSpace new
 		extent: screenExtent;
@@ -56,6 +65,6 @@ WDGFBlocExamples class >> exampleRoom [
 	world playInWindow
 ]
 
-{ #category : #'see class side' }
+{ #category : 'see class side' }
 WDGFBlocExamples >> seeClassSide [
 ]

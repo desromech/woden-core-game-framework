@@ -1,1 +1,1 @@
-Package { #name : #'WodenGameFramework-OSWindow' }
+Package { #name : 'WodenGameFramework-OSWindow' }

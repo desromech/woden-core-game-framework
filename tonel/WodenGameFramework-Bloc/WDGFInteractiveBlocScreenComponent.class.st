@@ -1,24 +1,25 @@
 Class {
-	#name : #WDGFInteractiveBlocScreenComponent,
-	#superclass : #WDGFAbstractInteractiveScreenComponent,
+	#name : 'WDGFInteractiveBlocScreenComponent',
+	#superclass : 'WDGFAbstractInteractiveScreenComponent',
 	#instVars : [
 		'space',
 		'time'
 	],
-	#category : #'WodenGameFramework-Bloc'
+	#category : 'WodenGameFramework-Bloc',
+	#package : 'WodenGameFramework-Bloc'
 }
 
-{ #category : #construction }
+{ #category : 'construction' }
 WDGFInteractiveBlocScreenComponent class >> boundingBox: aBoundingBox space: space [
 	^ self new boundingBox: aBoundingBox; space: space; yourself
 ]
 
-{ #category : #construction }
+{ #category : 'construction' }
 WDGFInteractiveBlocScreenComponent class >> boundingBoxHalfExtent: aHalfExtent space: texture [
 	^ self boundingBox: (AABox halfExtent: aHalfExtent) space: texture
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDGFInteractiveBlocScreenComponent >> convertButton: osButton [
 	<return: #BlMouseButton>
 
@@ -29,7 +30,7 @@ WDGFInteractiveBlocScreenComponent >> convertButton: osButton [
 	^ BlMouseButton code: osButton
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDGFInteractiveBlocScreenComponent >> convertKeyModifiers: modifiers [
 	<return: #BlKeyModifiers>
 
@@ -40,26 +41,26 @@ WDGFInteractiveBlocScreenComponent >> convertKeyModifiers: modifiers [
 		cmd: modifiers cmd
 ]
 
-{ #category : #'event management' }
+{ #category : 'event management' }
 WDGFInteractiveBlocScreenComponent >> dispatchEvent: anInputEvent [
 	super dispatchEvent: anInputEvent.
 	anInputEvent accept: self
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 WDGFInteractiveBlocScreenComponent >> enqueue: anEvent [
 	space ifNil: [ ^ self ].
 	space hostSpace ifNil: [ ^ self ].
 	space hostSpace enqueueEvent: anEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 WDGFInteractiveBlocScreenComponent >> initialize [
 	super initialize.
 	time := BlTime real.
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 WDGFInteractiveBlocScreenComponent >> mouseButtonPressEvent: anEvent [
 	| aBlocEvent button |
 	button := self convertButton: anEvent button.
@@ -74,7 +75,7 @@ WDGFInteractiveBlocScreenComponent >> mouseButtonPressEvent: anEvent [
 	self enqueue: aBlocEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 WDGFInteractiveBlocScreenComponent >> mouseButtonReleaseEvent: anEvent [
 	| aBlocEvent button |
 	button := self convertButton: anEvent button.
@@ -89,7 +90,7 @@ WDGFInteractiveBlocScreenComponent >> mouseButtonReleaseEvent: anEvent [
 	self enqueue: aBlocEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 WDGFInteractiveBlocScreenComponent >> mouseEntered [
 	| aBlocEvent |
 
@@ -100,7 +101,7 @@ WDGFInteractiveBlocScreenComponent >> mouseEntered [
 	self enqueue: aBlocEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 WDGFInteractiveBlocScreenComponent >> mouseLeft [
 	| aBlocEvent |
 
@@ -111,7 +112,7 @@ WDGFInteractiveBlocScreenComponent >> mouseLeft [
 	self enqueue: aBlocEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 WDGFInteractiveBlocScreenComponent >> mouseMoveEvent: anEvent [
 	| aBlocEvent |
 	aBlocEvent := BlMouseMoveEvent new
@@ -125,35 +126,35 @@ WDGFInteractiveBlocScreenComponent >> mouseMoveEvent: anEvent [
 	self enqueue: aBlocEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 WDGFInteractiveBlocScreenComponent >> mouseWheelEvent: anEvent [
 	Transcript show: anEvent; cr.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFInteractiveBlocScreenComponent >> screenExtent [
 	^ space extent asPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFInteractiveBlocScreenComponent >> space [
 
 	^ space
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFInteractiveBlocScreenComponent >> space: anObject [
 
 	space := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFInteractiveBlocScreenComponent >> time [
 
 	^ time
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFInteractiveBlocScreenComponent >> time: anObject [
 
 	time := anObject

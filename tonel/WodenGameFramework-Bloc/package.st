@@ -1,1 +1,1 @@
-Package { #name : #'WodenGameFramework-Bloc' }
+Package { #name : 'WodenGameFramework-Bloc' }

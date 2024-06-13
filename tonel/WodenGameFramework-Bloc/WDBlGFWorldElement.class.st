@@ -2,8 +2,8 @@
 I am a bloc element which is used for displaying a Woden Game Framework World inside of Bloc.
 "
 Class {
-	#name : #WDBlGFWorldElement,
-	#superclass : #WDBlSceneElement,
+	#name : 'WDBlGFWorldElement',
+	#superclass : 'WDBlSceneElement',
 	#instVars : [
 		'wodenWorld',
 		'defaultCamera',
@@ -11,16 +11,17 @@ Class {
 		'updateTask',
 		'convertedEventQueue'
 	],
-	#category : #'WodenGameFramework-Bloc'
+	#category : 'WodenGameFramework-Bloc',
+	#package : 'WodenGameFramework-Bloc'
 }
 
-{ #category : #'hooks - children' }
+{ #category : 'hooks - children' }
 WDBlGFWorldElement >> destroyResources [
 	super destroyResources.
 	wodenWorld ifNotNil: [ wodenWorld closeAndDestroy ].
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDBlGFWorldElement >> dispatchQueuedEvents [
 	| inputSubsystem |
 	inputSubsystem := wodenWorld ifNotNil: [ :world | world inputSubsystem ].
@@ -34,13 +35,13 @@ WDBlGFWorldElement >> dispatchQueuedEvents [
 	]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDBlGFWorldElement >> enqueueConvertedEvent: aConvertedEvent [
 	convertedEventQueue nextPut: aConvertedEvent.
 	self invalidate.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDBlGFWorldElement >> getOrCreateDefaultCamera [
 	^ defaultCamera ifNil: [defaultCamera := WDCamera new asSceneNode
 			position: (Vector3 x: 0 y: 0 z: 0);
@@ -48,7 +49,7 @@ WDBlGFWorldElement >> getOrCreateDefaultCamera [
 		]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDBlGFWorldElement >> initialize [
 	super initialize.
 	playing := false.
@@ -56,18 +57,18 @@ WDBlGFWorldElement >> initialize [
 	self addEventHandler: WDBlGFWorldEventListener new.
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 WDBlGFWorldElement >> newUpdateTask [
 	^ WDBlGFUpdateTask new worldElement: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDBlGFWorldElement >> playing [
 
 	^ playing
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDBlGFWorldElement >> playing: aBoolean [
 	playing := aBoolean.
 	playing ifTrue: [
@@ -77,7 +78,7 @@ WDBlGFWorldElement >> playing: aBoolean [
 	].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDBlGFWorldElement >> selectCurrentCamera [
 	wodenWorld ifNotNil: [ 
 		(wodenWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem) findActiveCameraComponent ifNotNil: [ :cameraComponent |
@@ -89,14 +90,14 @@ WDBlGFWorldElement >> selectCurrentCamera [
 	^ self getOrCreateDefaultCamera
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDBlGFWorldElement >> startUpdateTask [
 	self stopUpdateTask.
 	playing ifFalse: [ ^ self ].
 	self enqueueTask: (updateTask := self newUpdateTask)
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDBlGFWorldElement >> stopUpdateTask [
 	updateTask ifNotNil: [ 
 		updateTask stop.
@@ -106,7 +107,7 @@ WDBlGFWorldElement >> stopUpdateTask [
 
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 WDBlGFWorldElement >> updateTimestep: deltaTime [
 	self dispatchQueuedEvents.
 	wodenWorld ifNil: [ ^ self ].
@@ -122,13 +123,13 @@ WDBlGFWorldElement >> updateTimestep: deltaTime [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDBlGFWorldElement >> wodenWorld [
 
 	^ wodenWorld
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDBlGFWorldElement >> wodenWorld: anObject [
 	| sceneSubsystem |
 	wodenWorld := anObject.

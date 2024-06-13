@@ -1,13 +1,13 @@
-Extension { #name : #WDGFWorld }
+Extension { #name : 'WDGFWorld' }
 
-{ #category : #'*WodenGameFramework-Bloc' }
+{ #category : '*WodenGameFramework-Bloc' }
 WDGFWorld >> openInBlocSpace [
 	^ WDBlGFWorldElement new
 		wodenWorld: self;
 		openInSpace
 ]
 
-{ #category : #'*WodenGameFramework-Bloc' }
+{ #category : '*WodenGameFramework-Bloc' }
 WDGFWorld >> playInBlocSpace [
 	self beginPlay.
 	^ WDBlGFWorldElement new
