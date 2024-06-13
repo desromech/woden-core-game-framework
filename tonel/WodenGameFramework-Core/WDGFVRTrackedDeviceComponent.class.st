@@ -1,6 +1,6 @@
 Class {
-	#name : #WDGFVRTrackedDeviceComponent,
-	#superclass : #WDGFActorComponent,
+	#name : 'WDGFVRTrackedDeviceComponent',
+	#superclass : 'WDGFActorComponent',
 	#instVars : [
 		'deviceClass',
 		'deviceRole',
@@ -23,10 +23,12 @@ Class {
 		'AxisPressedThreshold',
 		'AxisTouchedThreshold'
 	],
-	#category : #'WodenGameFramework-Core-Components-VR'
+	#category : 'WodenGameFramework-Core-Components-VR',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-VR'
 }
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 WDGFVRTrackedDeviceComponent class >> initialize [
 	AnalogJoystickButtonLeft := 1<<0.
 	AnalogJoystickButtonRight := 1<<1.
@@ -39,46 +41,46 @@ WDGFVRTrackedDeviceComponent class >> initialize [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFVRTrackedDeviceComponent >> deviceAngularVelocity [
 	^ deviceAngularVelocity
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFVRTrackedDeviceComponent >> deviceClass [
 
 	^ deviceClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFVRTrackedDeviceComponent >> deviceClass: anObject [
 
 	deviceClass := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFVRTrackedDeviceComponent >> deviceLinearVelocity [
 	^ deviceLinearVelocity
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFVRTrackedDeviceComponent >> deviceRole [
 
 	^ deviceRole
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFVRTrackedDeviceComponent >> deviceRole: aTrackedDeviceRole [
 	deviceRole := aTrackedDeviceRole asVRTrackedDeviceRole
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFVRTrackedDeviceComponent >> deviceTransform [
 
 	^ deviceTransform
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFVRTrackedDeviceComponent >> dispatchAnalogButtonEvent [
 	| touchedButtonMask untouchedButtonMask pressedButtonMask releasedButtonMask |
 	touchedButtonMask := lastAnalogButtonTouchedState bitInvert & analogButtonTouchedState.
@@ -105,7 +107,7 @@ WDGFVRTrackedDeviceComponent >> dispatchAnalogButtonEvent [
 
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFVRTrackedDeviceComponent >> gotTrackedDevice [
 	owner ifNotNil: [ owner send: #gotVRTrackedDevice: with: self ].
 	analogButtonPressedState := 0.
@@ -114,13 +116,13 @@ WDGFVRTrackedDeviceComponent >> gotTrackedDevice [
 	self dispatchAnalogButtonEvent.
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> handleVREvent: vrEvent [
 	owner ifNotNil: [ owner send: vrEvent class gameFrameworkVREventMessageName with: vrEvent with: self ].
 	vrEvent accept: self.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFVRTrackedDeviceComponent >> initialize [
 	super initialize.
 	deviceTransform := ReversibleAffineTransform3D identity.
@@ -130,7 +132,7 @@ WDGFVRTrackedDeviceComponent >> initialize [
 	analogButtonTouchedState := 0.
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFVRTrackedDeviceComponent >> lostTrackedDevice [
 	owner ifNotNil: [ owner send: #lostVRTrackedDevice: with: self ].
 	analogButtonPressedState := 0.
@@ -138,7 +140,7 @@ WDGFVRTrackedDeviceComponent >> lostTrackedDevice [
 	self dispatchAnalogButtonEvent.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFVRTrackedDeviceComponent >> lostTrackedDeviceForThisCycle [
 	device ifNotNil: [
 		device := nil.
@@ -147,127 +149,127 @@ WDGFVRTrackedDeviceComponent >> lostTrackedDeviceForThisCycle [
 	].
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFVRTrackedDeviceComponent >> onGotTrackedDevice [
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFVRTrackedDeviceComponent >> onLostTrackedDevice [
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFVRTrackedDeviceComponent >> onUpdatedTrackedDevice [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceActivatedEvent: event [
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceAnalogButtonPressed: mask [
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceAnalogButtonReleased: mask [
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceAnalogButtonTouched: mask [
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceAnalogButtonUntouched: mask [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceButtonPressedEvent: event [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceButtonReleasedEvent: event [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceButtonTouchEvent: event [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceButtonUntouchEvent: event [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceDeactivatedEvent: event [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceDualAnalogModeCancelEvent: event [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceDualAnalogModeSwitch1Event: event [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceDualAnalogModeSwitch2Event: event [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceDualAnalogMoveEvent: event [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceDualAnalogPressedEvent: event [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceDualAnalogReleasedEvent: event [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceDualAnalogTouchEvent: event [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceDualAnalogUntouchEvent: event [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceUpdatedEvent: event [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceUserInteractionEndedEvent: event [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFVRTrackedDeviceComponent >> onVRTrackedDeviceUserInteractionStartedEvent: event [
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFVRTrackedDeviceComponent >> privateRegisterInWorld [
 	ownerWorld vrSubsystem registerTrackedDeviceComponent: self
 
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFVRTrackedDeviceComponent >> privateUnregisterFromWorld [
 	ownerWorld vrSubsystem unregisterTrackedDeviceComponent: self
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFVRTrackedDeviceComponent >> setupForLeftHand [
 	self deviceClass: WDVRTrackedDeviceController.
 	self deviceRole: WDVRTrackedDeviceRoleLeftHand.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFVRTrackedDeviceComponent >> setupForRightHand [
 	self deviceClass: WDVRTrackedDeviceController.
 	self deviceRole: WDVRTrackedDeviceRoleRightHand.
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFVRTrackedDeviceComponent >> updateAnalogButtonStates [
 	| controllerState setJoysticButtons |
 	controllerState := device controllerState.
@@ -336,7 +338,7 @@ WDGFVRTrackedDeviceComponent >> updateAnalogButtonStates [
 
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFVRTrackedDeviceComponent >> updatedTrackedDevice [
 	owner ifNotNil: [ owner send: #updatedVRTrackedDevice: with: self ].
 	self updateAnalogButtonStates.
@@ -344,7 +346,7 @@ WDGFVRTrackedDeviceComponent >> updatedTrackedDevice [
 	self onUpdatedTrackedDevice
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFVRTrackedDeviceComponent >> useTrackedDeviceForThisCycle: trackedDeviceForCycle [
 	| isNewDevice pose |
 	isNewDevice := device ~~ trackedDeviceForCycle.

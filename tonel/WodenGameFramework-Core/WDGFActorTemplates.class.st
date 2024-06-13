@@ -2,12 +2,14 @@
 I provide a set of actor templates that are commonly used.
 "
 Class {
-	#name : #WDGFActorTemplates,
-	#superclass : #Object,
-	#category : #'WodenGameFramework-Core-Templates'
+	#name : 'WDGFActorTemplates',
+	#superclass : 'Object',
+	#category : 'WodenGameFramework-Core-Templates',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Templates'
 }
 
-{ #category : #templates }
+{ #category : 'templates' }
 WDGFActorTemplates class >> noclipCameraActor [
 	| actor cameraAngles cameraOrientationFunction |
 	actor := WDGFActor new
@@ -43,7 +45,7 @@ WDGFActorTemplates class >> noclipCameraActor [
 	
 ]
 
-{ #category : #templates }
+{ #category : 'templates' }
 WDGFActorTemplates class >> staticCameraWithPosition: position [
 	^ WDGFActor new
 		addComponent: (WDGFCameraComponent new
@@ -53,6 +55,6 @@ WDGFActorTemplates class >> staticCameraWithPosition: position [
 		yourself
 ]
 
-{ #category : #'see class side' }
+{ #category : 'see class side' }
 WDGFActorTemplates >> seeClassSide [
 ]

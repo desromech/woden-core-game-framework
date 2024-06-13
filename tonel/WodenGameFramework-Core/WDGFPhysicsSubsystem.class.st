@@ -2,54 +2,56 @@
 I am a subsystem that provides collision detection and physics simulation facilities.
 "
 Class {
-	#name : #WDGFPhysicsSubsystem,
-	#superclass : #WDGFSubsystem,
+	#name : 'WDGFPhysicsSubsystem',
+	#superclass : 'WDGFSubsystem',
 	#instVars : [
 		'physicsWorld'
 	],
-	#category : #'WodenGameFramework-Core-Subsystem'
+	#category : 'WodenGameFramework-Core-Subsystem',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Subsystem'
 }
 
-{ #category : #default }
+{ #category : 'default' }
 WDGFPhysicsSubsystem class >> defaultGravity [
 	^ Vector3 y: -9.8
 ]
 
-{ #category : #queries }
+{ #category : 'queries' }
 WDGFPhysicsSubsystem >> findActorsIntersectingBox: box transform: transform suchThat: aPredicate [
 	^ (physicsWorld findObjectsIntersectingBox: box transform: transform suchThat: [ :element |
 		element model notNil and: [aPredicate value: element model owner]
 	]) collect: [:eachCollisionObject | eachCollisionObject model owner]
 ]
 
-{ #category : #queries }
+{ #category : 'queries' }
 WDGFPhysicsSubsystem >> findActorsIntersectingSphere: sphere suchThat: aPredicate [
 	^ (physicsWorld findObjectsIntersectingSphere: sphere suchThat: [ :element |
 		element model notNil and: [aPredicate value: element model owner]
 	]) collect: [:eachCollisionObject | eachCollisionObject model owner]
 ]
 
-{ #category : #queries }
+{ #category : 'queries' }
 WDGFPhysicsSubsystem >> findActorsIntersectingSphere: sphere transform: transform suchThat: aPredicate [
 	^ (physicsWorld findObjectsIntersectingSphere: sphere transform: transform suchThat: [ :element |
 		element model notNil and: [aPredicate value: element model owner]
 	]) collect: [:eachCollisionObject | eachCollisionObject model owner]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFPhysicsSubsystem >> initialize [
 	super initialize.
 	physicsWorld := WDPDiscreteDynamicPhysicsWorld new.
 	physicsWorld gravity: self class defaultGravity.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsSubsystem >> physicsWorld [
 
 	^ physicsWorld
 ]
 
-{ #category : #queries }
+{ #category : 'queries' }
 WDGFPhysicsSubsystem >> rayCast: ray excludingActors: exclusionSet forFirstActorSuchThat: aPredicate [
 	| physicsResult actor |
 	physicsResult := physicsWorld rayCast: ray forFirstSuchThat: [ :element |
@@ -70,12 +72,12 @@ WDGFPhysicsSubsystem >> rayCast: ray excludingActors: exclusionSet forFirstActor
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsSubsystem >> updatePriority [
 	^ PhysicsUpdatePriority
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFPhysicsSubsystem >> updateSingleTimeStep: delta [
 	ownerWorld isPlaying ifFalse: [ ^ self ].
 	

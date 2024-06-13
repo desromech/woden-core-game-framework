@@ -2,17 +2,19 @@
 I am an utility used for loading a game framework world from a serialized level from the editor.
 "
 Class {
-	#name : #WDGFWorldLoader,
-	#superclass : #Object,
+	#name : 'WDGFWorldLoader',
+	#superclass : 'Object',
 	#instVars : [
 		'world',
 		'materials',
 		'extraActors'
 	],
-	#category : #'WodenGameFramework-Core-Serialization'
+	#category : 'WodenGameFramework-Core-Serialization',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Serialization'
 }
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadActor: actor bspBrushFrom: bspBrushDesc [
 	| transform meshBuilder |
 	transform := TRSTransform3D identity.
@@ -46,7 +48,7 @@ WDGFWorldLoader >> loadActor: actor bspBrushFrom: bspBrushDesc [
 	].
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadActor: actor childFrom: childDesc [
 	| childType |
 	childType := (childDesc at: '__type__' ifAbsent: [ nil ]).
@@ -61,14 +63,14 @@ WDGFWorldLoader >> loadActor: actor childFrom: childDesc [
 	self error: 'Unsupport actor child with type ' , childType
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadActor: actor childrenFrom: childrenDesc [
 	childrenDesc do: [ :eachChild |
 		self loadActor: actor childFrom: eachChild
 	]
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadActor: actor directionalLightSourceFrom: lightSourceDesc [
 	| lightSource color intensity transform |
 	transform := TRSTransform3D identity.
@@ -92,7 +94,7 @@ WDGFWorldLoader >> loadActor: actor directionalLightSourceFrom: lightSourceDesc 
 		yourself)
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadActor: actor from: actorDescription [
 	actor name: ((actorDescription at: 'name' ifAbsent: [ nil ]) ifNil: [ '' ]).
 	(actorDescription at: 'transform' ifAbsent: [ nil ]) ifNotNil: [ :transformDesc |
@@ -104,7 +106,7 @@ WDGFWorldLoader >> loadActor: actor from: actorDescription [
 
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadActor: actor modelReferenceFrom: modelReferenceDesc [
 	| transform modelPath modelAsset hasCollisions elementName collisionElementName |
 	transform := TRSTransform3D identity.
@@ -135,7 +137,7 @@ WDGFWorldLoader >> loadActor: actor modelReferenceFrom: modelReferenceDesc [
 
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadActor: actor pointLightSourceFrom: lightSourceDesc [
 	| lightSource color intensity transform |
 	transform := TRSTransform3D identity.
@@ -160,7 +162,7 @@ WDGFWorldLoader >> loadActor: actor pointLightSourceFrom: lightSourceDesc [
 		yourself)
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadActor: actor propReferenceFrom: propReferenceDesc [
 	| transform propPath propAsset |
 	transform := TRSTransform3D identity.
@@ -179,12 +181,12 @@ WDGFWorldLoader >> loadActor: actor propReferenceFrom: propReferenceDesc [
 
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadActor: actor propertiesFrom: actorProperties [
 	"TODO: Implement this when required."
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadActor: actor spotLightSourceFrom: lightSourceDesc [
 	| lightSource color intensity transform |
 	transform := TRSTransform3D identity.
@@ -211,7 +213,7 @@ WDGFWorldLoader >> loadActor: actor spotLightSourceFrom: lightSourceDesc [
 		yourself)
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadActorsFrom: actorsList [
 	| loadedActors |
 	extraActors := OrderedCollection new.
@@ -249,7 +251,7 @@ WDGFWorldLoader >> loadActorsFrom: actorsList [
 
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadBSPBrushFace: eachFace into: meshBuilder [
 	| plane vertices texcoords material vertexCount nx ny nz |
 	plane := (eachFace at: 'plane' ifAbsent: [nil])
@@ -283,13 +285,13 @@ WDGFWorldLoader >> loadBSPBrushFace: eachFace into: meshBuilder [
 	].
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadFromFileNamed: aFileName in: aTargetWorld [
 	world := aTargetWorld.
 	self loadWorldFromJson: (STONJSON fromString: aFileName asFileReference contents)
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadMaterialFrom: materialDesc [
 	(materialDesc at: 'path' ifAbsent: [ nil ]) ifNotNil: [:path |
 		^ world applicationSettings loadMaterialWithPath: path
@@ -299,19 +301,19 @@ WDGFWorldLoader >> loadMaterialFrom: materialDesc [
 
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadMaterialList: materialList [
 	materials := materialList collect: [ :eachMaterialDesc | self loadMaterialFrom: eachMaterialDesc ]
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadWorldFromJson: json [
 	self loadMaterialList: ((json at: 'materials' ifAbsent: [nil]) ifNil: [#()]).
 	self loadWorldSettingsFrom: json.
 	self loadActorsFrom: ((json at: 'children' ifAbsent: [nil]) ifNil: [#()]).
 ]
 
-{ #category : #loading }
+{ #category : 'loading' }
 WDGFWorldLoader >> loadWorldSettingsFrom: worldSettingsDesc [
 	| ambientLighting hdriPath useHDRIAsSkybox backgroundActor lightProbe |
 	ambientLighting := Vector3 zeros.

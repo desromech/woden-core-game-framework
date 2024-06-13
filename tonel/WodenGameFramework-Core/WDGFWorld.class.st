@@ -2,8 +2,8 @@
 I am a world in the game framework. I typically contain a list of actors and different subsystems that are used for sequencing mutations between the different actors and their components.
 "
 Class {
-	#name : #WDGFWorld,
-	#superclass : #WDGFWorldElement,
+	#name : 'WDGFWorld',
+	#superclass : 'WDGFWorldElement',
 	#instVars : [
 		'applicationSettings',
 		'actors',
@@ -16,30 +16,32 @@ Class {
 		'updateTimeStep',
 		'currentTime'
 	],
-	#category : #'WodenGameFramework-Core-Actor'
+	#category : 'WodenGameFramework-Core-Actor',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Actor'
 }
 
-{ #category : #constructing }
+{ #category : 'constructing' }
 WDGFWorld class >> withApplicationSettings: applicationSettings [
 	^ self new applicationSettings: applicationSettings; yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorld >> actors [
 	^ actors
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFWorld >> applicationSettings [
 	^ applicationSettings
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFWorld >> applicationSettings: newSettings [
 	applicationSettings := newSettings asApplicationSettings
 ]
 
-{ #category : #'actor lifecycle' }
+{ #category : 'actor lifecycle' }
 WDGFWorld >> beginPlay [
 	isPlaying ifTrue: [ ^ self ].
 
@@ -49,17 +51,17 @@ WDGFWorld >> beginPlay [
 
 ]
 
-{ #category : #'connection open/close' }
+{ #category : 'connection open/close' }
 WDGFWorld >> closeAndDestroy [
 	subsystems do: [ :each | each closeAndDestroy ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorld >> currentTime [
 	^ currentTime
 ]
 
-{ #category : #'actor lifecycle' }
+{ #category : 'actor lifecycle' }
 WDGFWorld >> destroyActor: anActor [
 	anActor handle world == self ifFalse: [ ^ self ].
 	
@@ -68,7 +70,7 @@ WDGFWorld >> destroyActor: anActor [
 	actors remove: anActor.
 ]
 
-{ #category : #messages }
+{ #category : 'messages' }
 WDGFWorld >> enqueueMessage: aMessage [
 	self assert: aMessage nextMessage isNil.
 	lastPendingMessage ifNil: [ 
@@ -80,22 +82,22 @@ WDGFWorld >> enqueueMessage: aMessage [
 	]
 ]
 
-{ #category : #queries }
+{ #category : 'queries' }
 WDGFWorld >> findActorsIntersectingBox: box transform: boxTransform suchThat: aPredicate [
 	^ self physicsSubsystem findActorsIntersectingBox: box transform: boxTransform suchThat: aPredicate
 ]
 
-{ #category : #queries }
+{ #category : 'queries' }
 WDGFWorld >> findActorsIntersectingSphere: sphere suchThat: aPredicate [
 	^ self physicsSubsystem findActorsIntersectingSphere: sphere suchThat: aPredicate
 ]
 
-{ #category : #queries }
+{ #category : 'queries' }
 WDGFWorld >> findActorsIntersectingSphere: sphere transform: sphereTransform suchThat: aPredicate [
 	^ self physicsSubsystem findActorsIntersectingSphere: sphere transform: sphereTransform suchThat: aPredicate
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorld >> getOrCreateSubsystemWithClass: aSubsystemClass [
 	^ subsystemDirectionary at: aSubsystemClass ifAbsentPut: [ 
 		| instance |
@@ -108,7 +110,7 @@ WDGFWorld >> getOrCreateSubsystemWithClass: aSubsystemClass [
 	]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFWorld >> initialize [
 	super initialize.
 	self applicationSettings: WDGFApplicationSettings.
@@ -121,22 +123,27 @@ WDGFWorld >> initialize [
 	currentTime := 0.0.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorld >> inputSubsystem [
 	^ self getOrCreateSubsystemWithClass: WDGFInputSubsystem
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorld >> isPlaying [
 	^ isPlaying
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFWorld >> loadFromFileNamed: aFileName [
 	WDGFWorldLoader new loadFromFileNamed: (applicationSettings resolveAssetPath: aFileName) in: self
 ]
 
-{ #category : #messages }
+{ #category : 'accessing' }
+WDGFWorld >> menuSubsystem [
+	^ self getOrCreateSubsystemWithClass: WDGFMenuSubsystem
+]
+
+{ #category : 'messages' }
 WDGFWorld >> nextPendingMessage [
 	| result |
 	result := firstPendingMessage.
@@ -151,12 +158,12 @@ WDGFWorld >> nextPendingMessage [
 	^ result
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorld >> physicsSubsystem [
 	^ self getOrCreateSubsystemWithClass: WDGFPhysicsSubsystem
 ]
 
-{ #category : #messages }
+{ #category : 'messages' }
 WDGFWorld >> processAllPendingMessages [
 	| message |
 	[ (message := self nextPendingMessage) notNil ] whileTrue: [ 
@@ -164,22 +171,22 @@ WDGFWorld >> processAllPendingMessages [
 	]
 ]
 
-{ #category : #queries }
+{ #category : 'queries' }
 WDGFWorld >> rayCast: ray excludingActors: exclusionSet forFirstActorSuchThat: aPredicate [
 	^ self physicsSubsystem rayCast: ray excludingActors: exclusionSet forFirstActorSuchThat: aPredicate
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorld >> sceneSubsystem [
 	^ self getOrCreateSubsystemWithClass: WDGFSceneSubsystem
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorld >> soundSubsystem [
 	^ self getOrCreateSubsystemWithClass: WDGFSoundSubsystem
 ]
 
-{ #category : #'actor lifecycle' }
+{ #category : 'actor lifecycle' }
 WDGFWorld >> spawnActor: anObjectConvertibleToActor [
 	| anActor |
 	anActor := anObjectConvertibleToActor asGameFrameworkActor.
@@ -194,12 +201,12 @@ WDGFWorld >> spawnActor: anObjectConvertibleToActor [
 	^ anActor handle
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorld >> subsystems [
 	^ subsystems
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 WDGFWorld >> updateSingleTimeStep: delta [
 	currentTime := currentTime + delta.
 	subsystems do: [ :each | each prePhysicsUpdateSingleTimeStep: delta ].
@@ -211,19 +218,19 @@ WDGFWorld >> updateSingleTimeStep: delta [
 	subsystems do: [ :each | each postActorMessagesUpdateSingleTimeStep: delta ].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorld >> updateTimeStep [
 
 	^ updateTimeStep
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorld >> updateTimeStep: anObject [
 
 	updateTimeStep := anObject
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 WDGFWorld >> updateWithDeltaTime: deltaTime [
 	accumulatedDeltaTime := accumulatedDeltaTime + deltaTime.
 	[accumulatedDeltaTime >= updateTimeStep] whileTrue: [
@@ -232,7 +239,7 @@ WDGFWorld >> updateWithDeltaTime: deltaTime [
 	].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorld >> vrSubsystem [
 	^ self getOrCreateSubsystemWithClass: WDGFVRSubsystem
 ]

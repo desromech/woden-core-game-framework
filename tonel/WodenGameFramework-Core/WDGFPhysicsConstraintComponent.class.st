@@ -2,31 +2,33 @@
 I am a component that represents a specific physics constraint.
 "
 Class {
-	#name : #WDGFPhysicsConstraintComponent,
-	#superclass : #WDGFActorComponent,
+	#name : 'WDGFPhysicsConstraintComponent',
+	#superclass : 'WDGFActorComponent',
 	#instVars : [
 		'physicsConstraint'
 	],
-	#category : #'WodenGameFramework-Core-Components-Physics'
+	#category : 'WodenGameFramework-Core-Components-Physics',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Physics'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFPhysicsConstraintComponent class >> isAbstract [
 	^ self == WDGFPhysicsConstraintComponent
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFPhysicsConstraintComponent >> privateConstructPhysicsConstraint [
 	self subclassResponsibility
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFPhysicsConstraintComponent >> privateRegisterInWorld [
 	self privateConstructPhysicsConstraint.
 	ownerWorld physicsSubsystem physicsWorld add: physicsConstraint
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFPhysicsConstraintComponent >> privateUnregisterFromWorld [
 	ownerWorld physicsSubsystem physicsWorld remove: physicsConstraint.
 	physicsConstraint := nil.

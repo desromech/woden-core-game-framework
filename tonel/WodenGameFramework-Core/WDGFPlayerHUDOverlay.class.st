@@ -2,15 +2,17 @@
 I am a basic player HUD overlay.
 "
 Class {
-	#name : #WDGFPlayerHUDOverlay,
-	#superclass : #WDOverlay,
+	#name : 'WDGFPlayerHUDOverlay',
+	#superclass : 'WDOverlay',
 	#instVars : [
 		'player'
 	],
-	#category : #'WodenGameFramework-Core-Actor-Character'
+	#category : 'WodenGameFramework-Core-Actor-Character',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Actor-Character'
 }
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 WDGFPlayerHUDOverlay >> buildSceneGraphWith: builder [
 
 	| crosshairExtent crosshairOrigin |

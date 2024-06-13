@@ -1,31 +1,33 @@
 Class {
-	#name : #WDGFPhysicsRodConstraintComponent,
-	#superclass : #WDGFPhysicsAnchoredPairUnionConstraintComponent,
+	#name : 'WDGFPhysicsRodConstraintComponent',
+	#superclass : 'WDGFPhysicsAnchoredPairUnionConstraintComponent',
 	#instVars : [
 		'length'
 	],
-	#category : #'WodenGameFramework-Core-Components-Physics'
+	#category : 'WodenGameFramework-Core-Components-Physics',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Physics'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFPhysicsRodConstraintComponent >> initialize [
 	super initialize.
 	length := 1.0.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsRodConstraintComponent >> length [
 
 	^ length
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsRodConstraintComponent >> length: anObject [
 
 	length := anObject
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFPhysicsRodConstraintComponent >> privateConstructPhysicsConstraint [
 	physicsConstraint := WDPRodConstraint new
 		stiffness: stiffness;

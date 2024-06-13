@@ -1,6 +1,6 @@
-Extension { #name : #WDVRTrackedDeviceEvent }
+Extension { #name : 'WDVRTrackedDeviceEvent' }
 
-{ #category : #'*WodenGameFramework-Core' }
+{ #category : '*WodenGameFramework-Core' }
 WDVRTrackedDeviceEvent class >> gameFrameworkVREventMessageName [
 	self subclassResponsibility
 ]

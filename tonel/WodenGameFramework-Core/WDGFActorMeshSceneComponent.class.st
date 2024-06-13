@@ -1,24 +1,26 @@
 Class {
-	#name : #WDGFActorMeshSceneComponent,
-	#superclass : #WDGFActorSceneComponent,
+	#name : 'WDGFActorMeshSceneComponent',
+	#superclass : 'WDGFActorSceneComponent',
 	#instVars : [
 		'mesh'
 	],
-	#category : #'WodenGameFramework-Core-Components-Scene'
+	#category : 'WodenGameFramework-Core-Components-Scene',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Scene'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 WDGFActorMeshSceneComponent class >> with: aMesh [
 	^ self new mesh: aMesh; yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorMeshSceneComponent >> mesh [
 
 	^ mesh
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorMeshSceneComponent >> mesh: aMesh [
 	| isChanged |
 	isChanged := mesh ~~ aMesh.
@@ -33,7 +35,7 @@ WDGFActorMeshSceneComponent >> mesh: aMesh [
 	].
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFActorMeshSceneComponent >> privateRegisterInWorld [
 	super privateRegisterInWorld.
 	mesh ifNotNil: [ 

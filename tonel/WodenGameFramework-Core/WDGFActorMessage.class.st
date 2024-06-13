@@ -2,72 +2,74 @@
 I am an asynchronous message that is sent to an actor.
 "
 Class {
-	#name : #WDGFActorMessage,
-	#superclass : #Object,
+	#name : 'WDGFActorMessage',
+	#superclass : 'Object',
 	#instVars : [
 		'nextMessage',
 		'target',
 		'selector',
 		'arguments'
 	],
-	#category : #'WodenGameFramework-Core-Messages'
+	#category : 'WodenGameFramework-Core-Messages',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Messages'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorMessage >> arguments [
 
 	^ arguments
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorMessage >> arguments: anObject [
 
 	arguments := anObject
 ]
 
-{ #category : #'message queue' }
+{ #category : 'message queue' }
 WDGFActorMessage >> enqueue [
 	target world ifNotNil: [ :world | world enqueueMessage: self ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorMessage >> nextMessage [
 
 	^ nextMessage
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorMessage >> nextMessage: anObject [
 
 	nextMessage := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorMessage >> process [
 	target actor ifNotNil: [ :actor |
 		actor processMessage: self
 	]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorMessage >> selector [
 
 	^ selector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorMessage >> selector: anObject [
 
 	selector := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorMessage >> target [
 
 	^ target
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorMessage >> target: anObject [
 
 	target := anObject

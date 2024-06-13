@@ -2,12 +2,14 @@
 I am a static actor. I am typically used for holding static level data.
 "
 Class {
-	#name : #WDGFStaticActor,
-	#superclass : #WDGFActor,
-	#category : #'WodenGameFramework-Core-Actor'
+	#name : 'WDGFStaticActor',
+	#superclass : 'WDGFActor',
+	#category : 'WodenGameFramework-Core-Actor',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Actor'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFStaticActor >> setupComponents [
 	super setupComponents.
 	self addComponent: WDGFActorSceneComponent new.

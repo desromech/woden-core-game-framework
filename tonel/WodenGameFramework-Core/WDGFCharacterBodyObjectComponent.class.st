@@ -1,15 +1,17 @@
 Class {
-	#name : #WDGFCharacterBodyObjectComponent,
-	#superclass : #WDGFRigidBodyObjectComponent,
+	#name : 'WDGFCharacterBodyObjectComponent',
+	#superclass : 'WDGFRigidBodyObjectComponent',
 	#instVars : [
 		'walkingVelocity',
 		'jumpVelocity',
 		'walkAccelerationTime'
 	],
-	#category : #'WodenGameFramework-Core-Components-Physics'
+	#category : 'WodenGameFramework-Core-Components-Physics',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Physics'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFCharacterBodyObjectComponent >> initialize [
 	super initialize.
 	walkingVelocity := Vector3 zeros.
@@ -17,24 +19,24 @@ WDGFCharacterBodyObjectComponent >> initialize [
 	walkAccelerationTime := 0.05.
 ]
 
-{ #category : #controlling }
+{ #category : 'controlling' }
 WDGFCharacterBodyObjectComponent >> jump [
 	Transcript show: 'TODO: jump'; cr.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCharacterBodyObjectComponent >> jumpVelocity [
 
 	^ jumpVelocity
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCharacterBodyObjectComponent >> jumpVelocity: anObject [
 
 	jumpVelocity := anObject
 ]
 
-{ #category : #'model updates' }
+{ #category : 'model updates' }
 WDGFCharacterBodyObjectComponent >> loadCollisionStateInto: aCollisionObject deltaTime: deltaTime [
 	| targetVelocity gravityMask currentWalkingVelocity walkingVelocityDelta walkingAcceleration |
 	super loadCollisionStateInto: aCollisionObject deltaTime: deltaTime.
@@ -50,13 +52,13 @@ WDGFCharacterBodyObjectComponent >> loadCollisionStateInto: aCollisionObject del
 	aCollisionObject internalAcceleration: walkingAcceleration.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCharacterBodyObjectComponent >> walkingVelocity [
 
 	^ walkingVelocity
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCharacterBodyObjectComponent >> walkingVelocity: anObject [
 
 	walkingVelocity := anObject

@@ -1,31 +1,33 @@
 Class {
-	#name : #WDGFPhysicsRopeConstraintComponent,
-	#superclass : #WDGFPhysicsAnchoredPairUnionConstraintComponent,
+	#name : 'WDGFPhysicsRopeConstraintComponent',
+	#superclass : 'WDGFPhysicsAnchoredPairUnionConstraintComponent',
 	#instVars : [
 		'length'
 	],
-	#category : #'WodenGameFramework-Core-Components-Physics'
+	#category : 'WodenGameFramework-Core-Components-Physics',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Physics'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFPhysicsRopeConstraintComponent >> initialize [
 	super initialize.
 	length := 1.0.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsRopeConstraintComponent >> length [
 
 	^ length
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsRopeConstraintComponent >> length: anObject [
 
 	length := anObject
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFPhysicsRopeConstraintComponent >> privateConstructPhysicsConstraint [
 	physicsConstraint := WDPRopeConstraint new
 		stiffness: stiffness;

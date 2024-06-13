@@ -2,12 +2,14 @@
 I am an abstract interface for a sound subsystem backend.
 "
 Class {
-	#name : #WDGFSoundSubsystemBackend,
-	#superclass : #Object,
-	#category : #'WodenGameFramework-Core-Sound'
+	#name : 'WDGFSoundSubsystemBackend',
+	#superclass : 'Object',
+	#category : 'WodenGameFramework-Core-Sound',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Sound'
 }
 
-{ #category : #'menu messages' }
+{ #category : 'menu messages' }
 WDGFSoundSubsystemBackend class >> findAvailable [
 	| bestFound bestFoundPriority |
 	bestFound := nil.
@@ -24,41 +26,41 @@ WDGFSoundSubsystemBackend class >> findAvailable [
 	^ bestFound
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFSoundSubsystemBackend class >> isAbstract [
 	^ self == WDGFSoundSubsystemBackend
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFSoundSubsystemBackend class >> isAvailable [
 	^ self subclassResponsibility
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFSoundSubsystemBackend class >> priority [
 	^ self subclassResponsibility
 ]
 
-{ #category : #deleting }
+{ #category : 'deleting' }
 WDGFSoundSubsystemBackend >> destroy [
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFSoundSubsystemBackend >> initializeForSubsystem: subsystem [
 	self subclassResponsibility
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFSoundSubsystemBackend >> registerSoundSourceComponent: sourceComponent [
 	self subclassResponsibility
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFSoundSubsystemBackend >> unregisterSoundSourceComponent: sourceComponent [
 	self subclassResponsibility
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 WDGFSoundSubsystemBackend >> updateForSubsystem: subsystem timeStep: delta [
 	self subclassResponsibility
 ]

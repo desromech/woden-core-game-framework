@@ -1,6 +1,6 @@
-Extension { #name : #WDVRTrackedDeviceDualAnalogModeCancelEvent }
+Extension { #name : 'WDVRTrackedDeviceDualAnalogModeCancelEvent' }
 
-{ #category : #'*WodenGameFramework-Core' }
+{ #category : '*WodenGameFramework-Core' }
 WDVRTrackedDeviceDualAnalogModeCancelEvent class >> gameFrameworkVREventMessageName [
 	^ #vrTrackedDeviceDualAnalogModeCancelEvent:from:
 ]

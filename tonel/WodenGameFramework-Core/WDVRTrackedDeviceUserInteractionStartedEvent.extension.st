@@ -1,6 +1,6 @@
-Extension { #name : #WDVRTrackedDeviceUserInteractionStartedEvent }
+Extension { #name : 'WDVRTrackedDeviceUserInteractionStartedEvent' }
 
-{ #category : #'*WodenGameFramework-Core' }
+{ #category : '*WodenGameFramework-Core' }
 WDVRTrackedDeviceUserInteractionStartedEvent class >> gameFrameworkVREventMessageName [
 	^ #vrTrackedDeviceUserInteractionStartedEvent:from:
 ]

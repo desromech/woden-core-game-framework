@@ -2,8 +2,8 @@
 I am a character actor that can be used as a player.
 "
 Class {
-	#name : #WDGFPlayerActor,
-	#superclass : #WDGFCharacterActor,
+	#name : 'WDGFPlayerActor',
+	#superclass : 'WDGFCharacterActor',
 	#instVars : [
 		'cameraComponent',
 		'cameraAngles',
@@ -12,40 +12,42 @@ Class {
 		'floorToLocalTransform',
 		'camera3DPointer'
 	],
-	#category : #'WodenGameFramework-Core-Actor-Character'
+	#category : 'WodenGameFramework-Core-Actor-Character',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Actor-Character'
 }
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 WDGFPlayerActor class >> defaultMaxPickableWeight [
 	^ 20
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 WDGFPlayerActor class >> defaultMaxPickingDistance [
 	^ 2
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 WDGFPlayerActor class >> defaultPointerMaxDistance [
 	^ 3.0
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFPlayerActor class >> defaultThrowSpeed [
 	^ 10.0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPlayerActor >> cameraComponent [
 	^ cameraComponent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPlayerActor >> floorToLocalTransform [
 	^ floorToLocalTransform
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFPlayerActor >> initialize [
 	super initialize.
 	cameraAngles := Vector3 zeros.
@@ -53,8 +55,12 @@ WDGFPlayerActor >> initialize [
 
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFPlayerActor >> keyDownEvent: event [
+	event symbol = KeyboardKey escape ifTrue: [
+		self world menuSubsystem toggleMenu
+	].
+
 	event symbol = KeyboardKey W ifTrue: [
 		walkingDirection z: -1.
 	].
@@ -76,7 +82,7 @@ WDGFPlayerActor >> keyDownEvent: event [
 
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFPlayerActor >> keyUpEvent: event [
 	event symbol = KeyboardKey W ifTrue: [
 		walkingDirection z < 0 ifTrue: [
@@ -104,7 +110,7 @@ WDGFPlayerActor >> keyUpEvent: event [
 
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFPlayerActor >> mouseButtonPressEvent: event [
 	| worldRay |
 	self world inputSubsystem captureMouse.
@@ -112,14 +118,14 @@ WDGFPlayerActor >> mouseButtonPressEvent: event [
 	camera3DPointer updatePointerActionWithWorldRay: worldRay mouseButtonMask: event buttons.
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFPlayerActor >> mouseButtonReleaseEvent: event [
 	| worldRay |
 	worldRay := cameraComponent worldRayForMouseEventPosition: event maxDistance: self class defaultPointerMaxDistance.
 	camera3DPointer updatePointerActionWithWorldRay: worldRay mouseButtonMask: event buttons.
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFPlayerActor >> mouseMoveEvent: event [
 	| delta worldRay |
 	delta := event delta.
@@ -132,7 +138,7 @@ WDGFPlayerActor >> mouseMoveEvent: event [
 
 ]
 
-{ #category : #'picking - throwing' }
+{ #category : 'picking - throwing' }
 WDGFPlayerActor >> pickObjectInFront [
 	| ray rayCastQueryResult |
 	ray := cameraComponent worldRayFrom: Vector3 zeros to: (Vector3 z: -1) * self class defaultMaxPickingDistance.
@@ -158,14 +164,14 @@ WDGFPlayerActor >> pickObjectInFront [
 
 ]
 
-{ #category : #'picking - throwing' }
+{ #category : 'picking - throwing' }
 WDGFPlayerActor >> pickOrThrowObjectInFront [
 	pickedObject
 		ifNil: [ self pickObjectInFront ]
 		ifNotNil: [ self throwPickedObject ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFPlayerActor >> setupComponents [
 	super setupComponents.
 	
@@ -190,7 +196,7 @@ WDGFPlayerActor >> setupComponents [
 
 ]
 
-{ #category : #'picking - throwing' }
+{ #category : 'picking - throwing' }
 WDGFPlayerActor >> throwPickedObject [
 	pickedObjectConstraintActor destroy.
 	pickedObject
@@ -204,7 +210,7 @@ WDGFPlayerActor >> throwPickedObject [
 	
 ]
 
-{ #category : #'game events' }
+{ #category : 'game events' }
 WDGFPlayerActor >> tick: deltaSeconds [
 	super tick: deltaSeconds.
 	cameraAngles x: (cameraAngles x min: Float halfPi max: Float halfPi negated).

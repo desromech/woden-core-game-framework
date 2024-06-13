@@ -2,8 +2,8 @@
 I am a component that provides a collision object.
 "
 Class {
-	#name : #WDGFCollisionObjectComponent,
-	#superclass : #WDGFActorComponent,
+	#name : 'WDGFCollisionObjectComponent',
+	#superclass : 'WDGFActorComponent',
 	#instVars : [
 		'restitutionCoefficient',
 		'dynamicFrictionCoefficient',
@@ -12,41 +12,43 @@ Class {
 		'collisionGroup',
 		'collisionResponseGroupMask'
 	],
-	#category : #'WodenGameFramework-Core-Components-Physics'
+	#category : 'WodenGameFramework-Core-Components-Physics',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Physics'
 }
 
-{ #category : #notifications }
+{ #category : 'notifications' }
 WDGFCollisionObjectComponent >> addedToActor: anActor [
 	super addedToActor: anActor.
 	anActor collisionObjectComponent: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionObjectComponent >> angularVelocity [
 	^ collisionObject angularVelocity
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionObjectComponent >> angularVelocity: aVector3 [
 	collisionObject angularVelocity: aVector3
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 WDGFCollisionObjectComponent >> applyForce: force [
 	collisionObject ifNotNil: [ collisionObject applyForce: force ]
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 WDGFCollisionObjectComponent >> applyForce: force inPosition: position [
 	collisionObject ifNotNil: [ collisionObject applyForce: force inPosition: position ]
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 WDGFCollisionObjectComponent >> applyTorque: torque [
 	collisionObject ifNotNil: [ collisionObject applyTorque: torque ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFCollisionObjectComponent >> collisionActorExclusionSet: actorSet [
 	| newExclusionSet |
 	collisionObject ifNil: [ ^ self ].
@@ -59,24 +61,24 @@ WDGFCollisionObjectComponent >> collisionActorExclusionSet: actorSet [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionObjectComponent >> collisionObject [
 	^ collisionObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionObjectComponent >> dynamicFrictionCoefficient [
 
 	^ dynamicFrictionCoefficient
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionObjectComponent >> dynamicFrictionCoefficient: anObject [
 
 	dynamicFrictionCoefficient := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFCollisionObjectComponent >> initialize [
 	super initialize.
 	restitutionCoefficient := 0.5.
@@ -87,77 +89,77 @@ WDGFCollisionObjectComponent >> initialize [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFCollisionObjectComponent >> isSolidCollision [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionObjectComponent >> linearVelocity [
 	^ collisionObject linearVelocity
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionObjectComponent >> linearVelocity: aVector3 [
 	collisionObject linearVelocity: aVector3
 ]
 
-{ #category : #'model updates' }
+{ #category : 'model updates' }
 WDGFCollisionObjectComponent >> loadCollisionStateInto: aCollisionObject deltaTime: deltaTime [
 	owner ifNil: [ ^ self ].
 
 	aCollisionObject transform: owner transform
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionObjectComponent >> mass [
 	^ 0
 ]
 
-{ #category : #'physics setup' }
+{ #category : 'physics setup' }
 WDGFCollisionObjectComponent >> privateConstructCollisionObject [
 	collisionObject := self privateMakeCollisionObjectInstance.
 	self setupCollisionObject.
 	^ collisionObject
 ]
 
-{ #category : #'physics setup' }
+{ #category : 'physics setup' }
 WDGFCollisionObjectComponent >> privateMakeCollisionObjectInstance [
 	^ WDPCollisionObject new
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFCollisionObjectComponent >> privateRegisterInWorld [
 	self privateConstructCollisionObject.
 	ownerWorld physicsSubsystem physicsWorld add: collisionObject
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFCollisionObjectComponent >> privateUnregisterFromWorld [
 	ownerWorld physicsSubsystem physicsWorld remove: collisionObject.
 	collisionObject := nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionObjectComponent >> restitutionCoefficient [
 
 	^ restitutionCoefficient
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionObjectComponent >> restitutionCoefficient: anObject [
 
 	restitutionCoefficient := anObject
 ]
 
-{ #category : #'model updates' }
+{ #category : 'model updates' }
 WDGFCollisionObjectComponent >> saveCollisionStateFrom: aCollisionObject [
 	owner ifNil: [ ^ self ].
 
 	owner transform: aCollisionObject transform
 ]
 
-{ #category : #'physics setup' }
+{ #category : 'physics setup' }
 WDGFCollisionObjectComponent >> setupCollisionObject [
 	| shape |
 	shape := (owner notNil and: [owner collisionShapeComponent notNil])
@@ -174,19 +176,19 @@ WDGFCollisionObjectComponent >> setupCollisionObject [
 		collisionResponseGroupMask: collisionResponseGroupMask
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionObjectComponent >> staticFrictionCoefficient [
 
 	^ staticFrictionCoefficient
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionObjectComponent >> staticFrictionCoefficient: anObject [
 
 	staticFrictionCoefficient := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionObjectComponent >> worldInertiaTensor [
 	^ Matrix3x3 zeros
 ]

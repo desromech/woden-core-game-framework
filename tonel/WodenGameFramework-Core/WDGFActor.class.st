@@ -2,8 +2,8 @@
 I am an actor in the Woden Game Framework. I am a concurrent entity in a world than can receive and send messages to other actors.
 "
 Class {
-	#name : #WDGFActor,
-	#superclass : #WDGFWorldElement,
+	#name : 'WDGFActor',
+	#superclass : 'WDGFWorldElement',
 	#instVars : [
 		'handle',
 		'subscriptions',
@@ -18,35 +18,37 @@ Class {
 	#classVars : [
 		'ZeroTransform'
 	],
-	#category : #'WodenGameFramework-Core-Actor'
+	#category : 'WodenGameFramework-Core-Actor',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Actor'
 }
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDGFActor class >> asGameFrameworkActor [
 	^ self new
 ]
 
-{ #category : #serialization }
+{ #category : 'serialization' }
 WDGFActor class >> editorCategoryPath [
 	^ 'Base Actors'
 ]
 
-{ #category : #serialization }
+{ #category : 'serialization' }
 WDGFActor class >> editorName [
 	^ self jsonObjectTypeName
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFActor class >> initialize [
 	ZeroTransform := TRSTransform3D identity.
 ]
 
-{ #category : #serialization }
+{ #category : 'serialization' }
 WDGFActor class >> jsonObjectTypeName [
 	^ self name withoutPrefix: 'WDGF'
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 WDGFActor >> addComponent: anObjectConvertibleToComponent [
 	| aComponent |
 	aComponent := anObjectConvertibleToComponent asGameFrameworkComponent.
@@ -58,7 +60,7 @@ WDGFActor >> addComponent: anObjectConvertibleToComponent [
 	^ aComponent
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 WDGFActor >> addComponent: anObjectConvertibleToComponent noCheckBefore: oldComponent [
 	| aComponent |
 	aComponent := anObjectConvertibleToComponent asGameFrameworkComponent.
@@ -67,135 +69,135 @@ WDGFActor >> addComponent: anObjectConvertibleToComponent noCheckBefore: oldComp
 	^ aComponent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> angularVelocity [
 	^ collisionObjectComponent
 		ifNil: [ Vector3 zeros ]
 		ifNotNil: [ collisionObjectComponent angularVelocity ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> angularVelocity: aVector3 [
 	collisionObjectComponent ifNotNil: [ collisionObjectComponent angularVelocity: aVector3 ]
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFActor >> applyForce: force [
 	collisionObjectComponent ifNotNil: [ collisionObjectComponent applyForce: force ]
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFActor >> applyForce: force inPosition: position [
 	collisionObjectComponent ifNotNil: [ collisionObjectComponent applyForce: force inPosition: position ]
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFActor >> applyTorque: torque [
 	collisionObjectComponent ifNotNil: [ collisionObjectComponent applyTorque: torque ]
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDGFActor >> asGameFrameworkActor [
 	^ self
 ]
 
-{ #category : #'game events' }
+{ #category : 'game events' }
 WDGFActor >> beginPlay [
 	"This message is sent at the beginning of a level"
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> boundingBox [
 	^ self localBoundingBox transformedWith: self transform
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFActor >> collisionActorExclusionSet: aSetOfActors [
 	collisionObjectComponent ifNotNil: [ collisionObjectComponent collisionActorExclusionSet: aSetOfActors ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> collisionObjectComponent [
 
 	^ collisionObjectComponent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> collisionObjectComponent: anObject [
 
 	collisionObjectComponent := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> collisionShapeComponent [
 
 	^ collisionShapeComponent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> collisionShapeComponent: anObject [
 
 	collisionShapeComponent := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> components [
 	^ components ifNil: [ #() ]
 ]
 
-{ #category : #deleting }
+{ #category : 'deleting' }
 WDGFActor >> destroy [
 	self world ifNotNil: [ :world | world destroyActor: self ]
 ]
 
-{ #category : #'game events' }
+{ #category : 'game events' }
 WDGFActor >> endPlay [
 	"This message is sent at the end of a level"
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFActor >> findActorsIntersectingBox: box transform: boxTransform suchThat: aPredicate [
 	^ self world findActorsIntersectingBox: box transform: boxTransform suchThat: aPredicate
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFActor >> findActorsIntersectingSphere: sphere suchThat: aPredicate [
 	^ self world findActorsIntersectingSphere: sphere suchThat: aPredicate
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFActor >> findActorsIntersectingSphere: sphere transform: boxTransform suchThat: aPredicate [
 	^ self world findActorsIntersectingSphere: sphere transform: boxTransform suchThat: aPredicate
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> gamepadAxisEvent: anEvent [
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> gamepadButtonPressEvent: anEvent [
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> gamepadButtonReleaseEvent: anEvent [
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> handle [
 	^ handle
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFActor >> hasRigidBody [
 	^ collisionObjectComponent notNil and: [ collisionObjectComponent isRigidBodyComponent ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFActor >> hasSolidCollision [
 	^ collisionObjectComponent notNil and: [ collisionObjectComponent isSolidCollision ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFActor >> initialize [
 	super initialize.
 	handle := WDGFActorHandle for: self.
@@ -204,161 +206,161 @@ WDGFActor >> initialize [
 	self setupComponents
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> keyDownEvent: anEvent [
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> keyUpEvent: anEvent [
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> linearVelocity [
 	^ collisionObjectComponent
 		ifNil: [ Vector3 zeros ]
 		ifNotNil: [ collisionObjectComponent linearVelocity ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> linearVelocity: aVector3 [
 	collisionObjectComponent ifNotNil: [ collisionObjectComponent linearVelocity: aVector3 ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> localBoundingBox [
 	^ collisionShapeComponent
 		ifNil: [ AABox originPoint ]
 		ifNotNil: [ collisionShapeComponent localBoundingBox ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> mass [
 	^ collisionObjectComponent mass
 ]
 
-{ #category : #message }
+{ #category : 'message' }
 WDGFActor >> messageSubscriptions [
 	^ messageSubscriptions ifNil: [ messageSubscriptions := WDGFActorMessageSubscriptions new ]
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> mouseButtonPressEvent: anEvent [
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> mouseButtonReleaseEvent: anEvent [
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> mouseMoveEvent: anEvent [
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> mouseWheelEvent: anEvent [
 ]
 
-{ #category : #'game events' }
+{ #category : 'game events' }
 WDGFActor >> onBeginPlayDo: aBlock [
 	^ self onMessage: #beginPlay do: aBlock
 ]
 
-{ #category : #'game events' }
+{ #category : 'game events' }
 WDGFActor >> onEndPlayDo: aBlock [
 	^ self onMessage: #endPlay do: aBlock
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> onGamepadAxisEventDo: aBlock [
 	^ self onMessage: #gamepadAxisEvent: do: aBlock
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> onGamepadButtonPressEventDo: aBlock [
 	^ self onMessage: #gamepadButtonPressEvent: do: aBlock
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> onGamepadButtonReleaseEventDo: aBlock [
 	^ self onMessage: #gamepadButtonReleaseEvent: do: aBlock
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> onKeyDownEventDo: aBlock [
 	^ self onMessage: #keyDownEvent: do: aBlock
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> onKeyUpEventDo: aBlock [
 	^ self onMessage: #keyUpEvent: do: aBlock
 ]
 
-{ #category : #message }
+{ #category : 'message' }
 WDGFActor >> onMessage: selector do: aBlock [
 	^ self messageSubscriptions addFor: selector doing: aBlock
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> onMouseButtonPressEventDo: aBlock [
 	^ self onMessage: #mouseButtonPressEvent: do: aBlock
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> onMouseButtonReleaseEventDo: aBlock [
 	^ self onMessage: #mouseButtonReleaseEvent: do: aBlock
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> onMouseMoveEventDo: aBlock [
 	^ self onMessage: #mouseMoveEvent: do: aBlock
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> onMouseWheelEventDo: aBlock [
 	^ self onMessage: #mouseWheelEvent: do: aBlock
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> onTextInputEventDo: aBlock [
 	^ self onMessage: #textInputEvent: do: aBlock
 ]
 
-{ #category : #'game events' }
+{ #category : 'game events' }
 WDGFActor >> onTickDo: aBlock [
 	^ self onMessage: #tick: do: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> orientation [
 	^ self transform rotation
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> orientation: newOrientation [
 	rootSceneComponent ifNotNil: [ rootSceneComponent orientation: newOrientation ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> position [
 	^ self transform translation
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> position: newPosition [
 	rootSceneComponent ifNotNil: [ rootSceneComponent position: newPosition ]
 ]
 
-{ #category : #copying }
+{ #category : 'copying' }
 WDGFActor >> postCopy [
 	super postCopy.
 	handle := WDGFActorHandle for: self.
 ]
 
-{ #category : #message }
+{ #category : 'message' }
 WDGFActor >> processMessage: message [
 	^ self processMessage: message selector withArguments: message arguments
 ]
 
-{ #category : #message }
+{ #category : 'message' }
 WDGFActor >> processMessage: selector withArguments: arguments [
 	(self respondsTo: selector) ifTrue: [
 		self perform: selector withArguments: arguments
@@ -370,12 +372,12 @@ WDGFActor >> processMessage: selector withArguments: arguments [
 
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFActor >> rayCast: ray forFirstActorSuchThat: aPredicate [
 	^ self world rayCast: ray excludingActors: { self } forFirstActorSuchThat: aPredicate
 ]
 
-{ #category : #'component registration' }
+{ #category : 'component registration' }
 WDGFActor >> registerWithSubsystemsInWorld: theWorld [
 	isRegisteredInWorld ifTrue: [ ^ self ].
 	isRegisteredInWorld := true.
@@ -384,54 +386,54 @@ WDGFActor >> registerWithSubsystemsInWorld: theWorld [
 	self components do: [ :each | each registerInWorld: theWorld ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> rootSceneComponent [
 
 	^ rootSceneComponent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> rootSceneComponent: anObject [
 
 	rootSceneComponent := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> scale [
 	^ self transform scale
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> scale: newScale [
 	rootSceneComponent ifNotNil: [ rootSceneComponent scale: newScale ]
 ]
 
-{ #category : #message }
+{ #category : 'message' }
 WDGFActor >> send: selector [
 	^ self send: selector withArguments: #()
 ]
 
-{ #category : #message }
+{ #category : 'message' }
 WDGFActor >> send: selector with: arg1 [ 
 	^ self send: selector withArguments: { arg1 }
 ]
 
-{ #category : #message }
+{ #category : 'message' }
 WDGFActor >> send: selector with: arg1 with: arg2 [
 	^ self send: selector withArguments: { arg1 . arg2 }
 ]
 
-{ #category : #message }
+{ #category : 'message' }
 WDGFActor >> send: selector with: arg1 with: arg2 with: arg3 [
 	^ self send: selector withArguments: { arg1 . arg2 . arg3 }
 ]
 
-{ #category : #message }
+{ #category : 'message' }
 WDGFActor >> send: selector with: arg1 with: arg2 with: arg3 with: arg4 [
 	^ self send: selector withArguments: { arg1 . arg2 . arg3 . arg4 }
 ]
 
-{ #category : #message }
+{ #category : 'message' }
 WDGFActor >> send: selector withArguments: arguments [
 	^ WDGFActorMessage new
 		target: handle;
@@ -440,78 +442,78 @@ WDGFActor >> send: selector withArguments: arguments [
 		enqueue
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFActor >> setupComponents [
 	"This is a place for setting up different actor components."
 ]
 
-{ #category : #'system subscriptions' }
+{ #category : 'system subscriptions' }
 WDGFActor >> subscribeForTicking [
 	(self world getOrCreateSubsystemWithClass: WDGFActorTickSubsystem) subscribe: self
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFActor >> teleportTo: targetPosition [
 	self flag: 'TODO: Suppress movement interpolation.'.
 	self position: targetPosition
 ]
 
-{ #category : #'input events' }
+{ #category : 'input events' }
 WDGFActor >> textInputEvent: anEvent [
 ]
 
-{ #category : #'game events' }
+{ #category : 'game events' }
 WDGFActor >> tick: deltaSeconds [
 	"This message is sent when the actor wants to receive a tick."
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> transform [
 	^ rootSceneComponent ifNil: [ ZeroTransform ] ifNotNil: [ rootSceneComponent transform ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> transform: newTransform [
 	rootSceneComponent ifNotNil: [ rootSceneComponent transform: newTransform ]
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFActor >> transformLocalPosition: localPosition [
 	^ self transform transformPosition: localPosition 
 	
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFActor >> transformOrientationToWorld: orientation [
 	^ self transform rotation * orientation
 	
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFActor >> transformPositionToWorld: localPosition [
 	^ self transform transformPosition: localPosition 
 	
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFActor >> transformVectorToWorld: localVector [
 	^ self transform transformVector3: localVector
 	
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFActor >> transformWorldOrientationToLocal: orientation [
 	^ self transform inverseRotation * orientation
 	
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFActor >> transformWorldPositionToLocal: localPosition [
 	^ self transform inverseTransformPosition: localPosition 
 	
 ]
 
-{ #category : #'component registration' }
+{ #category : 'component registration' }
 WDGFActor >> unregisterFromSubsystemsInWorld: theWorld [
 	isRegisteredInWorld ifFalse: [ ^ self ].
 	wantsToTick ifTrue: [ self unsubscribeForTicking ].
@@ -520,19 +522,19 @@ WDGFActor >> unregisterFromSubsystemsInWorld: theWorld [
 	isRegisteredInWorld := false.
 ]
 
-{ #category : #'system subscriptions' }
+{ #category : 'system subscriptions' }
 WDGFActor >> unsubscribeForTicking [
 	(self world getOrCreateSubsystemWithClass: WDGFActorTickSubsystem) unsubscribe: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> visible [
 	^ rootSceneComponent
 		ifNotNil: [ rootSceneComponent visible ]
 		ifNil: [ false ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> visible: aBoolean [
 	rootSceneComponent ifNotNil: [
 		rootSceneComponent visible: aBoolean
@@ -540,81 +542,81 @@ WDGFActor >> visible: aBoolean [
 	
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceActivatedEvent: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceButtonPressedEvent: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceButtonReleasedEvent: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceButtonTouchEvent: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceButtonUntouchEvent: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceDeactivatedEvent: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceDualAnalogModeCancelEvent: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceDualAnalogModeSwitch1Event: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceDualAnalogModeSwitch2Event: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceDualAnalogMoveEvent: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceDualAnalogPressedEvent: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceDualAnalogReleasedEvent: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceDualAnalogTouchEvent: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceDualAnalogUntouchEvent: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceUpdatedEvent: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceUserInteractionEndedEvent: event from: trackedDeviceComponent [
 ]
 
-{ #category : #'vr events' }
+{ #category : 'vr events' }
 WDGFActor >> vrTrackedDeviceUserInteractionStartedEvent: event from: trackedDeviceComponent [
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> wantsToTick [
 
 	^ wantsToTick
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> wantsToTick: aBoolean [
 	wantsToTick := aBoolean.
 	isRegisteredInWorld ifTrue: [ 
@@ -627,12 +629,12 @@ WDGFActor >> wantsToTick: aBoolean [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> world [
 	^ handle world
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActor >> worldInertiaTensor [
 	^ collisionObjectComponent worldInertiaTensor
 ]

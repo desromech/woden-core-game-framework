@@ -2,8 +2,8 @@
 I hold the states for the different mouse buttons.
 "
 Class {
-	#name : #WDGFInputMouseButtonState,
-	#superclass : #Object,
+	#name : 'WDGFInputMouseButtonState',
+	#superclass : 'Object',
 	#instVars : [
 		'leftButton',
 		'middleButton',
@@ -11,10 +11,12 @@ Class {
 		'extraButton',
 		'extraButton2'
 	],
-	#category : #'WodenGameFramework-Core-Events'
+	#category : 'WodenGameFramework-Core-Events',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Events'
 }
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDGFInputMouseButtonState >> asMask [
 	| mask |
 	mask := 0.
@@ -26,31 +28,31 @@ WDGFInputMouseButtonState >> asMask [
 	^ mask
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFInputMouseButtonState >> extraButton [
 
 	^ extraButton
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFInputMouseButtonState >> extraButton2 [
 
 	^ extraButton2
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFInputMouseButtonState >> extraButton2: anObject [
 
 	extraButton2 := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFInputMouseButtonState >> extraButton: anObject [
 
 	extraButton := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFInputMouseButtonState >> initialize [
 	super initialize.
 	leftButton := false.
@@ -61,43 +63,43 @@ WDGFInputMouseButtonState >> initialize [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFInputMouseButtonState >> leftButton [
 
 	^ leftButton
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFInputMouseButtonState >> leftButton: anObject [
 
 	leftButton := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFInputMouseButtonState >> middleButton [
 
 	^ middleButton
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFInputMouseButtonState >> middleButton: anObject [
 
 	middleButton := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFInputMouseButtonState >> rightButton [
 
 	^ rightButton
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFInputMouseButtonState >> rightButton: anObject [
 
 	rightButton := anObject
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDGFInputMouseButtonState >> setFromMask: aMask [
 	leftButton := aMask anyMask: 1.
 	middleButton := aMask anyMask: 2.

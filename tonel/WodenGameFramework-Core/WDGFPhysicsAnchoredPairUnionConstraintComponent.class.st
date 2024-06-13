@@ -1,43 +1,45 @@
 Class {
-	#name : #WDGFPhysicsAnchoredPairUnionConstraintComponent,
-	#superclass : #WDGFPhysicsPairUnionConstraintComponent,
+	#name : 'WDGFPhysicsAnchoredPairUnionConstraintComponent',
+	#superclass : 'WDGFPhysicsPairUnionConstraintComponent',
 	#instVars : [
 		'firstObjectLocalAnchorPoint',
 		'secondObjectLocalAnchorPoint'
 	],
-	#category : #'WodenGameFramework-Core-Components-Physics'
+	#category : 'WodenGameFramework-Core-Components-Physics',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Physics'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFPhysicsAnchoredPairUnionConstraintComponent class >> isAbstract [
 	^ self == WDGFPhysicsAnchoredPairUnionConstraintComponent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsAnchoredPairUnionConstraintComponent >> firstObjectLocalAnchorPoint [
 
 	^ firstObjectLocalAnchorPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsAnchoredPairUnionConstraintComponent >> firstObjectLocalAnchorPoint: anObject [
 
 	firstObjectLocalAnchorPoint := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFPhysicsAnchoredPairUnionConstraintComponent >> initialize [
 	super initialize.
 	firstObjectLocalAnchorPoint := secondObjectLocalAnchorPoint := Vector3 zeros.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsAnchoredPairUnionConstraintComponent >> secondObjectLocalAnchorPoint [
 
 	^ secondObjectLocalAnchorPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsAnchoredPairUnionConstraintComponent >> secondObjectLocalAnchorPoint: anObject [
 
 	secondObjectLocalAnchorPoint := anObject

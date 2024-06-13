@@ -1,43 +1,45 @@
 Class {
-	#name : #WDGFActorModelAssetSceneComponent,
-	#superclass : #WDGFActorSceneComponent,
+	#name : 'WDGFActorModelAssetSceneComponent',
+	#superclass : 'WDGFActorSceneComponent',
 	#instVars : [
 		'modelAsset',
 		'elementName'
 	],
-	#category : #'WodenGameFramework-Core-Components-Scene'
+	#category : 'WodenGameFramework-Core-Components-Scene',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Scene'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 WDGFActorModelAssetSceneComponent class >> with: aModelAsset [
 	^ self new modelAsset: aModelAsset; yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorModelAssetSceneComponent >> elementName [
 
 	^ elementName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorModelAssetSceneComponent >> elementName: anObject [
 
 	elementName := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorModelAssetSceneComponent >> modelAsset [
 
 	^ modelAsset
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorModelAssetSceneComponent >> modelAsset: anObject [
 
 	modelAsset := anObject
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFActorModelAssetSceneComponent >> privateRegisterInWorld [
 	super privateRegisterInWorld.
 	modelAsset ifNotNil: [

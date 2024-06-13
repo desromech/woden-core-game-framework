@@ -2,8 +2,8 @@
 I am used for implementing 3D pointer devices.
 "
 Class {
-	#name : #WDGF3DPointerDevice,
-	#superclass : #Object,
+	#name : 'WDGF3DPointerDevice',
+	#superclass : 'Object',
 	#instVars : [
 		'activeOnlyWhenTouched',
 		'pointerButtonTouchMask',
@@ -11,27 +11,29 @@ Class {
 		'currentPointedScreenComponents',
 		'owner'
 	],
-	#category : #'WodenGameFramework-Core-Actor-Character'
+	#category : 'WodenGameFramework-Core-Actor-Character',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Actor-Character'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 WDGF3DPointerDevice class >> for: anActor [
 	^ self new owner: anActor; yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGF3DPointerDevice >> activeOnlyWhenTouched [
 
 	^ activeOnlyWhenTouched
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGF3DPointerDevice >> activeOnlyWhenTouched: anObject [
 
 	activeOnlyWhenTouched := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGF3DPointerDevice >> initialize [
 	super initialize.
 	activeOnlyWhenTouched := false.
@@ -40,24 +42,24 @@ WDGF3DPointerDevice >> initialize [
 	currentPointedScreenComponents := #().
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGF3DPointerDevice >> isActive [
 	^ activeOnlyWhenTouched not or: [(pointerButtonTouchMask bitOr: pointerButtonPressedMask) ~= 0]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGF3DPointerDevice >> owner [
 
 	^ owner
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGF3DPointerDevice >> owner: anObject [
 
 	owner := anObject
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 WDGF3DPointerDevice >> updatePointerActionWithWorldRay: ray [
 	| worldPoint oldPointedScreenComponents newPointedScreenComponents |
 	worldPoint := ray origin.
@@ -95,13 +97,13 @@ WDGF3DPointerDevice >> updatePointerActionWithWorldRay: ray [
 	].
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 WDGF3DPointerDevice >> updatePointerActionWithWorldRay: ray mouseButtonMask: mouseButtonState [
 	pointerButtonTouchMask := pointerButtonPressedMask := mouseButtonState asMask.
 	^ self updatePointerActionWithWorldRay: ray
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 WDGF3DPointerDevice >> updatePointerActionWithWorldRay: ray touchMask: touchMask pressedMask: pressedMask [
 	pointerButtonTouchMask := touchMask.
 	pointerButtonPressedMask := pressedMask.

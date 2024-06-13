@@ -1,45 +1,47 @@
 Class {
-	#name : #WDGFPhysicsPairUnionConstraintComponent,
-	#superclass : #WDGFPhysicsConstraintComponent,
+	#name : 'WDGFPhysicsPairUnionConstraintComponent',
+	#superclass : 'WDGFPhysicsConstraintComponent',
 	#instVars : [
 		'stiffness',
 		'damping',
 		'firstObject',
 		'secondObject'
 	],
-	#category : #'WodenGameFramework-Core-Components-Physics'
+	#category : 'WodenGameFramework-Core-Components-Physics',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Physics'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFPhysicsPairUnionConstraintComponent class >> isAbstract [
 	^ self == WDGFPhysicsPairUnionConstraintComponent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsPairUnionConstraintComponent >> damping [
 
 	^ damping
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsPairUnionConstraintComponent >> damping: anObject [
 
 	damping := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsPairUnionConstraintComponent >> firstObject [
 
 	^ firstObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsPairUnionConstraintComponent >> firstObject: anObject [
 
 	firstObject := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFPhysicsPairUnionConstraintComponent >> initialize [
 	super initialize.
 	stiffness := 50.0.
@@ -47,25 +49,25 @@ WDGFPhysicsPairUnionConstraintComponent >> initialize [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsPairUnionConstraintComponent >> secondObject [
 
 	^ secondObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsPairUnionConstraintComponent >> secondObject: anObject [
 
 	secondObject := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsPairUnionConstraintComponent >> stiffness [
 
 	^ stiffness
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPhysicsPairUnionConstraintComponent >> stiffness: anObject [
 
 	stiffness := anObject

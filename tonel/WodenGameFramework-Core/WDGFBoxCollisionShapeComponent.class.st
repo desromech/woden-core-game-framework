@@ -1,40 +1,42 @@
 Class {
-	#name : #WDGFBoxCollisionShapeComponent,
-	#superclass : #WDGFAbstractCollisionShapeComponent,
+	#name : 'WDGFBoxCollisionShapeComponent',
+	#superclass : 'WDGFAbstractCollisionShapeComponent',
 	#instVars : [
 		'halfExtent'
 	],
-	#category : #'WodenGameFramework-Core-Components-Physics'
+	#category : 'WodenGameFramework-Core-Components-Physics',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Physics'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFBoxCollisionShapeComponent class >> halfExtent: aVector3 [
 	^ self new halfExtent: aVector3; yourself
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDGFBoxCollisionShapeComponent >> asValidCollisionShapeWithoutTransform [
 	^ WDBoxCollisionShape halfExtent: halfExtent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFBoxCollisionShapeComponent >> halfExtent [
 
 	^ halfExtent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFBoxCollisionShapeComponent >> halfExtent: anObject [
 	halfExtent := anObject asVector3
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFBoxCollisionShapeComponent >> initialize [
 	super initialize.
 	halfExtent := Vector3 ones
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFBoxCollisionShapeComponent >> localBoundingBox [
 	^ AABox halfExtent: halfExtent
 ]

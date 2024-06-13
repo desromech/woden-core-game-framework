@@ -2,20 +2,22 @@
 I am a component that provides a collision shape.
 "
 Class {
-	#name : #WDGFAbstractCollisionShapeComponent,
-	#superclass : #WDGFActorComponent,
+	#name : 'WDGFAbstractCollisionShapeComponent',
+	#superclass : 'WDGFActorComponent',
 	#instVars : [
 		'transform'
 	],
-	#category : #'WodenGameFramework-Core-Components-Physics'
+	#category : 'WodenGameFramework-Core-Components-Physics',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Physics'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFAbstractCollisionShapeComponent class >> isAbstract [
 	^ self == WDGFAbstractCollisionShapeComponent
 ]
 
-{ #category : #notifications }
+{ #category : 'notifications' }
 WDGFAbstractCollisionShapeComponent >> addedToActor: anActor [
 	super addedToActor: anActor.
 	anActor collisionShapeComponent ifNotNil: [ :rootShapeComponent |
@@ -36,7 +38,7 @@ WDGFAbstractCollisionShapeComponent >> addedToActor: anActor [
 	]
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDGFAbstractCollisionShapeComponent >> asValidCollisionShape [
 	| shapeWithoutTransform |
 	shapeWithoutTransform := self asValidCollisionShapeWithoutTransform.
@@ -47,34 +49,34 @@ WDGFAbstractCollisionShapeComponent >> asValidCollisionShape [
 		yourself
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDGFAbstractCollisionShapeComponent >> asValidCollisionShapeWithoutTransform [
 	^ self subclassResponsibility
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFAbstractCollisionShapeComponent >> initialize [
 	super initialize.
 	transform := TRSTransform3D identity.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFAbstractCollisionShapeComponent >> isCompoundCollisionShapeComponent [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFAbstractCollisionShapeComponent >> localBoundingBox [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFAbstractCollisionShapeComponent >> transform [
 
 	^ transform
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFAbstractCollisionShapeComponent >> transform: anObject [
 
 	transform := anObject

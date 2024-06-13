@@ -1,41 +1,43 @@
 Class {
-	#name : #WDGFSphereCollisionShapeComponent,
-	#superclass : #WDGFAbstractCollisionShapeComponent,
+	#name : 'WDGFSphereCollisionShapeComponent',
+	#superclass : 'WDGFAbstractCollisionShapeComponent',
 	#instVars : [
 		'radius'
 	],
-	#category : #'WodenGameFramework-Core-Components-Physics'
+	#category : 'WodenGameFramework-Core-Components-Physics',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Physics'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFSphereCollisionShapeComponent class >> radius: radius [
 	^ self new radius: radius; yourself
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDGFSphereCollisionShapeComponent >> asValidCollisionShapeWithoutTransform [
 	^ WDSphereCollisionShape radius: radius
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFSphereCollisionShapeComponent >> initialize [
 	super initialize.
 	radius := 1.0.
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFSphereCollisionShapeComponent >> localBoundingBox [
 	^ AABox halfExtent: radius
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFSphereCollisionShapeComponent >> radius [
 
 	^ radius
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFSphereCollisionShapeComponent >> radius: anObject [
 
 	radius := anObject

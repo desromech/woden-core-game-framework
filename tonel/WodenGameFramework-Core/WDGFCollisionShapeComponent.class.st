@@ -1,34 +1,36 @@
 Class {
-	#name : #WDGFCollisionShapeComponent,
-	#superclass : #WDGFAbstractCollisionShapeComponent,
+	#name : 'WDGFCollisionShapeComponent',
+	#superclass : 'WDGFAbstractCollisionShapeComponent',
 	#instVars : [
 		'shape'
 	],
-	#category : #'WodenGameFramework-Core-Components-Physics'
+	#category : 'WodenGameFramework-Core-Components-Physics',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Physics'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 WDGFCollisionShapeComponent class >> with: aShape [
 	^ self new shape: aShape; yourself
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDGFCollisionShapeComponent >> asValidCollisionShapeWithoutTransform [
 	^ shape
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionShapeComponent >> localBoundingBox [
 	^ shape localBoundingBox
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionShapeComponent >> shape [
 
 	^ shape
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCollisionShapeComponent >> shape: anObject [
 
 	shape := anObject

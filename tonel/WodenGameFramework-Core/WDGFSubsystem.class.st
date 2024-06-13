@@ -2,8 +2,8 @@
 I am a subsystem in the game framework.
 "
 Class {
-	#name : #WDGFSubsystem,
-	#superclass : #Object,
+	#name : 'WDGFSubsystem',
+	#superclass : 'Object',
 	#instVars : [
 		'ownerWorld'
 	],
@@ -14,10 +14,12 @@ Class {
 		'SceneUpdatePriority',
 		'TickUpdatePriority'
 	],
-	#category : #'WodenGameFramework-Core-Subsystem'
+	#category : 'WodenGameFramework-Core-Subsystem',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Subsystem'
 }
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 WDGFSubsystem class >> initialize [
 	InputUpdatePriority := 1.
 	TickUpdatePriority := 2.
@@ -28,38 +30,38 @@ WDGFSubsystem class >> initialize [
 
 ]
 
-{ #category : #notifying }
+{ #category : 'notifying' }
 WDGFSubsystem >> beginPlay [
 ]
 
-{ #category : #'connection open/close' }
+{ #category : 'connection open/close' }
 WDGFSubsystem >> closeAndDestroy [
 ]
 
-{ #category : #notifying }
+{ #category : 'notifying' }
 WDGFSubsystem >> createdInWorld: newOwnerWorld [
 	self assert: ownerWorld isNil.
 	ownerWorld := newOwnerWorld
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFSubsystem >> ownerWorld [
 	^ ownerWorld
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 WDGFSubsystem >> postActorMessagesUpdateSingleTimeStep: delta [
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 WDGFSubsystem >> prePhysicsUpdateSingleTimeStep: delta [
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFSubsystem >> updatePriority [
 	^ DefaultUpdatePriority
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 WDGFSubsystem >> updateSingleTimeStep: delta [
 ]

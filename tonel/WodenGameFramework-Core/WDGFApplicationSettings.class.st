@@ -2,40 +2,42 @@
 I hold the settings for a specific game framework application.
 "
 Class {
-	#name : #WDGFApplicationSettings,
-	#superclass : #Object,
+	#name : 'WDGFApplicationSettings',
+	#superclass : 'Object',
 	#instVars : [
 		'actorClassNameDictionary',
 		'materialAssetCache',
 		'modelAssetCache',
 		'propAssetCache'
 	],
-	#category : #'WodenGameFramework-Core-Actor'
+	#category : 'WodenGameFramework-Core-Actor',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Actor'
 }
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDGFApplicationSettings class >> asApplicationSettings [
 	^ self new
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDGFApplicationSettings >> asApplicationSettings [
 	^ self
 ]
 
-{ #category : #'accessing - ui' }
+{ #category : 'accessing - ui' }
 WDGFApplicationSettings >> assetsLocations [
 	^	self projectLocation
 			ifNotNil: [ :location | { location / 'assets' } ]
 			ifNil: [ #() ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFApplicationSettings >> findActorClassByName: className [
 	^ self validActorClassNameDictionary at: className ifAbsent: [ nil ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFApplicationSettings >> initialize [
 	super initialize.
 	materialAssetCache := WeakValueDictionary new.
@@ -43,7 +45,7 @@ WDGFApplicationSettings >> initialize [
 	propAssetCache := WeakValueDictionary new.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFApplicationSettings >> loadMaterialWithPath: path [
 	| solvedPath |
 	solvedPath := self resolveAssetPath: path.
@@ -53,7 +55,7 @@ WDGFApplicationSettings >> loadMaterialWithPath: path [
 	]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFApplicationSettings >> loadModelWithPath: path [
 	| solvedPath |
 	solvedPath := self resolveAssetPath: path.
@@ -65,7 +67,7 @@ WDGFApplicationSettings >> loadModelWithPath: path [
 	]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFApplicationSettings >> loadPropWithPath: path [
 	| solvedPath |
 	solvedPath := self resolveAssetPath: path.
@@ -82,17 +84,17 @@ WDGFApplicationSettings >> loadPropWithPath: path [
 	]
 ]
 
-{ #category : #'accessing - ui' }
+{ #category : 'accessing - ui' }
 WDGFApplicationSettings >> mapsLocation [
 	^ self assetsLocations first / 'maps'
 ]
 
-{ #category : #'accessing - ui' }
+{ #category : 'accessing - ui' }
 WDGFApplicationSettings >> projectLocation [
 	^ FileLocator imageDirectory
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFApplicationSettings >> resolveAssetPath: path [
 	| pathFileReference |
 	pathFileReference := path asFileReference.
@@ -104,7 +106,7 @@ WDGFApplicationSettings >> resolveAssetPath: path [
 	^ pathFileReference
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFApplicationSettings >> validActorClassNameDictionary [
 	^ actorClassNameDictionary ifNil: [
 		actorClassNameDictionary := Dictionary new.

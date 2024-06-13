@@ -2,62 +2,64 @@
 I am a component that provides a collision object which is also a rigid object.
 "
 Class {
-	#name : #WDGFRigidBodyObjectComponent,
-	#superclass : #WDGFCollisionObjectComponent,
+	#name : 'WDGFRigidBodyObjectComponent',
+	#superclass : 'WDGFCollisionObjectComponent',
 	#instVars : [
 		'mass',
 		'noTorque'
 	],
-	#category : #'WodenGameFramework-Core-Components-Physics'
+	#category : 'WodenGameFramework-Core-Components-Physics',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Physics'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFRigidBodyObjectComponent class >> mass: mass [
 	^ self new mass: mass; yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFRigidBodyObjectComponent >> initialize [
 	super initialize.
 	mass := 0.0.
 	noTorque := false.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFRigidBodyObjectComponent >> isRigidBodyComponent [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFRigidBodyObjectComponent >> mass [
 
 	^ mass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFRigidBodyObjectComponent >> mass: anObject [
 
 	mass := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFRigidBodyObjectComponent >> noTorque [
 
 	^ noTorque
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFRigidBodyObjectComponent >> noTorque: anObject [
 
 	noTorque := anObject
 ]
 
-{ #category : #'physics setup' }
+{ #category : 'physics setup' }
 WDGFRigidBodyObjectComponent >> privateMakeCollisionObjectInstance [
 	^ WDPRigidBody new
 ]
 
-{ #category : #'physics setup' }
+{ #category : 'physics setup' }
 WDGFRigidBodyObjectComponent >> setupCollisionObject [
 	super setupCollisionObject.
 	collisionObject mass: mass.
@@ -70,12 +72,12 @@ WDGFRigidBodyObjectComponent >> setupCollisionObject [
 	 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFRigidBodyObjectComponent >> withoutTorque [
 	self noTorque: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFRigidBodyObjectComponent >> worldInertiaTensor [
 	^ collisionObject worldInertiaTensor
 ]

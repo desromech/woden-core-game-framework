@@ -2,18 +2,20 @@
 I am a prop asset. I am typically used for associating a model with extra metadata like collision detection and physical properties.
 "
 Class {
-	#name : #WDGFPropAsset,
-	#superclass : #Object,
+	#name : 'WDGFPropAsset',
+	#superclass : 'Object',
 	#instVars : [
 		'model',
 		'mass',
 		'modelElementName',
 		'collisionElementName'
 	],
-	#category : #'WodenGameFramework-Core-Serialization'
+	#category : 'WodenGameFramework-Core-Serialization',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Serialization'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFPropAsset >> initialize [
 	super initialize.
 	mass := 0.0.
@@ -22,7 +24,7 @@ WDGFPropAsset >> initialize [
 	
 ]
 
-{ #category : #'asset instantiation' }
+{ #category : 'asset instantiation' }
 WDGFPropAsset >> instantiateActor [
 	| actor |
 	actor := WDGFActor new.
@@ -48,7 +50,7 @@ WDGFPropAsset >> instantiateActor [
 	^ actor
 ]
 
-{ #category : #serialization }
+{ #category : 'serialization' }
 WDGFPropAsset >> loadFromJson: json [
 	mass := (json at: 'mass' ifAbsent: [ nil ]) ifNil: [mass].
 	modelElementName := (json at: 'modelElementName' ifAbsent: [ nil ]) ifNil: [modelElementName].
@@ -57,25 +59,25 @@ WDGFPropAsset >> loadFromJson: json [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPropAsset >> mass [
 
 	^ mass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPropAsset >> mass: anObject [
 
 	mass := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPropAsset >> model [
 
 	^ model
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFPropAsset >> model: anObject [
 
 	model := anObject

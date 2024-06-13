@@ -2,59 +2,61 @@
 I am a game framework mouse event.
 "
 Class {
-	#name : #WDGFMouseEvent,
-	#superclass : #WDGFInputEvent,
+	#name : 'WDGFMouseEvent',
+	#superclass : 'WDGFInputEvent',
 	#instVars : [
 		'modifiers',
 		'buttons',
 		'position'
 	],
-	#category : #'WodenGameFramework-Core-Events'
+	#category : 'WodenGameFramework-Core-Events',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Events'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFMouseEvent class >> isAbstract [
 	^ self == WDGFMouseEvent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFMouseEvent >> buttons [
 
 	^ buttons
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFMouseEvent >> buttons: anObject [
 
 	buttons := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFMouseEvent >> initialize [
 	super initialize.
 	modifiers := WDGFInputStateModifiers new.
 	buttons := WDGFInputMouseButtonState new.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFMouseEvent >> modifiers [
 
 	^ modifiers
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFMouseEvent >> modifiers: anObject [
 
 	modifiers := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFMouseEvent >> position [
 
 	^ position
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFMouseEvent >> position: anObject [
 
 	position := anObject

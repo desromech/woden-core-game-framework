@@ -2,17 +2,19 @@
 I am a game framework mouse button press event.
 "
 Class {
-	#name : #WDGFMouseButtonPressEvent,
-	#superclass : #WDGFMouseButtonEvent,
-	#category : #'WodenGameFramework-Core-Events'
+	#name : 'WDGFMouseButtonPressEvent',
+	#superclass : 'WDGFMouseButtonEvent',
+	#category : 'WodenGameFramework-Core-Events',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Events'
 }
 
-{ #category : #'message name' }
+{ #category : 'message name' }
 WDGFMouseButtonPressEvent class >> inputEventMessageName [
 	^ #mouseButtonPressEvent:
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFMouseButtonPressEvent >> accept: anEventHandler [
 	^ anEventHandler mouseButtonPressEvent: self
 ]

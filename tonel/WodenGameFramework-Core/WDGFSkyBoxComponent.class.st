@@ -2,28 +2,30 @@
 I am a component that can be used for providing a sky box.
 "
 Class {
-	#name : #WDGFSkyBoxComponent,
-	#superclass : #WDGFActorSceneComponent,
+	#name : 'WDGFSkyBoxComponent',
+	#superclass : 'WDGFActorSceneComponent',
 	#instVars : [
 		'environmentMap',
 		'material',
 		'mesh'
 	],
-	#category : #'WodenGameFramework-Core-Components-Scene'
+	#category : 'WodenGameFramework-Core-Components-Scene',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Scene'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 WDGFSkyBoxComponent class >> with: anEnvironmentMap [
 	^ self new environmentMap: anEnvironmentMap; yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFSkyBoxComponent >> environmentMap [
 
 	^ environmentMap
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFSkyBoxComponent >> environmentMap: anObject [
 	environmentMap := anObject.
 	material ifNotNil: [ 
@@ -31,7 +33,7 @@ WDGFSkyBoxComponent >> environmentMap: anObject [
 	]
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFSkyBoxComponent >> privateRegisterInWorld [
 	super privateRegisterInWorld.
 	material ifNil: [

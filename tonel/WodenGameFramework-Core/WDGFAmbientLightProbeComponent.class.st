@@ -1,48 +1,50 @@
 Class {
-	#name : #WDGFAmbientLightProbeComponent,
-	#superclass : #WDGFActorSceneComponent,
+	#name : 'WDGFAmbientLightProbeComponent',
+	#superclass : 'WDGFActorSceneComponent',
 	#instVars : [
 		'lightProbe',
 		'ambientLighting'
 	],
-	#category : #'WodenGameFramework-Core-Components-Scene'
+	#category : 'WodenGameFramework-Core-Components-Scene',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Scene'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 WDGFAmbientLightProbeComponent class >> with: aLightProbe [
 	^ self new lightProbe: aLightProbe; yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFAmbientLightProbeComponent >> ambientLighting [
 
 	^ ambientLighting
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFAmbientLightProbeComponent >> ambientLighting: anAmbientLighting [
 	ambientLighting := anAmbientLighting asVector3
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFAmbientLightProbeComponent >> initialize [
 	super initialize.
 	ambientLighting := Vector3 zeros.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFAmbientLightProbeComponent >> lightProbe [
 
 	^ lightProbe
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFAmbientLightProbeComponent >> lightProbe: anObject [
 
 	lightProbe := anObject
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFAmbientLightProbeComponent >> privateRegisterInWorld [
 	super privateRegisterInWorld.
 	ownerWorld sceneSubsystem scene

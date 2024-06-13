@@ -2,46 +2,48 @@
 I am a reference to a model which is asynchronously loaded.
 "
 Class {
-	#name : #WDGFActorAsyncModelSceneComponent,
-	#superclass : #WDGFActorSceneComponent,
+	#name : 'WDGFActorAsyncModelSceneComponent',
+	#superclass : 'WDGFActorSceneComponent',
 	#instVars : [
 		'uri',
 		'elementSelector',
 		'asyncContext'
 	],
-	#category : #'WodenGameFramework-Core-Components-Scene'
+	#category : 'WodenGameFramework-Core-Components-Scene',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Scene'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorAsyncModelSceneComponent >> asyncContext [
 
 	^ asyncContext
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorAsyncModelSceneComponent >> asyncContext: anObject [
 
 	asyncContext := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorAsyncModelSceneComponent >> elementSelector [
 
 	^ elementSelector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorAsyncModelSceneComponent >> elementSelector: anObject [
 
 	elementSelector := anObject
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFActorAsyncModelSceneComponent >> privateConstructSceneNode [
 	^ WDAsyncSceneNode new
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFActorAsyncModelSceneComponent >> privateRegisterInWorld [
 	super privateRegisterInWorld.
 	sceneNode 
@@ -50,13 +52,13 @@ WDGFActorAsyncModelSceneComponent >> privateRegisterInWorld [
 		asyncContext: asyncContext.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorAsyncModelSceneComponent >> uri [
 
 	^ uri
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorAsyncModelSceneComponent >> uri: anObject [
 
 	uri := anObject

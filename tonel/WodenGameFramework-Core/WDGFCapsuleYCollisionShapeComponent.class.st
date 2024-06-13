@@ -1,15 +1,17 @@
 Class {
-	#name : #WDGFCapsuleYCollisionShapeComponent,
-	#superclass : #WDGFAbstractCapsuleCollisionShapeComponent,
-	#category : #'WodenGameFramework-Core-Components-Physics'
+	#name : 'WDGFCapsuleYCollisionShapeComponent',
+	#superclass : 'WDGFAbstractCapsuleCollisionShapeComponent',
+	#category : 'WodenGameFramework-Core-Components-Physics',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Physics'
 }
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDGFCapsuleYCollisionShapeComponent >> asValidCollisionShapeWithoutTransform [
 	^ WDCapsuleYCollisionShape height: height radius: radius
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCapsuleYCollisionShapeComponent >> localBoundingBox [
 	^ AABox halfExtent: (Vector3 x: radius y: height/2 + radius z: radius)
 ]

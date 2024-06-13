@@ -1,6 +1,6 @@
-Extension { #name : #WDVRTrackedDeviceButtonTouchEvent }
+Extension { #name : 'WDVRTrackedDeviceButtonTouchEvent' }
 
-{ #category : #'*WodenGameFramework-Core' }
+{ #category : '*WodenGameFramework-Core' }
 WDVRTrackedDeviceButtonTouchEvent class >> gameFrameworkVREventMessageName [
 	^ #vrTrackedDeviceButtonTouchEvent:from:
 ]

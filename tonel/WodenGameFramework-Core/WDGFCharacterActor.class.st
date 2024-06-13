@@ -2,36 +2,38 @@
 I am a sample character actor that uses physics for its movement.
 "
 Class {
-	#name : #WDGFCharacterActor,
-	#superclass : #WDGFActor,
+	#name : 'WDGFCharacterActor',
+	#superclass : 'WDGFActor',
 	#instVars : [
 		'walkingDirection',
 		'walkingSpeed'
 	],
-	#category : #'WodenGameFramework-Core-Actor-Character'
+	#category : 'WodenGameFramework-Core-Actor-Character',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Actor-Character'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFCharacterActor class >> defaultBroadness [
 	^ 0.5
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFCharacterActor class >> defaultHeight [
 	^ 1.6
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFCharacterActor class >> defaultJumpVelocity [
 	^ Vector3 y: 2.0
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFCharacterActor class >> defaultMass [
 	^ 70.0
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFCharacterActor >> initialize [
 	super initialize.
 	self wantsToTick: true.
@@ -39,12 +41,12 @@ WDGFCharacterActor >> initialize [
 	walkingSpeed := 3.0.
 ]
 
-{ #category : #controlling }
+{ #category : 'controlling' }
 WDGFCharacterActor >> jump [
 	collisionObjectComponent jump
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFCharacterActor >> setupComponents [
 	super setupComponents.
 	self addComponent: WDGFActorSceneComponent new.
@@ -57,7 +59,7 @@ WDGFCharacterActor >> setupComponents [
 		yourself).
 ]
 
-{ #category : #'game events' }
+{ #category : 'game events' }
 WDGFCharacterActor >> tick: deltaSeconds [
 	| walkingVelocity |
 	walkingVelocity := walkingDirection normalized * walkingSpeed.

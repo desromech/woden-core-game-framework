@@ -2,31 +2,33 @@
 I am a subsystem which is used for interacting with VR devices.
 "
 Class {
-	#name : #WDGFVRSubsystem,
-	#superclass : #WDGFSubsystem,
+	#name : 'WDGFVRSubsystem',
+	#superclass : 'WDGFSubsystem',
 	#instVars : [
 		'trackedDeviceComponents'
 	],
-	#category : #'WodenGameFramework-Core-Subsystem'
+	#category : 'WodenGameFramework-Core-Subsystem',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Subsystem'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFVRSubsystem >> initialize [
 	super initialize.
 	trackedDeviceComponents := OrderedCollection new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFVRSubsystem >> registerTrackedDeviceComponent: aTrackedDeviceComponent [
 	trackedDeviceComponents add: aTrackedDeviceComponent
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFVRSubsystem >> unregisterTrackedDeviceComponent: aTrackedDeviceComponent [
 	aTrackedDeviceComponent remove: aTrackedDeviceComponent
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFVRSubsystem >> updateAndProcessEventsFor: vrSystem [
 	| trackedDeviceMap |
 	vrSystem resetTrackedDeviceEventHandlers.

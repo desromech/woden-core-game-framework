@@ -2,29 +2,31 @@
 I am a subsystem that takes care of sound playback.
 "
 Class {
-	#name : #WDGFSoundSubsystem,
-	#superclass : #WDGFSubsystem,
+	#name : 'WDGFSoundSubsystem',
+	#superclass : 'WDGFSubsystem',
 	#instVars : [
 		'cameraComponents',
 		'backend',
 		'soundSourceComponents',
 		'backendSession'
 	],
-	#category : #'WodenGameFramework-Core-Subsystem'
+	#category : 'WodenGameFramework-Core-Subsystem',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Subsystem'
 }
 
-{ #category : #adding }
+{ #category : 'adding' }
 WDGFSoundSubsystem >> addCameraComponent: aCameraComponent [
 	cameraComponents add: aCameraComponent.
 ]
 
-{ #category : #'connection open/close' }
+{ #category : 'connection open/close' }
 WDGFSoundSubsystem >> closeAndDestroy [
 	super closeAndDestroy.
 	self destroyBackend.
 ]
 
-{ #category : #'connection open/close' }
+{ #category : 'connection open/close' }
 WDGFSoundSubsystem >> destroyBackend [
 	(backend notNil and: [ backendSession == AGPU session ]) ifTrue: [ 
 		backend destroy
@@ -34,7 +36,7 @@ WDGFSoundSubsystem >> destroyBackend [
 	backendSession := nil.
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 WDGFSoundSubsystem >> ensureBackendIsValid [
 	(backend notNil and: [backendSession == AGPU session]) ifTrue: [^ self].
 	backend := WDGFSoundSubsystemBackend findAvailable new.
@@ -42,7 +44,7 @@ WDGFSoundSubsystem >> ensureBackendIsValid [
 	backend initializeForSubsystem: self.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFSoundSubsystem >> findActiveCameraComponent [
 	cameraComponents do: [ :each |
 		each isActive ifTrue: [ ^ each ]
@@ -50,19 +52,19 @@ WDGFSoundSubsystem >> findActiveCameraComponent [
 	^ nil
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFSoundSubsystem >> initialize [
 	super initialize.
 	cameraComponents := OrderedCollection new.
 	soundSourceComponents := OrderedCollection new.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFSoundSubsystem >> isPlaying [
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFSoundSubsystem >> registerSoundSourceComponent: sourceComponent [
 	soundSourceComponents add: sourceComponent.
 	backend ifNotNil: [
@@ -70,17 +72,17 @@ WDGFSoundSubsystem >> registerSoundSourceComponent: sourceComponent [
 	].
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 WDGFSoundSubsystem >> removeCameraComponent: aCameraComponent [
 	cameraComponents remove: aCameraComponent.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFSoundSubsystem >> soundSourceComponents [
 	^ soundSourceComponents
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFSoundSubsystem >> unregisterSoundSourceComponent: sourceComponent [
 	soundSourceComponents remove: sourceComponent.
 	backend ifNotNil: [
@@ -88,7 +90,7 @@ WDGFSoundSubsystem >> unregisterSoundSourceComponent: sourceComponent [
 	].
 ]
 
-{ #category : #update }
+{ #category : 'update' }
 WDGFSoundSubsystem >> updateSingleTimeStep: delta [
 	self ensureBackendIsValid.
 	backend updateForSubsystem: self timeStep: delta

@@ -2,33 +2,35 @@
 I am a handle that is used for identifying and sending messages actors. I am used for guaranteeing state isolation between different actors.
 "
 Class {
-	#name : #WDGFActorHandle,
-	#superclass : #WeakArray,
-	#type : #weak,
-	#category : #'WodenGameFramework-Core-Messages'
+	#name : 'WDGFActorHandle',
+	#superclass : 'WeakArray',
+	#type : 'weak',
+	#category : 'WodenGameFramework-Core-Messages',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Messages'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 WDGFActorHandle class >> for: anActor [
 	^ (self basicNew: 2) actor: anActor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorHandle >> actor [
 	^ self at: 1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorHandle >> actor: anActor [
 	self at: 1 put: anActor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorHandle >> world [
 	^ self at: 2
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorHandle >> world: aWorld [
 	self at: 2 put: aWorld
 ]

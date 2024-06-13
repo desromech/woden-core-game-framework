@@ -1,31 +1,33 @@
 Class {
-	#name : #WDGFAbstractSoundSourceComponent,
-	#superclass : #WDGFActorComponent,
+	#name : 'WDGFAbstractSoundSourceComponent',
+	#superclass : 'WDGFActorComponent',
 	#instVars : [
 		'gain',
 		'pitch'
 	],
-	#category : #'WodenGameFramework-Core-Components-SoundSource'
+	#category : 'WodenGameFramework-Core-Components-SoundSource',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-SoundSource'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFAbstractSoundSourceComponent class >> isAbstract [
 	^ self == WDGFAbstractSoundSourceComponent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFAbstractSoundSourceComponent >> gain [
 
 	^ gain
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFAbstractSoundSourceComponent >> gain: anObject [
 
 	gain := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFAbstractSoundSourceComponent >> initialize [
 	super initialize.
 	gain := 1.0.
@@ -33,37 +35,37 @@ WDGFAbstractSoundSourceComponent >> initialize [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFAbstractSoundSourceComponent >> pitch [
 
 	^ pitch
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFAbstractSoundSourceComponent >> pitch: anObject [
 
 	pitch := anObject
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFAbstractSoundSourceComponent >> privateRegisterInWorld [
 	super privateRegisterInWorld.
 	ownerWorld soundSubsystem registerSoundSourceComponent: self
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFAbstractSoundSourceComponent >> privateUnregisterFromWorld [
 	super privateUnregisterFromWorld.
 	ownerWorld soundSubsystem unregisterSoundSourceComponent: self
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFAbstractSoundSourceComponent >> worldLinearVelocity [
 	^ owner linearVelocity
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFAbstractSoundSourceComponent >> worldPosition [
 	^ owner position
 ]

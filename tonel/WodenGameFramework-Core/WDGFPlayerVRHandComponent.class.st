@@ -1,6 +1,6 @@
 Class {
-	#name : #WDGFPlayerVRHandComponent,
-	#superclass : #WDGFVRTrackedDeviceComponent,
+	#name : 'WDGFPlayerVRHandComponent',
+	#superclass : 'WDGFVRTrackedDeviceComponent',
 	#instVars : [
 		'modelComponent',
 		'localTransform',
@@ -14,40 +14,42 @@ Class {
 		'pointerModelComponent',
 		'hand3DPointer'
 	],
-	#category : #'WodenGameFramework-Core-Actor-Character'
+	#category : 'WodenGameFramework-Core-Actor-Character',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Actor-Character'
 }
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 WDGFPlayerVRHandComponent class >> defaultHandHalfExtent [
 	^ Vector3 x: 0.04 y: 0.02 z: 0.075
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 WDGFPlayerVRHandComponent class >> defaultMaxTeleportDistance [
 	^ 10
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 WDGFPlayerVRHandComponent class >> defaultMaxTeleportSlopeCosine [
 	^ 60 degreeCos
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 WDGFPlayerVRHandComponent class >> defaultPointerMaxDistance [
 	^ 3.0
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 WDGFPlayerVRHandComponent class >> defaultTeleportIndicatorRadius [
 	^ 0.30
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 WDGFPlayerVRHandComponent class >> defaultTeleportUpVector [
 	^ Vector3 y: 1
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 WDGFPlayerVRHandComponent >> addIntoPlayerActor: playerActor [
 	| pointerRadius |
 	modelComponent := WDGFActorMeshSceneComponent with: self fallbackModel.
@@ -70,12 +72,12 @@ WDGFPlayerVRHandComponent >> addIntoPlayerActor: playerActor [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFPlayerVRHandComponent >> angularVelocity [
 	^ owner angularVelocity + (owner transformVectorToWorld: (owner floorToLocalTransform transformVector3: deviceAngularVelocity))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFPlayerVRHandComponent >> attemptToUpdatePointerAction [
 	| ray worldPoint |
 	pointerModelComponent visible: self hasActivePointer.
@@ -86,7 +88,7 @@ WDGFPlayerVRHandComponent >> attemptToUpdatePointerAction [
 	hand3DPointer updatePointerActionWithWorldRay: ray touchMask: self currentPointerButtonTouchMask pressedMask: self currentPointerButtonPressedMask
 ]
 
-{ #category : #teleport }
+{ #category : 'teleport' }
 WDGFPlayerVRHandComponent >> attemptToUpdateTeleportDestination [
 	| ray rayCastQueryResult teleportDestination teleportNormal slopeCosine |
 	ray := self worldRayFrom: Vector3 zeros to: (Vector3 z: -1) * self class defaultMaxTeleportDistance.
@@ -106,7 +108,7 @@ WDGFPlayerVRHandComponent >> attemptToUpdateTeleportDestination [
 	^ true
 ]
 
-{ #category : #teleport }
+{ #category : 'teleport' }
 WDGFPlayerVRHandComponent >> beginPicking [
 	| pickBox pickableActors |
 	pickBox := AABox halfExtent: self class defaultHandHalfExtent.
@@ -130,7 +132,7 @@ WDGFPlayerVRHandComponent >> beginPicking [
 	ownerWorld spawnActor: pickedObjectConstraintActor
 ]
 
-{ #category : #teleport }
+{ #category : 'teleport' }
 WDGFPlayerVRHandComponent >> beginTeleport [
 	isPreparingTeleport := true.
 	lastValidTeleportDestination := nil.
@@ -138,17 +140,17 @@ WDGFPlayerVRHandComponent >> beginTeleport [
 	self attemptToUpdateTeleportDestination
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFPlayerVRHandComponent >> currentPointerButtonPressedMask [
 	^ (analogButtonPressedState anyMask: AnalogFirstTriggerPressed) ifTrue: [ 1 ] ifFalse: [ 0 ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFPlayerVRHandComponent >> currentPointerButtonTouchMask [
 	^ (analogButtonTouchedState anyMask: AnalogFirstTriggerPressed) ifTrue: [ 1 ] ifFalse: [ 0 ]
 ]
 
-{ #category : #teleport }
+{ #category : 'teleport' }
 WDGFPlayerVRHandComponent >> endPicking [
 	pickedObjectConstraintActor ifNotNil: [ 
 		pickedObjectConstraintActor destroy.
@@ -165,7 +167,7 @@ WDGFPlayerVRHandComponent >> endPicking [
 
 ]
 
-{ #category : #teleport }
+{ #category : 'teleport' }
 WDGFPlayerVRHandComponent >> endTeleport [
 	isPreparingTeleport ifFalse: [ self ].
 	self attemptToUpdateTeleportDestination ifTrue: [ 
@@ -183,7 +185,7 @@ WDGFPlayerVRHandComponent >> endTeleport [
 	
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 WDGFPlayerVRHandComponent >> fallbackModel [
 	^ fallbackModel ifNil: [WDMeshBuilder new
 		currentMaterial: (WDMetallicRoughnessMaterial new
@@ -196,12 +198,12 @@ WDGFPlayerVRHandComponent >> fallbackModel [
 	]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFPlayerVRHandComponent >> hasActivePointer [
 	^ pickedObject isNil and: [ self currentPointerButtonTouchMask ~= 0]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFPlayerVRHandComponent >> initialize [
 	super initialize.
 	localTransform := TRSTransform3D identity.
@@ -211,25 +213,25 @@ WDGFPlayerVRHandComponent >> initialize [
 	hand3DPointer := WDGF3DPointerDevice for: self.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFPlayerVRHandComponent >> linearVelocity [
 	^ owner linearVelocity + (owner transformVectorToWorld: (owner floorToLocalTransform transformVector3: deviceLinearVelocity))
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFPlayerVRHandComponent >> onGotTrackedDevice [
 	localTransform := (owner floorToLocalTransform transformTransform: deviceTransform) asTRSTransform3D.
 	modelComponent visible: true.
 	self attemptToUpdatePointerAction.
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFPlayerVRHandComponent >> onLostTrackedDevice [
 	modelComponent visible: false.
 	self attemptToUpdatePointerAction.
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFPlayerVRHandComponent >> onUpdatedTrackedDevice [
 	localTransform := (owner floorToLocalTransform transformTransform: deviceTransform) asTRSTransform3D.
 	modelComponent
@@ -239,7 +241,7 @@ WDGFPlayerVRHandComponent >> onUpdatedTrackedDevice [
 	self attemptToUpdatePointerAction.
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFPlayerVRHandComponent >> onVRTrackedDeviceAnalogButtonPressed: mask [
 	(mask anyMask: AnalogJoystickButtonUp) ifTrue: [ self beginTeleport ].
 	(mask anyMask: AnalogFirstTriggerPressed) ifTrue: [ 
@@ -248,7 +250,7 @@ WDGFPlayerVRHandComponent >> onVRTrackedDeviceAnalogButtonPressed: mask [
 
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFPlayerVRHandComponent >> onVRTrackedDeviceAnalogButtonReleased: mask [
 	(mask anyMask: AnalogJoystickButtonUp) ifTrue: [ self endTeleport ].
 	(mask anyMask: AnalogFirstTriggerPressed) ifTrue: [
@@ -257,66 +259,66 @@ WDGFPlayerVRHandComponent >> onVRTrackedDeviceAnalogButtonReleased: mask [
 	
 ]
 
-{ #category : #teleport }
+{ #category : 'teleport' }
 WDGFPlayerVRHandComponent >> performTeleport [
 	owner teleportTo: lastValidTeleportDestination - owner localBoundingBox bottomPoint
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFPlayerVRHandComponent >> rayCast: ray forFirstActorSuchThat: aPredictate [
 	^ owner rayCast: ray forFirstActorSuchThat: aPredictate
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFPlayerVRHandComponent >> throwAngularVelocity [
 	^ self angularVelocity
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFPlayerVRHandComponent >> throwLinearVelocity [
 	^ owner linearVelocity + ((owner transformVectorToWorld: (owner floorToLocalTransform transformVector3: deviceLinearVelocity)) * self throwSpeedFactor)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFPlayerVRHandComponent >> throwSpeedFactor [
 	^ 1.0
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFPlayerVRHandComponent >> transformNormalVectorToWorld: vector [
 	^ owner transformNormalVectorToWorld: (localTransform transformNormalVector: vector)
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFPlayerVRHandComponent >> transformOrientationToWorld: orientation [
 	^ owner transformOrientationToWorld: localTransform rotation * orientation
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFPlayerVRHandComponent >> transformPositionToWorld: position [
 	^ owner transformPositionToWorld: (localTransform transformPosition: position)
 	
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFPlayerVRHandComponent >> transformVectorToWorld: vector [
 	^ owner transformVectorToWorld: (localTransform transformVector3: vector)
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFPlayerVRHandComponent >> transformWorldOrientationToLocal: orientation [
 	^ localTransform inverseRotation * (owner transformWorldOrientationToLocal: orientation)
 ]
 
-{ #category : #utility }
+{ #category : 'utility' }
 WDGFPlayerVRHandComponent >> transformWorldPositionToLocal: position [
 	^ localTransform inverseTransformPosition: (owner transformWorldPositionToLocal: position)
 	
 ]
 
-{ #category : #teleport }
+{ #category : 'teleport' }
 WDGFPlayerVRHandComponent >> updateTeleportDestinationIndicator [
 	lastValidTeleportDestination ifNil: [ ^ self ].
 
@@ -336,12 +338,12 @@ WDGFPlayerVRHandComponent >> updateTeleportDestinationIndicator [
 	teleportDestinationIndicator position: lastValidTeleportDestination
 ]
 
-{ #category : #transforms }
+{ #category : 'transforms' }
 WDGFPlayerVRHandComponent >> worldRayFrom: startingPoint to: endPoint [
 	^ Ray3D from: (self transformPositionToWorld: startingPoint) to: (self transformPositionToWorld: endPoint)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFPlayerVRHandComponent >> worldTransform [
 	^ owner transform transformTransform: localTransform 
 ]

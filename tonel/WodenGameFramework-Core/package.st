@@ -1,1 +1,1 @@
-Package { #name : #'WodenGameFramework-Core' }
+Package { #name : 'WodenGameFramework-Core' }

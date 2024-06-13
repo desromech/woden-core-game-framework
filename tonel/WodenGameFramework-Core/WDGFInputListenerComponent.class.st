@@ -2,23 +2,25 @@
 I am a component that is used for listening for different input events.
 "
 Class {
-	#name : #WDGFInputListenerComponent,
-	#superclass : #WDGFActorComponent,
-	#category : #'WodenGameFramework-Core-Components-Input'
+	#name : 'WDGFInputListenerComponent',
+	#superclass : 'WDGFActorComponent',
+	#category : 'WodenGameFramework-Core-Components-Input',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Input'
 }
 
-{ #category : #'event dispatching' }
+{ #category : 'event dispatching' }
 WDGFInputListenerComponent >> dispatchInputEvent: anInputEvent [
 	owner ifNotNil: [ owner send: anInputEvent inputEventMessageName with: anInputEvent ]
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFInputListenerComponent >> privateRegisterInWorld [
 	ownerWorld inputSubsystem registerInputListener: self
 
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFInputListenerComponent >> privateUnregisterFromWorld [
 	ownerWorld inputSubsystem unregisterInputListener: self
 

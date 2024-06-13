@@ -1,21 +1,23 @@
 Class {
-	#name : #WDGFCompoundCollisionShapeComponent,
-	#superclass : #WDGFAbstractCollisionShapeComponent,
+	#name : 'WDGFCompoundCollisionShapeComponent',
+	#superclass : 'WDGFAbstractCollisionShapeComponent',
 	#instVars : [
 		'elements',
 		'localBoundingBox'
 	],
-	#category : #'WodenGameFramework-Core-Components-Physics'
+	#category : 'WodenGameFramework-Core-Components-Physics',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Physics'
 }
 
-{ #category : #adding }
+{ #category : 'adding' }
 WDGFCompoundCollisionShapeComponent >> addShapeComponent: aShape [
 	elements add: aShape.
 	localBoundingBox insertBox: (aShape localBoundingBox transformedWith: aShape transform)
 	
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 WDGFCompoundCollisionShapeComponent >> asValidCollisionShapeWithoutTransform [
 	| compoundShape |
 	compoundShape := WDCompoundCollisionShape new.
@@ -25,19 +27,19 @@ WDGFCompoundCollisionShapeComponent >> asValidCollisionShapeWithoutTransform [
 	^ compoundShape
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFCompoundCollisionShapeComponent >> initialize [
 	super initialize.
 	elements := OrderedCollection new.
 	localBoundingBox := AABox empty.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFCompoundCollisionShapeComponent >> isCompoundCollisionShapeComponent [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCompoundCollisionShapeComponent >> localBoundingBox [
 	^ localBoundingBox
 ]

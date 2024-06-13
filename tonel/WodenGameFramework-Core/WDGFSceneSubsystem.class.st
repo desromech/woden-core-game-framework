@@ -2,22 +2,24 @@
 I am the scene subsystem in the game framework
 "
 Class {
-	#name : #WDGFSceneSubsystem,
-	#superclass : #WDGFSubsystem,
+	#name : 'WDGFSceneSubsystem',
+	#superclass : 'WDGFSubsystem',
 	#instVars : [
 		'scene',
 		'sceneChangedSubscriptions',
 		'cameraComponents'
 	],
-	#category : #'WodenGameFramework-Core-Subsystem'
+	#category : 'WodenGameFramework-Core-Subsystem',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Subsystem'
 }
 
-{ #category : #adding }
+{ #category : 'adding' }
 WDGFSceneSubsystem >> addCameraComponent: aCameraComponent [
 	cameraComponents add: aCameraComponent
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFSceneSubsystem >> findActiveCameraComponent [
 	cameraComponents do: [ :each |
 		each isActive ifTrue: [ ^ each ]
@@ -25,7 +27,7 @@ WDGFSceneSubsystem >> findActiveCameraComponent [
 	^ nil
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFSceneSubsystem >> initialize [
 	super initialize.
 	scene := WDScene new.
@@ -33,28 +35,28 @@ WDGFSceneSubsystem >> initialize [
 	cameraComponents := OrderedCollection new.
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 WDGFSceneSubsystem >> removeCameraComponent: aCameraComponent [
 	cameraComponents remove: aCameraComponent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFSceneSubsystem >> scene [
 
 	^ scene
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFSceneSubsystem >> sceneChanged [
 	sceneChangedSubscriptions do: [ :each | each value ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFSceneSubsystem >> updatePriority [
 	^ SceneUpdatePriority
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFSceneSubsystem >> whenSceneChangedDo: aBlock [
 	sceneChangedSubscriptions add: aBlock
 ]

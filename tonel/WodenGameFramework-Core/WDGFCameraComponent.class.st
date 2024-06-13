@@ -2,55 +2,57 @@
 I am component that is used for accessing the state and events of a specific VR tracked device.
 "
 Class {
-	#name : #WDGFCameraComponent,
-	#superclass : #WDGFActorSceneComponent,
+	#name : 'WDGFCameraComponent',
+	#superclass : 'WDGFActorSceneComponent',
 	#instVars : [
 		'camera',
 		'isActive',
 		'viewportExtent',
 		'overlay'
 	],
-	#category : #'WodenGameFramework-Core-Components-Scene'
+	#category : 'WodenGameFramework-Core-Components-Scene',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Scene'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 WDGFCameraComponent class >> with: aCamera [
 	^ self new camera: aCamera; yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFCameraComponent >> aspectRatio [
 	^ viewportExtent x / viewportExtent y
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCameraComponent >> camera [
 
 	^ camera
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCameraComponent >> camera: anObject [
 
 	camera := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFCameraComponent >> frustum [
 	^ camera frustumWithAspect: self aspectRatio.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCameraComponent >> headFloorTransform [
 	^ camera headFloorTransform
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCameraComponent >> headFloorTransform: aTransform [
 	camera headFloorTransform: aTransform
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFCameraComponent >> initialize [
 	super initialize.
 	camera := WDCamera new.
@@ -58,19 +60,19 @@ WDGFCameraComponent >> initialize [
 	isActive := false.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCameraComponent >> isActive [
 
 	^ isActive
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCameraComponent >> isActive: anObject [
 
 	isActive := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFCameraComponent >> localRayForViewportPoint: point [
 	| normalizedPoint frustum |
 	normalizedPoint := self viewportPointToNormalized: point.
@@ -78,7 +80,7 @@ WDGFCameraComponent >> localRayForViewportPoint: point [
 	^ frustum rayForNormalizedPoint: point
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFCameraComponent >> mouseEventPositionToNormalized: mouseEvent [
 	self owner world inputSubsystem hasMouseCapture ifTrue: [
 		^ Vector2 x: 0.5 y: 0.5
@@ -87,19 +89,19 @@ WDGFCameraComponent >> mouseEventPositionToNormalized: mouseEvent [
 	^ self viewportPointToNormalized: mouseEvent position
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCameraComponent >> overlay [
 
 	^ overlay
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCameraComponent >> overlay: anObject [
 
 	overlay := anObject
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFCameraComponent >> privateRegisterInWorld [
 	super privateRegisterInWorld.
 	camera ifNotNil: [ 
@@ -110,31 +112,31 @@ WDGFCameraComponent >> privateRegisterInWorld [
 	ownerWorld soundSubsystem addCameraComponent: self.
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFCameraComponent >> privateUnregisterFromWorld [
 	super privateRegisterInWorld.
 	ownerWorld sceneSubsystem removeCameraComponent: self.
 	ownerWorld soundSubsystem removeCameraComponent: self.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCameraComponent >> viewportExtent [
 
 	^ viewportExtent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFCameraComponent >> viewportExtent: anObject [
 
 	viewportExtent := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFCameraComponent >> viewportPointToNormalized: point [
 	^ Vector2 x: (point x / viewportExtent x) y: 1.0 - (point y / viewportExtent y)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFCameraComponent >> worldRayForMouseEventPosition: event [
 	| normalizedPoint frustum nearPoint farPoint |
 	normalizedPoint := self mouseEventPositionToNormalized: event.
@@ -144,12 +146,12 @@ WDGFCameraComponent >> worldRayForMouseEventPosition: event [
 	^ Ray3D from: (self transformPositionToWorld: nearPoint) to: (self transformPositionToWorld: farPoint)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFCameraComponent >> worldRayForMouseEventPosition: point maxDistance: maxDistance [
 	^ (self worldRayForMouseEventPosition: point) withMaxDistance: maxDistance
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFCameraComponent >> worldRayForViewportPoint: point [
 	| normalizedPoint frustum nearPoint farPoint |
 	normalizedPoint := self viewportPointToNormalized: point.
@@ -159,7 +161,7 @@ WDGFCameraComponent >> worldRayForViewportPoint: point [
 	^ Ray3D from: (self transformPositionToWorld: nearPoint) to: (self transformPositionToWorld: farPoint)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFCameraComponent >> worldRayForViewportPoint: point maxDistance: maxDistance [
 	^ (self worldRayForViewportPoint: point) withMaxDistance: maxDistance
 ]

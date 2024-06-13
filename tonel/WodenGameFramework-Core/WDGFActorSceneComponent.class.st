@@ -2,8 +2,8 @@
 I am a component that has a corresponding scene node.
 "
 Class {
-	#name : #WDGFActorSceneComponent,
-	#superclass : #WDGFActorComponent,
+	#name : 'WDGFActorSceneComponent',
+	#superclass : 'WDGFActorComponent',
 	#instVars : [
 		'transform',
 		'children',
@@ -12,10 +12,12 @@ Class {
 		'sceneBackground',
 		'visible'
 	],
-	#category : #'WodenGameFramework-Core-Components-Scene'
+	#category : 'WodenGameFramework-Core-Components-Scene',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Scene'
 }
 
-{ #category : #adding }
+{ #category : 'adding' }
 WDGFActorSceneComponent >> addChildSceneComponent: childComponent [
 	self assert: childComponent parent isNil.
 
@@ -28,7 +30,7 @@ WDGFActorSceneComponent >> addChildSceneComponent: childComponent [
 	^ childComponent
 ]
 
-{ #category : #notifications }
+{ #category : 'notifications' }
 WDGFActorSceneComponent >> addedDirectlyToActor: anActor [
 	super addedDirectlyToActor: anActor.
 	parent ifNil: [ 
@@ -41,34 +43,34 @@ WDGFActorSceneComponent >> addedDirectlyToActor: anActor [
 
 ]
 
-{ #category : #notifications }
+{ #category : 'notifications' }
 WDGFActorSceneComponent >> addedToActor: anActor [
 	super addedToActor: anActor.
 	self children do: [ :each | anActor addComponent: each ].
 ]
 
-{ #category : #notifications }
+{ #category : 'notifications' }
 WDGFActorSceneComponent >> addedToParent: aParent [
 	self assert: parent isNil.
 	parent := aParent.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> angularVelocity [
 	^ owner angularVelocity
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> beSceneBackground [
 	self sceneBackground: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> children [
 	^ children ifNil: [ #() ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFActorSceneComponent >> initialize [
 	super initialize.
 	transform := TRSTransform3D identity.
@@ -76,50 +78,50 @@ WDGFActorSceneComponent >> initialize [
 	visible := true.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> linearVelocity [
 	^ owner linearVelocity
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> orientation [
 	^ transform orientation
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> orientation: newOrientation [
 	transform rotation: newOrientation.
 	self transformChanged.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> parent [
 	^ parent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> position [
 	^ transform position
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> position: newPosition [
 	transform translation: newPosition.
 	self transformChanged.
 ]
 
-{ #category : #copying }
+{ #category : 'copying' }
 WDGFActorSceneComponent >> postCopy [
 	super postCopy.
 	sceneNode := nil.
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFActorSceneComponent >> privateConstructSceneNode [
 	^ WDSceneNode new
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFActorSceneComponent >> privateRegisterInWorld [
 	| sceneSubsystem |
 	sceneSubsystem := ownerWorld sceneSubsystem.
@@ -139,53 +141,53 @@ WDGFActorSceneComponent >> privateRegisterInWorld [
 
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WDGFActorSceneComponent >> privateUnregisterFromWorld [
 	sceneNode removeFromScene.
 	sceneNode := nil.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> scale [
 	^ transform scale
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> scale: newScale [
 	transform scale: newScale.
 	self transformChanged.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> sceneBackground [
 
 	^ sceneBackground
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> sceneBackground: anObject [
 
 	sceneBackground := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> sceneNode [
 	^ sceneNode
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> transform [
 
 	^ transform
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> transform: aTransform [
 	transform := aTransform asTRSTransform3D.
 	self transformChanged.
 ]
 
-{ #category : #notifications }
+{ #category : 'notifications' }
 WDGFActorSceneComponent >> transformChanged [
 	sceneNode ifNotNil: [
 		sceneNode transform: transform.
@@ -193,7 +195,7 @@ WDGFActorSceneComponent >> transformChanged [
 	]
 ]
 
-{ #category : #transforms }
+{ #category : 'transforms' }
 WDGFActorSceneComponent >> transformNormalVectorToWorld: normalVector [
 	| parentNormalVector |
 	parentNormalVector := transform transformNormalVector: normalVector.
@@ -202,7 +204,7 @@ WDGFActorSceneComponent >> transformNormalVectorToWorld: normalVector [
 		ifNotNil: [parent transformNormalVector: parentNormalVector]
 ]
 
-{ #category : #transforms }
+{ #category : 'transforms' }
 WDGFActorSceneComponent >> transformOrientationToWorld: orientation [
 	| parentOrientation |
 	parentOrientation := transform rotation * orientation.
@@ -211,13 +213,13 @@ WDGFActorSceneComponent >> transformOrientationToWorld: orientation [
 		ifNotNil: [parent transformOrientationToWorld: parentOrientation]
 ]
 
-{ #category : #transforms }
+{ #category : 'transforms' }
 WDGFActorSceneComponent >> transformPositionToActorLocal: position [
 	parent ifNil: [ ^ position ].
 	^ parent transformPositionToActorLocal: (transform transformPosition: position)
 ]
 
-{ #category : #transforms }
+{ #category : 'transforms' }
 WDGFActorSceneComponent >> transformPositionToWorld: position [
 	| parentPosition |
 	parentPosition := transform transformPosition: position.
@@ -226,7 +228,7 @@ WDGFActorSceneComponent >> transformPositionToWorld: position [
 		ifNotNil: [parent transformPositionToWorld: parentPosition]
 ]
 
-{ #category : #transforms }
+{ #category : 'transforms' }
 WDGFActorSceneComponent >> transformVectorToWorld: vector [
 	| parentVector |
 	parentVector := transform transformVector3: vector.
@@ -235,7 +237,7 @@ WDGFActorSceneComponent >> transformVectorToWorld: vector [
 		ifNotNil: [parent transformVectorToWorld: parentVector]
 ]
 
-{ #category : #transforms }
+{ #category : 'transforms' }
 WDGFActorSceneComponent >> transformWorldOrientationToLocal: orientation [
 	| parentOrientation |
 	parentOrientation := parent
@@ -245,7 +247,7 @@ WDGFActorSceneComponent >> transformWorldOrientationToLocal: orientation [
 	^ transform inverseRotation * parentOrientation
 ]
 
-{ #category : #transforms }
+{ #category : 'transforms' }
 WDGFActorSceneComponent >> transformWorldPositionToLocal: position [
 	| parentPosition |
 	parentPosition := parent
@@ -255,19 +257,19 @@ WDGFActorSceneComponent >> transformWorldPositionToLocal: position [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> visible [
 
 	^ visible
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFActorSceneComponent >> visible: aBoolean [
 	visible := aBoolean.
 	sceneNode ifNotNil: [ sceneNode visible: visible ].
 ]
 
-{ #category : #transforms }
+{ #category : 'transforms' }
 WDGFActorSceneComponent >> worldRayFrom: localStartPoint to: localEndPoint [
 	^ Ray3D from: (self transformPositionToWorld: localStartPoint) to: (self transformPositionToWorld: localEndPoint)
 ]

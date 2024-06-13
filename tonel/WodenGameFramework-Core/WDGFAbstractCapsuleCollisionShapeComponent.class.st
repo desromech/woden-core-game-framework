@@ -2,44 +2,46 @@
 I am a compound collision shape component.
 "
 Class {
-	#name : #WDGFAbstractCapsuleCollisionShapeComponent,
-	#superclass : #WDGFAbstractCollisionShapeComponent,
+	#name : 'WDGFAbstractCapsuleCollisionShapeComponent',
+	#superclass : 'WDGFAbstractCollisionShapeComponent',
 	#instVars : [
 		'height',
 		'radius'
 	],
-	#category : #'WodenGameFramework-Core-Components-Physics'
+	#category : 'WodenGameFramework-Core-Components-Physics',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-Physics'
 }
 
-{ #category : #construction }
+{ #category : 'construction' }
 WDGFAbstractCapsuleCollisionShapeComponent class >> height: height radius: radius [
 	^ self new height: height; radius: radius; yourself
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFAbstractCapsuleCollisionShapeComponent class >> isAbstract [
 	^ self == WDGFAbstractCapsuleCollisionShapeComponent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFAbstractCapsuleCollisionShapeComponent >> height [
 
 	^ height
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFAbstractCapsuleCollisionShapeComponent >> height: anObject [
 
 	height := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFAbstractCapsuleCollisionShapeComponent >> radius [
 
 	^ radius
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFAbstractCapsuleCollisionShapeComponent >> radius: anObject [
 
 	radius := anObject

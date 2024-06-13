@@ -1,14 +1,16 @@
 Class {
-	#name : #WDGFSoundSampleSourceComponent,
-	#superclass : #WDGFAbstractSoundSourceComponent,
+	#name : 'WDGFSoundSampleSourceComponent',
+	#superclass : 'WDGFAbstractSoundSourceComponent',
 	#instVars : [
 		'sample',
 		'looped'
 	],
-	#category : #'WodenGameFramework-Core-Components-SoundSource'
+	#category : 'WodenGameFramework-Core-Components-SoundSource',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Components-SoundSource'
 }
 
-{ #category : #construction }
+{ #category : 'construction' }
 WDGFSoundSampleSourceComponent class >> sample: sample gain: gain pitch: pitch looped: looped [
 	^ self new
 		sample: sample;
@@ -18,32 +20,32 @@ WDGFSoundSampleSourceComponent class >> sample: sample gain: gain pitch: pitch l
 		yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFSoundSampleSourceComponent >> initialize [
 	super initialize.
 	looped := false.
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFSoundSampleSourceComponent >> looped [
 
 	^ looped
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFSoundSampleSourceComponent >> looped: anObject [
 
 	looped := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFSoundSampleSourceComponent >> sample [
 
 	^ sample
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFSoundSampleSourceComponent >> sample: anObject [
 
 	sample := anObject

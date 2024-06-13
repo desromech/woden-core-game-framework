@@ -2,46 +2,48 @@
 I am a game framework keyboard event.
 "
 Class {
-	#name : #WDGFKeyboardEvent,
-	#superclass : #WDGFInputEvent,
+	#name : 'WDGFKeyboardEvent',
+	#superclass : 'WDGFInputEvent',
 	#instVars : [
 		'symbol',
 		'modifiers'
 	],
-	#category : #'WodenGameFramework-Core-Events'
+	#category : 'WodenGameFramework-Core-Events',
+	#package : 'WodenGameFramework-Core',
+	#tag : 'Events'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 WDGFKeyboardEvent class >> isAbstract [
 	^ self == WDGFKeyboardEvent
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFKeyboardEvent >> initialize [
 	super initialize.
 	modifiers := WDGFInputStateModifiers new.
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFKeyboardEvent >> modifiers [
 
 	^ modifiers
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFKeyboardEvent >> modifiers: anObject [
 
 	modifiers := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFKeyboardEvent >> symbol [
 
 	^ symbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFKeyboardEvent >> symbol: anObject [
 
 	symbol := anObject
