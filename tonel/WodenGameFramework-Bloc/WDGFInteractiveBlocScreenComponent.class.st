@@ -1,6 +1,8 @@
 Class {
 	#name : 'WDGFInteractiveBlocScreenComponent',
 	#superclass : 'WDGFAbstractInteractiveScreenComponent',
+	#traits : 'TWDGFBlEventConverter',
+	#classTraits : 'TWDGFBlEventConverter classTrait',
 	#instVars : [
 		'space',
 		'time'
@@ -17,28 +19,6 @@ WDGFInteractiveBlocScreenComponent class >> boundingBox: aBoundingBox space: spa
 { #category : 'construction' }
 WDGFInteractiveBlocScreenComponent class >> boundingBoxHalfExtent: aHalfExtent space: texture [
 	^ self boundingBox: (AABox halfExtent: aHalfExtent) space: texture
-]
-
-{ #category : 'converting' }
-WDGFInteractiveBlocScreenComponent >> convertButton: osButton [
-	<return: #BlMouseButton>
-
-	osButton = 1 ifTrue: [ ^ BlMouseButton primary ].
-	osButton = 2 ifTrue: [ ^ BlMouseButton middle ].
-	osButton = 3 ifTrue: [ ^ BlMouseButton secondary ].
-
-	^ BlMouseButton code: osButton
-]
-
-{ #category : 'converting' }
-WDGFInteractiveBlocScreenComponent >> convertKeyModifiers: modifiers [
-	<return: #BlKeyModifiers>
-
-	^ BlKeyModifiers
-		shift: modifiers shift
-		ctrl: modifiers ctrl
-		alt: modifiers alt
-		cmd: modifiers cmd
 ]
 
 { #category : 'event management' }
@@ -58,77 +38,6 @@ WDGFInteractiveBlocScreenComponent >> enqueue: anEvent [
 WDGFInteractiveBlocScreenComponent >> initialize [
 	super initialize.
 	time := BlTime real.
-]
-
-{ #category : 'mouse handlers' }
-WDGFInteractiveBlocScreenComponent >> mouseButtonPressEvent: anEvent [
-	| aBlocEvent button |
-	button := self convertButton: anEvent button.
-	aBlocEvent := button mouseDownEventClass new
-		position: anEvent position asPoint;
-		screenPosition: anEvent position asPoint;
-		button: button;
-		modifiers: (self convertKeyModifiers: anEvent modifiers);
-		timestamp: time now;
-		yourself.
-
-	self enqueue: aBlocEvent
-]
-
-{ #category : 'mouse handlers' }
-WDGFInteractiveBlocScreenComponent >> mouseButtonReleaseEvent: anEvent [
-	| aBlocEvent button |
-	button := self convertButton: anEvent button.
-	aBlocEvent := button mouseUpEventClass new
-		position: anEvent position asPoint;
-		screenPosition: anEvent position asPoint;
-		button: button;
-		modifiers: (self convertKeyModifiers: anEvent modifiers);
-		timestamp: time now;
-		yourself.
-
-	self enqueue: aBlocEvent
-]
-
-{ #category : 'mouse handlers' }
-WDGFInteractiveBlocScreenComponent >> mouseEntered [
-	| aBlocEvent |
-
-	aBlocEvent := BlSpaceMouseEnterEvent new
-		timestamp: DateAndTime now;
-		yourself.
-		
-	self enqueue: aBlocEvent
-]
-
-{ #category : 'mouse handlers' }
-WDGFInteractiveBlocScreenComponent >> mouseLeft [
-	| aBlocEvent |
-
-	aBlocEvent := BlSpaceMouseLeaveEvent new
-		timestamp: DateAndTime now;
-		yourself.
-		
-	self enqueue: aBlocEvent
-]
-
-{ #category : 'mouse handlers' }
-WDGFInteractiveBlocScreenComponent >> mouseMoveEvent: anEvent [
-	| aBlocEvent |
-	aBlocEvent := BlMouseMoveEvent new
-		position: anEvent position asPoint;
-		screenPosition: anEvent position asPoint;
-		delta: anEvent delta asPoint;
-		modifiers: (self convertKeyModifiers: anEvent modifiers);
-		timestamp: time now;
-		yourself.
-		
-	self enqueue: aBlocEvent
-]
-
-{ #category : 'mouse handlers' }
-WDGFInteractiveBlocScreenComponent >> mouseWheelEvent: anEvent [
-	Transcript show: anEvent; cr.
 ]
 
 { #category : 'accessing' }
