@@ -21,6 +21,11 @@ WDGFCameraComponent class >> with: aCamera [
 	^ self new camera: aCamera; yourself
 ]
 
+{ #category : 'adding' }
+WDGFCameraComponent >> addHUDOverlay: anOverlay [
+	self overlays: (self overlays copyWith: anOverlay)
+]
+
 { #category : 'as yet unclassified' }
 WDGFCameraComponent >> aspectRatio [
 	^ viewportExtent x / viewportExtent y
@@ -128,6 +133,11 @@ WDGFCameraComponent >> privateUnregisterFromWorld [
 	super privateRegisterInWorld.
 	ownerWorld sceneSubsystem removeCameraComponent: self.
 	ownerWorld soundSubsystem removeCameraComponent: self.
+]
+
+{ #category : 'adding' }
+WDGFCameraComponent >> removeHUDOverlay: anOverlay [
+	self overlays: (self overlays copyWithout: anOverlay)
 ]
 
 { #category : 'accessing' }

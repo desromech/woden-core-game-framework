@@ -349,6 +349,11 @@ WDGFActor >> position: newPosition [
 	rootSceneComponent ifNotNil: [ rootSceneComponent position: newPosition ]
 ]
 
+{ #category : 'accessing' }
+WDGFActor >> positionOnTopOf: aPosition [
+	self position: aPosition + (self localBoundingBox height / 2)
+]
+
 { #category : 'copying' }
 WDGFActor >> postCopy [
 	super postCopy.

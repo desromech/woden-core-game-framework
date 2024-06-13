@@ -37,6 +37,11 @@ WDGFPlayerActor class >> defaultThrowSpeed [
 	^ 10.0
 ]
 
+{ #category : 'adding' }
+WDGFPlayerActor >> addHUDOverlay: anOverlay [
+	cameraComponent addHUDOverlay: anOverlay
+]
+
 { #category : 'accessing' }
 WDGFPlayerActor >> cameraComponent [
 	^ cameraComponent
@@ -169,6 +174,11 @@ WDGFPlayerActor >> pickOrThrowObjectInFront [
 	pickedObject
 		ifNil: [ self pickObjectInFront ]
 		ifNotNil: [ self throwPickedObject ]
+]
+
+{ #category : 'adding' }
+WDGFPlayerActor >> removeHUDOverlay: anOverlay [
+	cameraComponent removeHUDOverlay: anOverlay
 ]
 
 { #category : 'initialization' }
