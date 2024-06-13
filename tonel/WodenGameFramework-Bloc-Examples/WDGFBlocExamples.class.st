@@ -21,12 +21,13 @@ WDGFBlocExamples class >> exampleRoom [
 	screenExtent := 256@128.
 	screenHalfExtent := Vector3 xy: screenExtent asVector2 / 1000 * 2.0 z: 0.01.
 	
-	menuOverlay := WDGFBlOverlay withExtent: 256@256.
-	menuOverlay 	space root addChild: (ToButton new
-		label: (ToLabel text: 'Test Menu');
-		whenClickedDo: [ lightSource visible: lightSource visible not ];
-		yourself).
-	menuOverlay 	space show.
+	menuOverlay := WDGFBlOverlay withExtent: 256@256 buildSpace: [:overlaySpace |
+		overlaySpace root addChild: (ToButton new
+			label: (ToLabel text: 'Test Menu');
+			whenClickedDo: [ lightSource visible: lightSource visible not ];
+			yourself)
+	].
+	menuOverlay centeringFraction: (1/10)@(1/10).
 	world menuSubsystem overlay: menuOverlay.
 
 	space := BlSpace new
