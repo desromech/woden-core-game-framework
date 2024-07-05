@@ -60,6 +60,7 @@ WDGFWorldLoader >> loadActor: actor childFrom: childDesc [
 	childType = 'PointLightSource' ifTrue: [ ^ self loadActor: actor pointLightSourceFrom: childDesc ].
 	childType = 'SpotLightSource' ifTrue: [ ^ self loadActor: actor spotLightSourceFrom: childDesc ].
 	childType = 'DirectionalLightSource' ifTrue: [ ^ self loadActor: actor directionalLightSourceFrom: childDesc ].
+	childType = 'Group' ifTrue: [ ^ self loadActor: actor groupFrom: childDesc ].
 	self error: 'Unsupport actor child with type ' , childType
 ]
 
@@ -104,6 +105,13 @@ WDGFWorldLoader >> loadActor: actor from: actorDescription [
 		self loadActor: actor childrenFrom: childrenDesc
 	].
 
+]
+
+{ #category : 'loading' }
+WDGFWorldLoader >> loadActor: actor groupFrom: groupDesc [
+	groupDesc at: 'children' ifPresent: [ :childrenDesc |
+		self loadActor: actor childrenFrom: childrenDesc
+	]
 ]
 
 { #category : 'loading' }
