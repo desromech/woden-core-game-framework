@@ -233,15 +233,57 @@ WDGFWorldLoader >> loadActor: actor terrainFrom: terrainDesc [
 	patchSize := (terrainDesc at: #patchSize ifAbsent: [ nil ]) ifNil: [ 32 ].
 	rows := (terrainDesc at: #rows ifAbsent: [ nil ]) ifNil: [ 1 ].
 	columns := (terrainDesc at: #columns ifAbsent: [ nil ]) ifNil: [ 1 ].
-	patches := (terrainDesc at: #columns ifAbsent: [ nil ]) ifNil: [ #() ].
+	patches := (terrainDesc at: #patches ifAbsent: [ nil ]) ifNil: [ #() ].
 	patches doWithIndex: [ :patchDesc :patchIndex |
-		| patchRow patchColumn |
+		| patchRow patchColumn patchPosition |
 		patchRow := (patchIndex - 1) // columns.
 		patchColumn := (patchIndex - 1) % columns.
-		
+		patchPosition := Vector3 x: patchColumn - (columns / 2) y: 0 z: patchRow - (rows / 2).
+		self loadActor: actor terrainPatchFrom: patchDesc
+			row: patchRow column: patchColumn size: patchSize
+			transform: (transform copy
+				translation: transform translation + (transform transformVector3: patchPosition);
+				yourself)
 	]
 
 	
+	
+]
+
+{ #category : 'loading' }
+WDGFWorldLoader >> loadActor: actor terrainPatchFrom: terrainDesc row: patchRow column: patchColumn size: patchSize transform: transform [
+	| encodedHeights heights material textureScale textureOffset textureRotation meshBuilder |
+	encodedHeights := terrainDesc at: #heights.
+	
+	heights := encodedHeights base64Decoded shallowCopy.
+	Float32Array adoptInstance: heights.
+
+	material := nil.
+	
+	(terrainDesc at: 'material' ifAbsent: [ nil ]) ifNotNil: [ :materialIndex |
+		material := materials at: materialIndex + 1
+	].
+
+	textureScale := Vector2 ones.
+	textureOffset := Vector2 zeros.
+	textureRotation := (terrainDesc at: #textureRotation ifAbsent: [nil]) ifNil: [0.0].
+	terrainDesc at: #textureScale ifPresent: [ :vector |
+		textureScale := Vector2 loadFromJson: vector
+	].
+	terrainDesc at: #textureOffset ifPresent: [ :vector |
+		textureOffset := Vector2 loadFromJson: vector
+	].
+
+	meshBuilder := WDMeshBuilder new
+		currentMaterial: (material ifNil: [WDMetallicRoughnessMaterial default]);
+		addTexturedTerrainPatchWithSize: patchSize scale: transform scale heights: heights textureScale: textureScale offset: textureOffset rotation: textureRotation.
+	
+	meshBuilder isEmpty ifFalse: [
+		meshBuilder generateTangentSpaceFrame.
+		actor addComponent: ((WDGFActorMeshSceneComponent with: meshBuilder mesh)
+			transform: transform;
+			yourself)
+	].
 	
 ]
 
