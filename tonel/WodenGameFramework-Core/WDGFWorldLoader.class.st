@@ -55,6 +55,7 @@ WDGFWorldLoader >> loadActor: actor childFrom: childDesc [
 	childType ifNil: [ ^ self ].
 	
 	childType = 'BSPBrush' ifTrue: [ ^ self loadActor: actor bspBrushFrom: childDesc ].
+	childType = 'Terrain' ifTrue: [ ^ self loadActor: actor terrainFrom: childDesc ].
 	childType = 'ModelReference' ifTrue: [ ^ self loadActor: actor modelReferenceFrom: childDesc ].
 	childType = 'PropReference' ifTrue: [ ^ self loadActor: actor propReferenceFrom: childDesc ].
 	childType = 'PointLightSource' ifTrue: [ ^ self loadActor: actor pointLightSourceFrom: childDesc ].
@@ -219,6 +220,16 @@ WDGFWorldLoader >> loadActor: actor spotLightSourceFrom: lightSourceDesc [
 	actor addComponent: ((WDGFActorLightSourceSceneComponent with: lightSource)
 		transform: transform;
 		yourself)
+]
+
+{ #category : 'loading' }
+WDGFWorldLoader >> loadActor: actor terrainFrom: terrainDesc [
+	| transform |
+	transform := TRSTransform3D identity.
+	(terrainDesc at: 'transform' ifAbsent: [ nil ]) ifNotNil: [ :transformDesc |
+		transform := TRSTransform3D loadFromJson: transformDesc
+	].
+	
 ]
 
 { #category : 'loading' }
