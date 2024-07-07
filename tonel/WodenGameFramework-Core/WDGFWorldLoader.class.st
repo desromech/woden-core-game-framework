@@ -224,11 +224,24 @@ WDGFWorldLoader >> loadActor: actor spotLightSourceFrom: lightSourceDesc [
 
 { #category : 'loading' }
 WDGFWorldLoader >> loadActor: actor terrainFrom: terrainDesc [
-	| transform |
+	| transform patchSize rows columns patches |
 	transform := TRSTransform3D identity.
 	(terrainDesc at: 'transform' ifAbsent: [ nil ]) ifNotNil: [ :transformDesc |
 		transform := TRSTransform3D loadFromJson: transformDesc
 	].
+	
+	patchSize := (terrainDesc at: #patchSize ifAbsent: [ nil ]) ifNil: [ 32 ].
+	rows := (terrainDesc at: #rows ifAbsent: [ nil ]) ifNil: [ 1 ].
+	columns := (terrainDesc at: #columns ifAbsent: [ nil ]) ifNil: [ 1 ].
+	patches := (terrainDesc at: #columns ifAbsent: [ nil ]) ifNil: [ #() ].
+	patches doWithIndex: [ :patchDesc :patchIndex |
+		| patchRow patchColumn |
+		patchRow := (patchIndex - 1) // columns.
+		patchColumn := (patchIndex - 1) % columns.
+		
+	]
+
+	
 	
 ]
 
