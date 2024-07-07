@@ -282,6 +282,16 @@ WDGFWorldLoader >> loadActor: actor terrainPatchFrom: terrainDesc row: patchRow 
 		meshBuilder generateTangentSpaceFrame.
 		actor addComponent: ((WDGFActorMeshSceneComponent with: meshBuilder mesh)
 			transform: transform;
+			yourself).
+			
+		extraActors add: (WDGFStaticActor new
+			addComponent: (WDGFHeightfieldCollisionShapeComponent new
+				width: patchSize;
+				depth: patchSize;
+				data: heights;
+				scale: transform scale;
+				yourself);
+			transform: (transform copy scale: Vector3 ones; yourself);
 			yourself)
 	].
 	
