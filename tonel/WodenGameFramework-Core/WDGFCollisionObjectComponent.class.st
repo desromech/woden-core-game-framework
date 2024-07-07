@@ -164,7 +164,7 @@ WDGFCollisionObjectComponent >> setupCollisionObject [
 	| shape |
 	shape := (owner notNil and: [owner collisionShapeComponent notNil])
 		ifTrue: [ owner collisionShapeComponent asValidCollisionShapeWithoutTransform ]
-		ifFalse: [ WDPNullCollisionShape uniqueInstance ].
+		ifFalse: [ WDNullCollisionShape uniqueInstance ].
 	
 	collisionObject
 		model: self;
