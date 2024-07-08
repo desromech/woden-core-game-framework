@@ -1,1 +1,1 @@
-Package { #name : #'WodenGameFramework-Morphic' }
+Package { #name : 'WodenGameFramework-Morphic' }

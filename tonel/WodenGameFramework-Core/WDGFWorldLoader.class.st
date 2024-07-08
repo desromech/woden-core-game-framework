@@ -9,10 +9,23 @@ Class {
 		'materials',
 		'extraActors'
 	],
+	#classVars : [
+		'FogModeDictionary'
+	],
 	#category : 'WodenGameFramework-Core-Serialization',
 	#package : 'WodenGameFramework-Core',
 	#tag : 'Serialization'
 }
+
+{ #category : 'class initialization' }
+WDGFWorldLoader class >> initialize [
+	FogModeDictionary := Dictionary newFromPairs: {
+		#NONE . WDFogNoneMode.
+		#LINEAR . WDFogLinearMode.
+		#EXP . WDFogExpMode.
+		#EXP2 . WDFogExp2Mode.
+	}
+]
 
 { #category : 'loading' }
 WDGFWorldLoader >> loadActor: actor bspBrushFrom: bspBrushDesc [
@@ -425,6 +438,20 @@ WDGFWorldLoader >> loadWorldSettingsFrom: worldSettingsDesc [
 
 	useHDRIAsSkybox ifTrue: [
 		backgroundActor addComponent: (WDGFSkyBoxComponent with: lightProbe environment).
+	].
+
+	(worldSettingsDesc at: 'fogMode' ifAbsent: [ nil ]) ifNotNil: [ :fogModeName |
+		| fogComponent |
+		fogComponent := WDGFFogComponent new.
+		fogComponent
+			mode: (FogModeDictionary at: fogModeName ifAbsent:[WDFogNoneMode]);
+			startDistance: (worldSettingsDesc at: 'fogStartDistance' ifAbsent:[0.0]);
+			endDistance: (worldSettingsDesc at: 'fogEndDistance' ifAbsent:[1.0]);
+			density: (worldSettingsDesc at: 'fogDensity' ifAbsent:[1.0]).
+		worldSettingsDesc at: 'fogColor' ifPresent:[:desc |
+			fogComponent color: (Vector4 loadFromJson: desc)
+		].
+		backgroundActor addComponent: fogComponent.
 	].
 
 	world spawnActor: backgroundActor

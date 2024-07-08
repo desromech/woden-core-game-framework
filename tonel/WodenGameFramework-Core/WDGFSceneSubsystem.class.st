@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'scene',
 		'sceneChangedSubscriptions',
-		'cameraComponents'
+		'cameraComponents',
+		'fogComponents'
 	],
 	#category : 'WodenGameFramework-Core-Subsystem',
 	#package : 'WodenGameFramework-Core',
@@ -19,9 +20,22 @@ WDGFSceneSubsystem >> addCameraComponent: aCameraComponent [
 	cameraComponents add: aCameraComponent
 ]
 
+{ #category : 'adding' }
+WDGFSceneSubsystem >> addFogComponent: aFogComponent [
+	fogComponents add: aFogComponent
+]
+
 { #category : 'as yet unclassified' }
 WDGFSceneSubsystem >> findActiveCameraComponent [
 	cameraComponents do: [ :each |
+		each isActive ifTrue: [ ^ each ]
+	].
+	^ nil
+]
+
+{ #category : 'as yet unclassified' }
+WDGFSceneSubsystem >> findActiveFogComponent [
+	fogComponents do: [:each |
 		each isActive ifTrue: [ ^ each ]
 	].
 	^ nil
@@ -33,11 +47,17 @@ WDGFSceneSubsystem >> initialize [
 	scene := WDScene new.
 	sceneChangedSubscriptions := OrderedCollection new.
 	cameraComponents := OrderedCollection new.
+	fogComponents := OrderedCollection new.
 ]
 
 { #category : 'adding' }
 WDGFSceneSubsystem >> removeCameraComponent: aCameraComponent [
 	cameraComponents remove: aCameraComponent
+]
+
+{ #category : 'adding' }
+WDGFSceneSubsystem >> removeFogComponent: aFogComponent [
+	fogComponents remove: aFogComponent
 ]
 
 { #category : 'accessing' }

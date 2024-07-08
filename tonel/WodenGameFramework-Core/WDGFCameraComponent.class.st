@@ -27,6 +27,21 @@ WDGFCameraComponent >> addHUDOverlay: anOverlay [
 ]
 
 { #category : 'as yet unclassified' }
+WDGFCameraComponent >> applyActiveFogComponent: fogComponent [
+	fogComponent ifNil:[
+		camera fogMode: WDFogNoneMode.
+		^ self
+	].
+	
+	camera
+		fogMode: fogComponent mode;
+		fogColor: fogComponent color;
+		fogStartDistance: fogComponent startDistance;
+		fogEndDistance: fogComponent endDistance;
+		fogDensity: fogComponent density.
+]
+
+{ #category : 'as yet unclassified' }
 WDGFCameraComponent >> aspectRatio [
 	^ viewportExtent x / viewportExtent y
 ]

@@ -2,8 +2,8 @@
 I am a morph that displays a single Woden world.
 "
 Class {
-	#name : #WDGFWorldMorph,
-	#superclass : #WDSceneMorph,
+	#name : 'WDGFWorldMorph',
+	#superclass : 'WDSceneMorph',
 	#instVars : [
 		'wodenWorld',
 		'playing',
@@ -11,10 +11,11 @@ Class {
 		'defaultCamera',
 		'convertedEventQueue'
 	],
-	#category : #'WodenGameFramework-Morphic'
+	#category : 'WodenGameFramework-Morphic',
+	#package : 'WodenGameFramework-Morphic'
 }
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFWorldMorph >> convertEventButton: event [
 	event redButtonChanged ifTrue: [ ^ 1 ].
 	event blueButtonChanged ifTrue: [ ^ 2 ].
@@ -22,7 +23,7 @@ WDGFWorldMorph >> convertEventButton: event [
 	^ 0
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFWorldMorph >> convertEventButtonState: event [
 	^ WDGFInputMouseButtonState new
 		leftButton: event redButtonPressed;
@@ -31,7 +32,7 @@ WDGFWorldMorph >> convertEventButtonState: event [
 		yourself
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFWorldMorph >> convertEventModifiers: event [
 	^ WDGFInputStateModifiers new
 		leftShift: event shiftPressed;
@@ -41,14 +42,14 @@ WDGFWorldMorph >> convertEventModifiers: event [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 WDGFWorldMorph >> destroyResources [
 	super destroyResources.
 	wodenWorld ifNotNil: [ wodenWorld closeAndDestroy ].
 	
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFWorldMorph >> dispatchQueuedEvents [
 	| inputSubsystem |
 	inputSubsystem := wodenWorld ifNotNil: [ :world | world inputSubsystem ].
@@ -62,13 +63,13 @@ WDGFWorldMorph >> dispatchQueuedEvents [
 	]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFWorldMorph >> enqueueConvertedEvent: aConvertedEvent [
 	convertedEventQueue nextPut: aConvertedEvent.
 	self changed.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorldMorph >> getOrCreateDefaultCamera [
 	^ defaultCamera ifNil: [defaultCamera := WDCamera new asSceneNode
 			position: (Vector3 x: 0 y: 0 z: 0);
@@ -76,34 +77,34 @@ WDGFWorldMorph >> getOrCreateDefaultCamera [
 		]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFWorldMorph >> handlesKeyboard: evt [
 	^true
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFWorldMorph >> handlesMouseDown: anEvent [
 	^ anEvent wasHandled not
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFWorldMorph >> handlesMouseMove: anEvent [
 	^ anEvent wasHandled not 
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFWorldMorph >> handlesMouseWheel: anEvent [
 	^ anEvent wasHandled not 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WDGFWorldMorph >> initialize [
 	super initialize.
 	playing := false.
 	convertedEventQueue := SharedQueue new.
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFWorldMorph >> keyDown: event [
 	self enqueueConvertedEvent: (WDGFKeyDownEvent new
 		modifiers: (self convertEventModifiers: event);
@@ -111,7 +112,7 @@ WDGFWorldMorph >> keyDown: event [
 		yourself)
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFWorldMorph >> keyUp: event [
 	self enqueueConvertedEvent: (WDGFKeyUpEvent new
 		modifiers: (self convertEventModifiers: event);
@@ -120,7 +121,7 @@ WDGFWorldMorph >> keyUp: event [
 	
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFWorldMorph >> mouseDown: evt [
 	self enqueueConvertedEvent: (WDGFMouseButtonPressEvent new
 		modifiers: (self convertEventModifiers: evt);
@@ -132,7 +133,7 @@ WDGFWorldMorph >> mouseDown: evt [
 	
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFWorldMorph >> mouseMove: evt [
 	self enqueueConvertedEvent: (WDGFMouseMoveEvent new
 		modifiers: (self convertEventModifiers: evt);
@@ -143,7 +144,7 @@ WDGFWorldMorph >> mouseMove: evt [
 	evt hand newKeyboardFocus: self.
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFWorldMorph >> mouseUp: evt [
 	self enqueueConvertedEvent: (WDGFMouseButtonReleaseEvent new
 		modifiers: (self convertEventModifiers: evt);
@@ -155,7 +156,7 @@ WDGFWorldMorph >> mouseUp: evt [
 	
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 WDGFWorldMorph >> mouseWheel: evt [
 	| convertedEvent |
 	convertedEvent := WDGFMouseWheelEvent new.
@@ -169,13 +170,13 @@ WDGFWorldMorph >> mouseWheel: evt [
 	evt wasHandled: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorldMorph >> playing [
 
 	^ playing
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorldMorph >> playing: aBoolean [
 	playing := aBoolean.
 	playing ifTrue: [
@@ -185,13 +186,14 @@ WDGFWorldMorph >> playing: aBoolean [
 	].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorldMorph >> selectCurrentCamera [
 	self overlay: nil.
 	wodenWorld ifNotNil: [ 
 		(wodenWorld getOrCreateSubsystemWithClass: WDGFSceneSubsystem) findActiveCameraComponent ifNotNil: [ :cameraComponent |
 				cameraComponent viewportExtent: self extent.
 				self overlay: cameraComponent overlay.
+				cameraComponent applyActiveFogComponent: wodenWorld sceneSubsystem findActiveFogComponent.
 				^ cameraComponent sceneNode
 		]
 	].
@@ -199,7 +201,7 @@ WDGFWorldMorph >> selectCurrentCamera [
 	^ self getOrCreateDefaultCamera
 ]
 
-{ #category : #stepping }
+{ #category : 'stepping' }
 WDGFWorldMorph >> step [
 	| currentStepTime deltaTime |
 	lastStepTime ifNil: [ lastStepTime := Time monotonicMicrosecondClockValue ].
@@ -221,13 +223,13 @@ WDGFWorldMorph >> step [
 	lastStepTime := currentStepTime
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorldMorph >> wodenWorld [
 
 	^ wodenWorld
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WDGFWorldMorph >> wodenWorld: anObject [
 	| sceneSubsystem |
 	wodenWorld := anObject.

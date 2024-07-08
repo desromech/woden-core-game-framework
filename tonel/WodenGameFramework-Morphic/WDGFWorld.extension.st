@@ -1,18 +1,18 @@
-Extension { #name : #WDGFWorld }
+Extension { #name : 'WDGFWorld' }
 
-{ #category : #'*WodenGameFramework-Morphic' }
+{ #category : '*WodenGameFramework-Morphic' }
 WDGFWorld >> openInMorphic [
 	^ WDGFWorldMorph new
 		wodenWorld: self;
 		openInWindow
 ]
 
-{ #category : #'*WodenGameFramework-Morphic' }
+{ #category : '*WodenGameFramework-Morphic' }
 WDGFWorld >> openInWindow [
 	^ self openInMorphic
 ]
 
-{ #category : #'*WodenGameFramework-Morphic' }
+{ #category : '*WodenGameFramework-Morphic' }
 WDGFWorld >> playInMorphic [
 	self beginPlay.
 	^ WDGFWorldMorph new
@@ -21,7 +21,7 @@ WDGFWorld >> playInMorphic [
 		openInWindow
 ]
 
-{ #category : #'*WodenGameFramework-Morphic' }
+{ #category : '*WodenGameFramework-Morphic' }
 WDGFWorld >> playInWindow [
 	(self respondsTo: #playInOSWindow) ifTrue: [ ^ self playInOSWindow ].
 	^ self playInMorphic
