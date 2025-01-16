@@ -2,12 +2,13 @@
 I hold different examples that use the Woden Game Framework.
 "
 Class {
-	#name : #WDGFExamples,
-	#superclass : #Object,
-	#category : #'WodenGameFramework-Examples'
+	#name : 'WDGFExamples',
+	#superclass : 'Object',
+	#category : 'WodenGameFramework-Examples',
+	#package : 'WodenGameFramework-Examples'
 }
 
-{ #category : #'sample common' }
+{ #category : 'sample common' }
 WDGFExamples class >> buildSampleRoomOn: world [
 	| floorMaterial ceilingMaterial wallMaterial lightSourceActor |
 	floorMaterial := WDMetallicRoughnessMaterial new
@@ -82,7 +83,7 @@ WDGFExamples class >> buildSampleRoomOn: world [
 	^ lightSourceActor
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 WDGFExamples class >> exampleCubeAndLightActor [
 	"
 	self exampleCubeAndLightActor
@@ -119,7 +120,7 @@ WDGFExamples class >> exampleCubeAndLightActor [
 	world playInWindow
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 WDGFExamples class >> exampleCubeAndLightActor2 [
 	"
 	self exampleCubeAndLightActor2
@@ -154,7 +155,7 @@ WDGFExamples class >> exampleCubeAndLightActor2 [
 	world playInWindow
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 WDGFExamples class >> exampleCubeAndLightActor3 [
 	"
 	self exampleCubeAndLightActor3
@@ -188,7 +189,7 @@ WDGFExamples class >> exampleCubeAndLightActor3 [
 	world playInWindow
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 WDGFExamples class >> exampleFallingBox [
 	"
 	self exampleFallingBox
@@ -220,7 +221,7 @@ WDGFExamples class >> exampleFallingBox [
 	world playInWindow
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 WDGFExamples class >> exampleFallingBoxAndFloor [
 	"
 	self exampleFallingBoxAndFloor
@@ -265,7 +266,7 @@ WDGFExamples class >> exampleFallingBoxAndFloor [
 	world playInWindow
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 WDGFExamples class >> exampleFallingBoxStack [
 	"
 	self exampleFallingBoxStack
@@ -314,7 +315,7 @@ WDGFExamples class >> exampleFallingBoxStack [
 	world playInWindow
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 WDGFExamples class >> exampleRoom [
 	"
 	self exampleFallingBoxStack
@@ -369,7 +370,51 @@ WDGFExamples class >> exampleRoom [
 	world playInWindow
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
+WDGFExamples class >> exampleRoomWithFilm [
+	"
+	self exampleRoomWithFilm
+	"
+	| world screenExtent screenHalfExtent screenActor videoPlayer |
+	world := WDGFWorld new.
+	
+	self buildSampleRoomOn: world.
+	
+	videoPlayer := WDVideoPlayer new
+		openWithUrl: 'bbb_sunflower_1080p_60fps_normal.mp4';
+		yourself.
+		
+	screenExtent := 1920@1080.
+	screenHalfExtent := Vector3 xy: screenExtent asVector2 / 1000 z: 0.01.
+	screenActor := WDGFActor new
+		addComponent: (WDGFActorMeshSceneComponent with: (WDMeshBuilder new
+			currentMaterial: (WDMetallicRoughnessMaterial new
+				doubleSided: true;
+				baseColorFactor: 0.05;
+				emissiveTexture: videoPlayer playbackTexture;
+				emissiveFactor: 1.0;
+				metallicFactor: 0.0;
+				roughnessFactor: 0.8;
+				yourself);
+			addScreenQuad: screenHalfExtent;
+			generateTexcoords0ForScreenProjection;
+			mesh));
+		addComponent: (WDGFBoxCollisionShapeComponent halfExtent: screenHalfExtent);
+		addComponent: (WDGFCollisionObjectComponent new);
+		orientation: (Quaternion yRotation: -90 degreesToRadians);
+		position: (Vector3 x: 3 y: 1 + screenHalfExtent y);
+		yourself.
+
+	world spawnActor: screenActor.
+
+	world spawnActor: (WDGFPlayerActor new
+		position: (Vector3 y: 2.0);
+		yourself).
+
+	world playInWindow
+]
+
+{ #category : 'examples' }
 WDGFExamples class >> exampleSuspendedBoxWithRod [
 	"
 	self exampleSuspendedBoxWithRod
@@ -422,7 +467,7 @@ WDGFExamples class >> exampleSuspendedBoxWithRod [
 	world playInWindow
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 WDGFExamples class >> exampleSuspendedBoxWithRope [
 	"
 	self exampleSuspendedBoxWithRod
@@ -475,6 +520,6 @@ WDGFExamples class >> exampleSuspendedBoxWithRope [
 	world playInWindow
 ]
 
-{ #category : #'see class side' }
+{ #category : 'see class side' }
 WDGFExamples >> seeClassSide [
 ]

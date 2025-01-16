@@ -1,1 +1,1 @@
-Package { #name : #'WodenGameFramework-Examples' }
+Package { #name : 'WodenGameFramework-Examples' }
