@@ -1,1 +1,1 @@
-Package { #name : #BaselineOfWodenGameFramework }
+Package { #name : 'BaselineOfWodenGameFramework' }

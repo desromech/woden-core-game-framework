@@ -1,10 +1,11 @@
 Class {
-	#name : #BaselineOfWodenGameFramework,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfWodenGameFramework
+	#name : 'BaselineOfWodenGameFramework',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfWodenGameFramework',
+	#package : 'BaselineOfWodenGameFramework'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfWodenGameFramework >> baseline: spec [
     <baseline>
 	spec for: #'common' do: [
@@ -26,12 +27,12 @@ BaselineOfWodenGameFramework >> baseline: spec [
 		spec
 			baseline: #'OpenAL' with: [ spec repository: 'github://desromech/pharo-openal' ];
 
-			package: #'WodenGameFramework-Bloc' with: [
+			"package: #'WodenGameFramework-Bloc' with: [
 				spec requires: #( #'WodenGameFramework-Core')
 			];
 			package: #'WodenGameFramework-Bloc-Examples' with: [
 				spec requires: #( #'WodenGameFramework-Bloc')
-			];
+			];"
 			package: #'WodenGameFramework-OpenAL' with: [
 				spec requires: #( #'WodenGameFramework-Core' #'OpenAL')
 			];
